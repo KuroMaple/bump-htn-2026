@@ -216,23 +216,12 @@ function drawTile(
   const top =
     node.y - size / 2;
 
-  /* A sync is an intermediate branch marker, not an attendee tile. The
-   * diamond makes the root -> sync -> person structure legible at a glance. */
+  /* Syncs are quiet structural waypoints, not attendee tiles. */
   if (node.kind === "session") {
-    context.save();
-    context.translate(node.x, node.y);
-    context.rotate(Math.PI / 4);
-    context.fillStyle = background;
-    context.fillRect(-size * 0.42, -size * 0.42, size * 0.84, size * 0.84);
-    context.strokeStyle = motif;
-    context.lineWidth = 2;
-    context.strokeRect(-size * 0.32, -size * 0.32, size * 0.64, size * 0.64);
-    context.restore();
-    context.fillStyle = motif;
-    context.font = `700 ${Math.max(8, size * 0.27)}px 'IBM Plex Mono', monospace`;
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    context.fillText("S", node.x, node.y + 1);
+    context.fillStyle = "#981b3a";
+    context.beginPath();
+    context.arc(node.x, node.y, 4, 0, Math.PI * 2);
+    context.fill();
     return;
   }
 
@@ -737,7 +726,7 @@ export function GraphCanvas({
       context.lineDashOffset = 0;
       context.lineCap = "butt";
 
-      const tileSize =
+      const baseTileSize =
         simulationNodes.length >
         220
           ? 20
@@ -753,6 +742,11 @@ export function GraphCanvas({
         const node
         of simulationNodes
       ) {
+        const tileSize =
+          node.kind === "badge"
+            ? Math.round(baseTileSize * 1.35)
+            : baseTileSize;
+
         const emphasized =
           node.id ===
             current.selectedId ||
@@ -798,7 +792,7 @@ export function GraphCanvas({
 
         if (emphasized) {
           context.font =
-            "600 12px 'IBM Plex Mono', monospace";
+            "600 12px 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace";
 
           context.textAlign =
             "center";

@@ -5,7 +5,7 @@ interface BrandMarkProps {
 }
 
 export function BrandMark({
-  size = 38,
+  size = 50,
 }: BrandMarkProps) {
   return (
     <div className="brand-mark">

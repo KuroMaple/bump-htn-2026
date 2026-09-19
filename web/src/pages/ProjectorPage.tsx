@@ -1,4 +1,4 @@
-import { Archive, ChevronLeft, ChevronRight, Maximize2, Minus, Network, Plus, Radio, RotateCcw, Trash2, Users } from "lucide-react";
+import { Archive, ChevronLeft, ChevronRight, Maximize2, Minus, Plus, Radio, RotateCcw, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { BrandMark } from "../components/BrandMark";
 import { GraphCanvas } from "../components/GraphCanvas";
@@ -136,10 +136,6 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
       <header className="projector-header">
         <BrandMark />
         <div className="projector-status">
-          <div className={`live-status ${connectionState}`}>
-            <span className="live-dot" />
-            {connectionState === "live" ? historical ? "Historical mosaic" : "Live mosaic" : connectionState}
-          </div>
           {graph?.sessions.length ? (
             <div className="sync-timeline" aria-label="Hourly timeline">
             <button
@@ -151,7 +147,7 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
             ><ChevronLeft size={17} /></button>
             <span>
               {graph.sessions[visibleSessionIndex]?.label ?? "No bumps yet"}
-              <small>{visibleSessionIndex + 1} of {graph.sessions.length} · cumulative</small>
+              <small>{visibleSessionIndex + 1} of {graph.sessions.length}</small>
             </span>
             <button
               type="button"
@@ -210,8 +206,8 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
         )}
 
         <div className="mosaic-stats" aria-label="Mosaic statistics">
-          <div><Users size={15} /><strong>{graph?.nodes.length ?? 0}</strong><span>people</span></div>
-          <div><Network size={15} /><strong>{graph?.edges.length ?? 0}</strong><span>connections</span></div>
+          <div><strong>{graph?.nodes.length ?? 0}</strong><span>people</span></div>
+          <div><strong>{graph?.edges.length ?? 0}</strong><span>connections</span></div>
         </div>
 
         <div className="zoom-controls" aria-label="Graph zoom controls">
@@ -276,7 +272,10 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
       </section>
 
       <footer className="projector-footer">
-        <span>Hack the North 2026</span>
+        <div className={`live-status ${connectionState}`}>
+          <span className="live-dot" />
+          {connectionState === "live" ? historical ? "Historical mosaic" : "Live mosaic" : connectionState}
+        </div>
         <span>Hack the North, visualized</span>
       </footer>
     </main>
