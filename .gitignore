@@ -14,3 +14,12 @@ badge-scanner/build/
 badge-scanner/managed_components/
 firmware/build/
 gateway/data/
+
+# Web workspace
+node_modules/
+dist/
+.env
+*.local
+*.tsbuildinfo
+web/vite.config.js
+web/vite.config.d.ts

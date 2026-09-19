@@ -10,6 +10,86 @@ shared graph; the graph is the product.
 | `bump-app/` | The Lua app that runs on the badge (`main.lua`, `manifest.cfg`) |
 | `firmware/` | ESP-IDF C sources (`bump_protocol.c/h`, `app_main.c`) |
 | `badge-backup/` | Original badge firmware backup — **binary is gitignored** |
+| `web/` | React/Vite projector, private badge page, and event admin UI |
+| `server/` | Fastify API, PostgreSQL schema, ingestion, deduplication, and SSE |
+
+## Web platform
+
+The web platform turns canonical badge pairs into a live public mosaic. Badges
+do not connect to the cloud directly. A laptop ingestion gateway reads badge
+events over USB, gives each observation a retry-safe event ID, and sends it to
+the server.
+
+```text
+BLE badges -> USB -> laptop gateway -> POST /api/bumps -> PostgreSQL
+                                                       -> SSE -> projector
+```
+
+Public projector identities default to generated aliases. Registration can
+explicitly opt an attendee into their real name or hide them from the public
+graph. The server stores every raw observation while applying a configurable
+60-second deduplication window to graph updates.
+
+### Local setup
+
+Prerequisites: Node.js 22+, npm, and PostgreSQL. Docker Compose is included for
+the database if Docker Desktop is running.
+
+```bash
+cp .env.example .env
+docker compose up -d postgres
+npm install
+npm run db:migrate
+npm run db:seed
+npm run dev
+```
+
+Open:
+
+- `http://localhost:5173/projector` — live conference mosaic
+- `http://localhost:5173/admin` — roster import and event simulator
+- `/badge/:token` — private attendee network page
+
+The seed command prints one sample private-page URL. The local defaults are
+intended only for development; replace both API keys before deployment.
+
+### Gateway event contract
+
+Send a bearer token using `GATEWAY_API_KEY` and a JSON body:
+
+```http
+POST /api/bumps
+Authorization: Bearer <gateway key>
+Content-Type: application/json
+```
+
+```json
+{
+  "badge_id_a": "device-a",
+  "badge_id_b": "device-b",
+  "timestamp": "2026-09-19T17:42:10Z",
+  "signal_strength": -58,
+  "event_id": "unique-retry-safe-id",
+  "source": "laptop-gateway",
+  "observer_id": "optional-observer-id"
+}
+```
+
+Retry the same request with the same `event_id` until the server responds. A
+`202` response can mean the event was already received, fell inside the graph
+deduplication window, or referenced an unregistered badge; the raw observation
+is retained for event diagnostics.
+
+### Web commands
+
+```bash
+npm run dev          # API on :8787 and Vite on :5173
+npm run check        # TypeScript checks for server and web
+npm run build        # Production server and frontend bundles
+npm run db:generate  # Generate a migration after schema changes
+npm run db:migrate   # Apply committed migrations
+npm run db:seed      # Reset and seed local demo data
+```
 
 ## The badge
 
