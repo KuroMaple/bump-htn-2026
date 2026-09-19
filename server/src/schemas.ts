@@ -24,6 +24,16 @@ export const badgeInputSchema = z.object({
   company: z.string().trim().max(160).optional(),
   bio: z.string().trim().max(1000).optional(),
   projectorIdentity: z.enum(["alias", "real_name", "hidden"]).default("alias"),
+  // Full attendee profile fields as broadcast by the badge. All optional so a
+  // minimal roster row still validates; supplied when a badge is captured.
+  attendeeId: z.number().int().positive().optional(),
+  profileVersion: z.number().int().nonnegative().optional(),
+  claimId: z.string().trim().max(64).optional(),
+  email: z.string().trim().email().max(254).optional(),
+  phone: z.string().trim().max(40).optional(),
+  linkedin: z.string().trim().max(160).optional(),
+  discord: z.string().trim().max(160).optional(),
+  provisionedUnix: z.number().int().positive().optional(),
 });
 
 export type BadgeInput = z.infer<typeof badgeInputSchema>;

@@ -92,6 +92,18 @@ export async function getBadgePage(token: string) {
       bio: badge.bio,
       visualSeed: badge.visualSeed,
       projectorIdentity: badge.projectorIdentity,
+      // Full profile — only served here, behind the badge's private token.
+      profile: {
+        badgeId: badge.hardwareId,
+        attendeeId: badge.attendeeId,
+        claimId: badge.claimId,
+        profileVersion: badge.profileVersion,
+        email: badge.email,
+        phone: badge.phone,
+        linkedin: badge.linkedin,
+        discord: badge.discord,
+        provisionedAt: badge.provisionedAt ? badge.provisionedAt.toISOString() : null,
+      },
     },
     connections: directEdges.flatMap((edge) => {
       const connectionId = edge.badgeAId === badge.id ? edge.badgeBId : edge.badgeAId;
@@ -112,13 +124,28 @@ export async function getBadgePage(token: string) {
 
 export async function registerBadge(input: BadgeInput) {
   const visualSeed = randomBytes(16).toString("hex");
+  // Map the badge's broadcast profile onto columns. Every field is optional;
+  // undefined is normalised to null so a re-register can clear a stale value.
+  const profile = {
+    role: input.role || null,
+    company: input.company || null,
+    bio: input.bio || null,
+    attendeeId: input.attendeeId ?? null,
+    profileVersion: input.profileVersion ?? null,
+    claimId: input.claimId || null,
+    email: input.email || null,
+    phone: input.phone || null,
+    linkedin: input.linkedin || null,
+    discord: input.discord || null,
+    provisionedAt: input.provisionedUnix ? new Date(input.provisionedUnix * 1000) : null,
+  };
   const [badge] = await db
     .insert(badges)
     .values({
-      ...input,
-      role: input.role || null,
-      company: input.company || null,
-      bio: input.bio || null,
+      hardwareId: input.hardwareId,
+      name: input.name,
+      projectorIdentity: input.projectorIdentity,
+      ...profile,
       visualSeed,
       publicAlias: makeAlias(visualSeed),
       privateToken: randomBytes(24).toString("base64url"),
@@ -127,10 +154,8 @@ export async function registerBadge(input: BadgeInput) {
       target: badges.hardwareId,
       set: {
         name: input.name,
-        role: input.role || null,
-        company: input.company || null,
-        bio: input.bio || null,
         projectorIdentity: input.projectorIdentity,
+        ...profile,
         updatedAt: new Date(),
       },
     })
