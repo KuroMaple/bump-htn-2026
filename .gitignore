@@ -1,0 +1,10 @@
+# Flash dump contains PLAINTEXT PERSONAL DATA - the badge owner's name, email,
+# phone, LinkedIn and Discord, plus the name and details of every contact they
+# have bumped. Never commit or share this file.
+badge-backup/*.bin
+
+# Editor/OS noise
+*.bak
+.DS_Store
+__pycache__/
+*.pyc
