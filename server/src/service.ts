@@ -21,36 +21,123 @@ type ProjectedBadge = {
   joinedAt: Date;
 };
 
-function syncLabel(source: string, ordinal: number) {
-  return source === "legacy-import" ? "Earlier syncs" : `Sync ${ordinal}`;
+/* Timeline steps are clock hours in the event's local timezone, derived from
+ * when each bump actually happened (bump_events.reported_at), not from when a
+ * gateway happened to upload. Nothing is stored per step: the buckets fall out
+ * of the timestamps on read, so a future bump lands in the right hour with no
+ * extra bookkeeping and no rows to keep in sync.
+ *
+ * Badges have no RTC, so reported_at is the gateway's reconstructed wall clock.
+ * An hour bucket is only as accurate as that reconstruction. */
+const TIMELINE_ZONE = "America/Toronto";
+
+/* Stable, sortable key for the local clock hour, e.g. "2026-09-19T14".
+ * h23 rather than hour12:false: the latter renders midnight as 24 under some
+ * ICU builds, which would sort a day's first hour last. */
+const HOUR_KEY_FORMAT = new Intl.DateTimeFormat("en-CA", {
+  timeZone: TIMELINE_ZONE,
+  year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", hourCycle: "h23",
+});
+
+function hourKey(at: Date) {
+  const parts = HOUR_KEY_FORMAT.formatToParts(at);
+  const part = (type: string) => parts.find((item) => item.type === type)?.value ?? "00";
+  return `${part("year")}-${part("month")}-${part("day")}T${part("hour")}`;
 }
 
-/* Project accepted contacts as root -> sync -> person. The session node is a
- * visual branch marker, not a person and therefore has no detail card. */
-async function getSessionGraph(visibleBadges: ProjectedBadge[], throughSessionId?: string) {
-  const badgeByHardware = new Map(visibleBadges.map((badge) => [badge.hardwareId, badge]));
-  const allSessions = await db.select().from(syncSessions).orderBy(syncSessions.startedAt);
-  const allMembers = allSessions.length
-    ? await db.select().from(syncSessionMembers)
-      .where(inArray(syncSessionMembers.sessionId, allSessions.map((session) => session.id)))
-      .orderBy(syncSessionMembers.firstSeenAt)
-    : [];
+function hourLabel(key: string) {
+  const hour = Number(key.slice(11, 13));
+  const suffix = hour < 12 ? "AM" : "PM";
+  return `${hour % 12 === 0 ? 12 : hour % 12} ${suffix}`;
+}
 
-  const sessions = allSessions.filter((session) => allMembers.some((member) =>
-    member.sessionId === session.id &&
-    badgeByHardware.has(member.observerHardwareId) &&
-    badgeByHardware.has(member.peerHardwareId),
-  ));
-  const throughIndex = throughSessionId
-    ? sessions.findIndex((session) => session.id === throughSessionId)
-    : sessions.length - 1;
-  const activeSessions = throughIndex >= 0 ? sessions.slice(0, throughIndex + 1) : sessions;
-  const activeIds = new Set(activeSessions.map((session) => session.id));
-  const members = allMembers.filter((member) => activeIds.has(member.sessionId));
+function hourDateLabel(key: string) {
+  const [year, month, day] = key.slice(0, 10).split("-").map(Number);
+  const date = new Date(Date.UTC(year!, month! - 1, day!));
+  return date.toLocaleDateString("en-CA", { timeZone: "UTC", weekday: "short", month: "short", day: "numeric" });
+}
+
+type TimelineContact = {
+  observerHardwareId: string;
+  peerHardwareId: string;
+  firstSeenAt: Date;
+  lastSeenAt: Date;
+  bumpCount: number;
+};
+
+type TimelineStep = {
+  key: string;
+  startedAt: Date;
+  contacts: TimelineContact[];
+};
+
+/* Fold accepted bumps into one entry per (observer, peer) per hour, so a pair
+ * that bumps repeatedly inside an hour stays a single edge with a count. */
+async function loadTimelineSteps(): Promise<TimelineStep[]> {
+  const events = await db
+    .select({
+      observerHardwareId: bumpEvents.hardwareIdA,
+      peerHardwareId: bumpEvents.hardwareIdB,
+      reportedAt: bumpEvents.reportedAt,
+    })
+    .from(bumpEvents)
+    .where(eq(bumpEvents.status, "accepted"))
+    .orderBy(bumpEvents.reportedAt);
+
+  const steps = new Map<string, { startedAt: Date; contacts: Map<string, TimelineContact> }>();
+  for (const event of events) {
+    const key = hourKey(event.reportedAt);
+    let step = steps.get(key);
+    if (!step) {
+      step = { startedAt: event.reportedAt, contacts: new Map() };
+      steps.set(key, step);
+    }
+    const pairKey = `${event.observerHardwareId}|${event.peerHardwareId}`;
+    const contact = step.contacts.get(pairKey);
+    if (contact) {
+      contact.lastSeenAt = event.reportedAt;
+      contact.bumpCount += 1;
+    } else {
+      step.contacts.set(pairKey, {
+        observerHardwareId: event.observerHardwareId,
+        peerHardwareId: event.peerHardwareId,
+        firstSeenAt: event.reportedAt,
+        lastSeenAt: event.reportedAt,
+        bumpCount: 1,
+      });
+    }
+  }
+
+  return [...steps.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([key, step]) => ({ key, startedAt: step.startedAt, contacts: [...step.contacts.values()] }));
+}
+
+/* Project accepted contacts as root -> hour -> person. The hour node is a
+ * visual branch marker, not a person, and therefore has no detail card. */
+async function getTimelineGraph(visibleBadges: ProjectedBadge[], throughStepKey?: string) {
+  const badgeByHardware = new Map(visibleBadges.map((badge) => [badge.hardwareId, badge]));
+  const allSteps = await loadTimelineSteps();
+
+  /* An hour only becomes a step once both ends of one of its bumps are on the
+   * board; clearing the live graph can leave events whose badges are gone. */
+  const steps = allSteps
+    .map((step) => ({
+      ...step,
+      contacts: step.contacts.filter((contact) =>
+        badgeByHardware.has(contact.observerHardwareId) && badgeByHardware.has(contact.peerHardwareId)),
+    }))
+    .filter((step) => step.contacts.length > 0);
+
+  const throughIndex = throughStepKey
+    ? steps.findIndex((step) => step.key === throughStepKey)
+    : steps.length - 1;
+  const activeSteps = throughIndex >= 0 ? steps.slice(0, throughIndex + 1) : steps;
+  const contacts = activeSteps.flatMap((step) => step.contacts);
   const usedHardware = new Set<string>();
-  for (const member of members) {
-    usedHardware.add(member.observerHardwareId);
-    usedHardware.add(member.peerHardwareId);
+  for (const contact of contacts) {
+    usedHardware.add(contact.observerHardwareId);
+    usedHardware.add(contact.peerHardwareId);
   }
   const projectedBadges = visibleBadges.filter((badge) => usedHardware.has(badge.hardwareId));
 
@@ -66,50 +153,55 @@ async function getSessionGraph(visibleBadges: ProjectedBadge[], throughSessionId
         visualSeed: badge.visualSeed,
         joinedAt: badge.joinedAt.toISOString(),
       })),
-      ...activeSessions.map((session, index) => ({
-        id: `sync:${session.id}`,
+      ...activeSteps.map((step) => ({
+        id: `hour:${step.key}`,
         kind: "session" as const,
-        displayName: syncLabel(session.source, sessions.findIndex((item) => item.id === session.id) + 1),
-        role: `${allMembers.filter((member) => member.sessionId === session.id).length} contacts`,
-        company: new Date(session.startedAt).toLocaleString(),
-        visualSeed: `sync-${session.id}`,
-        joinedAt: session.startedAt.toISOString(),
+        displayName: hourLabel(step.key),
+        role: `${step.contacts.length} contacts`,
+        company: hourDateLabel(step.key),
+        visualSeed: `hour-${step.key}`,
+        joinedAt: step.startedAt.toISOString(),
       })),
     ],
     edges: [
-      ...activeSessions.flatMap((session) => {
-        const root = badgeByHardware.get(session.observerHardwareId);
-        if (!root) return [];
-        const memberCount = allMembers.filter((member) => member.sessionId === session.id).length;
-        return [{
-          id: `sync-root:${session.id}`,
-          sourceId: root.id,
-          targetId: `sync:${session.id}`,
-          firstSeenAt: session.startedAt.toISOString(),
-          lastSeenAt: session.startedAt.toISOString(),
-          bumpCount: memberCount,
-        }];
+      /* One root edge per badge that observed a bump in that hour. */
+      ...activeSteps.flatMap((step) => {
+        const observers = [...new Set(step.contacts.map((contact) => contact.observerHardwareId))];
+        return observers.flatMap((hardwareId) => {
+          const root = badgeByHardware.get(hardwareId);
+          if (!root) return [];
+          const observed = step.contacts.filter((contact) => contact.observerHardwareId === hardwareId);
+          return [{
+            id: `hour-root:${step.key}:${hardwareId}`,
+            sourceId: root.id,
+            targetId: `hour:${step.key}`,
+            firstSeenAt: step.startedAt.toISOString(),
+            lastSeenAt: step.startedAt.toISOString(),
+            bumpCount: observed.length,
+          }];
+        });
       }),
-      ...members.flatMap((member) => {
-        const peer = badgeByHardware.get(member.peerHardwareId);
+      ...contacts.flatMap((contact) => {
+        const peer = badgeByHardware.get(contact.peerHardwareId);
         if (!peer) return [];
+        const key = hourKey(contact.firstSeenAt);
         return [{
-          id: `sync-member:${member.sessionId}:${member.peerHardwareId}`,
-          sourceId: `sync:${member.sessionId}`,
+          id: `hour-member:${key}:${contact.observerHardwareId}:${contact.peerHardwareId}`,
+          sourceId: `hour:${key}`,
           targetId: peer.id,
-          firstSeenAt: member.firstSeenAt.toISOString(),
-          lastSeenAt: member.lastSeenAt.toISOString(),
-          bumpCount: member.bumpCount,
+          firstSeenAt: contact.firstSeenAt.toISOString(),
+          lastSeenAt: contact.lastSeenAt.toISOString(),
+          bumpCount: contact.bumpCount,
         }];
       }),
     ],
-    sessions: sessions.map((session, index) => ({
-      id: session.id,
-      label: syncLabel(session.source, index + 1),
-      startedAt: session.startedAt.toISOString(),
-      contactCount: allMembers.filter((member) => member.sessionId === session.id).length,
+    sessions: steps.map((step) => ({
+      id: step.key,
+      label: hourLabel(step.key),
+      startedAt: step.startedAt.toISOString(),
+      contactCount: step.contacts.length,
     })),
-    visibleThroughSessionId: activeSessions.at(-1)?.id ?? null,
+    visibleThroughSessionId: activeSteps.at(-1)?.key ?? null,
   };
 }
 
@@ -120,7 +212,7 @@ export async function getGraph(throughSessionId?: string) {
     .where(and(eq(badges.active, true), ne(badges.projectorIdentity, "hidden")))
     .orderBy(badges.createdAt);
 
-  return getSessionGraph(visibleBadges.map((badge) => ({
+  return getTimelineGraph(visibleBadges.map((badge) => ({
     id: badge.id, hardwareId: badge.hardwareId, displayName: displayName(badge),
     role: badge.role, company: badge.company, visualSeed: badge.visualSeed, joinedAt: badge.createdAt,
   })), throughSessionId);
@@ -128,7 +220,7 @@ export async function getGraph(throughSessionId?: string) {
 
 export async function getHistoricalGraph(throughSessionId?: string) {
   const visibleBadges = await db.select().from(historicalBadges).orderBy(historicalBadges.firstSeenAt);
-  return getSessionGraph(visibleBadges.map((badge) => ({
+  return getTimelineGraph(visibleBadges.map((badge) => ({
     id: badge.id, hardwareId: badge.hardwareId, displayName: badge.displayName,
     role: badge.role, company: badge.company, visualSeed: badge.visualSeed, joinedAt: badge.firstSeenAt,
   })), throughSessionId);

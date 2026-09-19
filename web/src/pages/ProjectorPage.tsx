@@ -141,16 +141,16 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
             {connectionState === "live" ? historical ? "Historical mosaic" : "Live mosaic" : connectionState}
           </div>
           {graph?.sessions.length ? (
-            <div className="sync-timeline" aria-label="Sync session timeline">
+            <div className="sync-timeline" aria-label="Hourly timeline">
             <button
               type="button"
               className="icon-button"
               onClick={() => stepSession(-1)}
               disabled={visibleSessionIndex <= 0}
-              title="Show the previous sync"
+              title="Show the previous hour"
             ><ChevronLeft size={17} /></button>
             <span>
-              {graph.sessions[visibleSessionIndex]?.label ?? "No syncs"}
+              {graph.sessions[visibleSessionIndex]?.label ?? "No bumps yet"}
               <small>{visibleSessionIndex + 1} of {graph.sessions.length} · cumulative</small>
             </span>
             <button
@@ -158,7 +158,7 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
               className="icon-button"
               onClick={() => stepSession(1)}
               disabled={visibleSessionIndex >= graph.sessions.length - 1}
-              title="Show the next sync"
+              title="Show the next hour"
             ><ChevronRight size={17} /></button>
             </div>
           ) : null}

@@ -24,7 +24,9 @@ app.get("/api/health", async () => {
   return { status: "ok", time: new Date().toISOString() };
 });
 
-const graphQuery = z.object({ through: z.string().uuid().optional() });
+/* `through` is a timeline step key (local clock hour, e.g. "2026-09-19T14"),
+ * not a uuid: steps are derived from bump times, not stored. */
+const graphQuery = z.object({ through: z.string().min(1).max(32).optional() });
 
 app.get("/api/graph", async (request) => getGraph(graphQuery.parse(request.query).through));
 
