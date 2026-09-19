@@ -78,11 +78,11 @@ export function ProjectorPage() {
   return (
     <main className="projector-shell">
       <header className="projector-header">
+        <BrandMark />
         <div className={`live-status ${connectionState}`}>
           <span className="live-dot" />
           {connectionState === "live" ? "Live mosaic" : connectionState}
         </div>
-        <BrandMark />
         <button className="icon-button" type="button" onClick={toggleFullscreen} title="Toggle fullscreen">
           <Maximize2 size={18} />
           <span className="sr-only">Toggle fullscreen</span>
