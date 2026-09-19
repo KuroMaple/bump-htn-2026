@@ -8,3 +8,12 @@ badge-backup/*.bin
 .DS_Store
 __pycache__/
 *.pyc
+
+# Web workspace
+node_modules/
+dist/
+.env
+*.local
+*.tsbuildinfo
+web/vite.config.js
+web/vite.config.d.ts

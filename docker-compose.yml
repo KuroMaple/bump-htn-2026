@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: bump
+      POSTGRES_USER: bump
+      POSTGRES_PASSWORD: bump
+    ports:
+      - "5432:5432"
+    volumes:
+      - bump-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bump -d bump"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  bump-postgres:
