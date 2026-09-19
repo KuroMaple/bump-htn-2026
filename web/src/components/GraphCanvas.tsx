@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import {
   createTilePattern,
   type TilePattern,
-  type TilePalette,
 } from "../lib/tile";
 import type { GraphEdge, GraphNode } from "../types";
 
@@ -17,6 +16,7 @@ interface SimulationNode extends GraphNode {
 interface GraphCanvasProps {
   nodes: GraphNode[];
   edges: GraphEdge[];
+  zoom: number;
   selectedId: string | null;
   recentConnection: {
     sourceId: string;
@@ -286,33 +286,10 @@ function drawTile(
   }
 }
 
-function findNearbyPalettes(
-  existingNodes: SimulationNode[],
-  x: number,
-  y: number,
-): TilePalette[] {
-  return [...existingNodes]
-    .sort(
-      (left, right) =>
-        Math.hypot(
-          left.x - x,
-          left.y - y,
-        ) -
-        Math.hypot(
-          right.x - x,
-          right.y - y,
-        ),
-    )
-    .slice(0, 5)
-    .map(
-      (node) =>
-        node.pattern.palette,
-    );
-}
-
 export function GraphCanvas({
   nodes,
   edges,
+  zoom,
   selectedId,
   recentConnection,
   onSelect,
@@ -335,6 +312,7 @@ export function GraphCanvas({
 
   const propsRef = useRef({
     edges,
+    zoom,
     selectedId,
     recentConnection,
     onSelect,
@@ -342,6 +320,7 @@ export function GraphCanvas({
 
   propsRef.current = {
     edges,
+    zoom,
     selectedId,
     recentConnection,
     onSelect,
@@ -408,13 +387,6 @@ export function GraphCanvas({
           height,
         );
 
-      const neighborPalettes =
-        findNearbyPalettes(
-          nextSimulation,
-          x,
-          y,
-        );
-
       nextSimulation.push({
         ...node,
 
@@ -424,11 +396,9 @@ export function GraphCanvas({
         vx: 0,
         vy: 0,
 
-        pattern:
-          createTilePattern(
-            node.visualSeed,
-            neighborPalettes,
-          ),
+        pattern: createTilePattern(
+          node.visualSeed,
+        ),
       });
     }
 
@@ -578,6 +548,20 @@ export function GraphCanvas({
               ]
             : [],
         );
+
+      context.save();
+      context.translate(
+        width / 2,
+        height / 2,
+      );
+      context.scale(
+        current.zoom,
+        current.zoom,
+      );
+      context.translate(
+        -width / 2,
+        -height / 2,
+      );
 
       /*
        * Draw real graph edges.
@@ -751,6 +735,8 @@ export function GraphCanvas({
         }
       }
 
+      context.restore();
+
       animationFrame =
         requestAnimationFrame(
           render,
@@ -768,19 +754,27 @@ export function GraphCanvas({
       const bounds =
         canvas.getBoundingClientRect();
 
+      const screenX =
+        event.clientX - bounds.left;
+      const screenY =
+        event.clientY - bounds.top;
+      const currentZoom =
+        propsRef.current.zoom;
       const x =
-        event.clientX -
-        bounds.left;
-
+        bounds.width / 2 +
+        (screenX - bounds.width / 2) /
+          currentZoom;
       const y =
-        event.clientY -
-        bounds.top;
+        bounds.height / 2 +
+        (screenY - bounds.height / 2) /
+          currentZoom;
 
       let closest:
         | SimulationNode
         | null = null;
 
-      let closestDistance = 30;
+      let closestDistance =
+        30 / currentZoom;
 
       for (
         const node

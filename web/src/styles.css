@@ -97,8 +97,10 @@ a { color: inherit; text-decoration: none; }
   background: rgba(244,238,223,0.88);
   backdrop-filter: blur(16px);
 }
+.projector-header .brand-mark { justify-self: center; }
 
 .live-status {
+  justify-self: start;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -143,6 +145,35 @@ a { color: inherit; text-decoration: none; }
   background: rgba(251,247,237,0.92);
   backdrop-filter: blur(14px);
 }
+.zoom-controls {
+  position: absolute;
+  right: 24px;
+  bottom: 20px;
+  z-index: 2;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: rgba(251,247,237,0.94);
+  box-shadow: 0 8px 24px rgba(36,60,115,0.12);
+  backdrop-filter: blur(14px);
+}
+.zoom-controls button {
+  min-width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 9px;
+  color: var(--accent);
+  border: 0;
+  background: transparent;
+}
+.zoom-controls button + button { border-left: 1px solid var(--border); }
+.zoom-controls button:hover:not(:disabled) { background: rgba(36,60,115,0.08); }
+.zoom-controls button:disabled { cursor: not-allowed; opacity: 0.35; }
+.zoom-controls .zoom-reset { min-width: 76px; font: 500 10px "IBM Plex Mono", monospace; }
 .mosaic-stats div { min-width: 126px; display: grid; grid-template-columns: 22px auto; grid-template-rows: auto auto; align-items: center; padding: 12px 14px; }
 .mosaic-stats div + div { border-left: 1px solid var(--border); }
 .mosaic-stats svg { grid-row: 1 / 3; color: var(--amber); }
@@ -193,10 +224,8 @@ a { color: inherit; text-decoration: none; }
 .person-panel.open { opacity: 1; transform: translateX(0); pointer-events: auto; }
 .person-panel .pixel-tile { margin-bottom: 24px; }
 .person-panel h2 { margin: 0 0 6px; font-size: 22px; line-height: 1.15; overflow-wrap: anywhere; }
-.person-meta { min-height: 38px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
-.person-bio { margin: 10px 0 14px; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .panel-close { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; color: var(--muted); border: 0; background: transparent; font-size: 20px; }
-.connection-count { display: flex; flex-direction: column; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
+.connection-count { display: flex; flex-direction: column; margin-top: 18px; padding-top: 0; }
 .connection-count strong { color: var(--amber); font: 500 22px "IBM Plex Mono", monospace; }
 .connection-count span { color: var(--faint); font-size: 11px; }
 
@@ -295,6 +324,7 @@ a { color: inherit; text-decoration: none; }
   .projector-header .brand-mark > span:last-child { display: none; }
   .mosaic-stats { top: 12px; left: 12px; }
   .mosaic-stats div { min-width: 100px; padding: 9px; }
+  .zoom-controls { right: 12px; bottom: 12px; }
   .person-panel { top: auto; left: 12px; right: 12px; bottom: 12px; width: auto; }
   .person-panel .pixel-tile { width: 66px; height: 66px; float: left; margin: 0 14px 0 0; }
   .person-panel .connection-count { margin-top: 12px; padding-top: 10px; }
@@ -533,7 +563,6 @@ h6 {
 }
 
 /* Contact card shown when a projector tile is clicked. */
-.person-badge-id { margin: 2px 0 10px; color: var(--faint); font: 400 11px "IBM Plex Mono", monospace; }
 .person-contact { display: grid; gap: 8px; margin: 4px 0 14px; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 .person-contact > div { display: grid; grid-template-columns: 76px 1fr; align-items: baseline; gap: 10px; }
 .person-contact dt { color: var(--faint); font: 400 10px "IBM Plex Mono", monospace; letter-spacing: 0.06em; text-transform: uppercase; }
@@ -558,9 +587,6 @@ h6 {
 .person-panel,
 .person-panel h2,
 .person-panel .eyebrow,
-.person-meta,
-.person-bio,
-.person-badge-id,
 .person-contact dt,
 .person-contact dd,
 .person-contact-empty,
@@ -579,9 +605,6 @@ h6 {
 
 /* Secondary text sits back without dropping out of contrast. */
 .person-panel .eyebrow,
-.person-meta,
-.person-bio,
-.person-badge-id,
 .person-contact dt,
 .person-contact-empty,
 .connection-count span {

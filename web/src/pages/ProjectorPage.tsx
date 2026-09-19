@@ -1,4 +1,4 @@
-import { Maximize2, Network, Radio, Users } from "lucide-react";
+import { Maximize2, Minus, Network, Plus, Radio, RotateCcw, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { BrandMark } from "../components/BrandMark";
 import { GraphCanvas } from "../components/GraphCanvas";
@@ -10,6 +10,7 @@ export function ProjectorPage() {
   const { graph, connectionState, recentConnection, error, refresh } = useGraph();
   const [selected, setSelected] = useState<GraphNode | null>(null);
   const [detail, setDetail] = useState<NodeDetail | null>(null);
+  const [zoom, setZoom] = useState(1);
 
   /* Contact details are not in /api/graph; fetch the clicked node on demand. */
   useEffect(() => {
@@ -35,8 +36,6 @@ export function ProjectorPage() {
   const profileRows = useMemo(() => {
     if (!detail) return [] as Array<[string, string]>;
     return ([
-      ["Alias", detail.publicAlias],
-      ["Badge ID", detail.badgeId],
       ["Attendee ID", detail.attendeeId],
       ["Claim ID", detail.claimId],
       ["Profile version", detail.profileVersion],
@@ -79,11 +78,11 @@ export function ProjectorPage() {
   return (
     <main className="projector-shell">
       <header className="projector-header">
-        <BrandMark />
         <div className={`live-status ${connectionState}`}>
           <span className="live-dot" />
           {connectionState === "live" ? "Live mosaic" : connectionState}
         </div>
+        <BrandMark />
         <button className="icon-button" type="button" onClick={toggleFullscreen} title="Toggle fullscreen">
           <Maximize2 size={18} />
           <span className="sr-only">Toggle fullscreen</span>
@@ -95,6 +94,7 @@ export function ProjectorPage() {
           <GraphCanvas
             nodes={graph.nodes}
             edges={graph.edges}
+            zoom={zoom}
             selectedId={selected?.id ?? null}
             recentConnection={recentConnection}
             onSelect={setSelected}
@@ -112,6 +112,35 @@ export function ProjectorPage() {
           <div><Network size={15} /><strong>{graph?.edges.length ?? 0}</strong><span>connections</span></div>
         </div>
 
+        <div className="zoom-controls" aria-label="Graph zoom controls">
+          <button
+            type="button"
+            onClick={() => setZoom((value) => Math.max(0.6, value - 0.2))}
+            disabled={zoom <= 0.6}
+            aria-label="Zoom out"
+          >
+            <Minus size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={() => setZoom(1)}
+            className="zoom-reset"
+            aria-label="Reset zoom"
+            title="Reset zoom"
+          >
+            <RotateCcw size={13} />
+            <span>{Math.round(zoom * 100)}%</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setZoom((value) => Math.min(1.8, value + 0.2))}
+            disabled={zoom >= 1.8}
+            aria-label="Zoom in"
+          >
+            <Plus size={15} />
+          </button>
+        </div>
+
         {recentPeople ? (
           <div className="recent-bump" aria-live="polite">
             <Radio size={16} />
@@ -126,12 +155,6 @@ export function ProjectorPage() {
               <PixelTile seed={selected.visualSeed} size={96} label={`${selected.displayName}'s mosaic tile`} />
               <p className="eyebrow">Attendee</p>
               <h2>{detail?.displayName ?? selected.displayName}</h2>
-              <p className="person-meta">
-                {[detail?.role ?? selected.role, detail?.company ?? selected.company]
-                  .filter(Boolean)
-                  .join(" · ") || "Here to connect"}
-              </p>
-              {detail?.bio ? <p className="person-bio">{detail.bio}</p> : null}
               {profileRows.length > 0 ? (
                 <dl className="person-contact">
                   {profileRows.map(([label, value]) => (
@@ -152,7 +175,7 @@ export function ProjectorPage() {
 
       <footer className="projector-footer">
         <span>Hack the North 2026</span>
-        <span>Every tile is a person. Every line is an introduction.</span>
+        <span>Hack the North, visualized</span>
       </footer>
     </main>
   );

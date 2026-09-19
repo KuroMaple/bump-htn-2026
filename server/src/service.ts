@@ -66,7 +66,6 @@ export async function getNodeDetail(id: string) {
     company: badge.company,
     bio: badge.bio,
     visualSeed: badge.visualSeed,
-    badgeId: badge.hardwareId,
     attendeeId: badge.attendeeId,
     claimId: badge.claimId,
     profileVersion: badge.profileVersion,
