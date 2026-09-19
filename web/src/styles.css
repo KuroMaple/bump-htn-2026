@@ -324,3 +324,266 @@ a { color: inherit; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+/* =========================================================
+   CREAM + NAVY QUILT THEME
+   ========================================================= */
+
+:root {
+  --quilt-cream: #f4eedf;
+  --quilt-cream-light: #fbf7ed;
+  --quilt-navy: #243c73;
+}
+
+/* Keep the existing layout, only change the background */
+html,
+body,
+#root {
+  background-color: var(--quilt-cream);
+}
+
+/*
+ * The existing app already uses --bg in several places.
+ * Override the colour rather than changing those layouts.
+ */
+:root {
+  --bg: var(--quilt-cream);
+}
+
+/* Navy stitched divider */
+header {
+  border-bottom: 2px dashed var(--quilt-navy);
+}
+
+/* Optional subtle stitched accents on cards/panels */
+.stitch-accent {
+  border: 1px dashed rgba(36, 60, 115, 0.55);
+}
+
+/* Brand text */
+.brand-mark__name {
+  color: var(--quilt-navy);
+}
+
+/* Cream header + footer */
+.projector-header,
+.projector-footer {
+  background: var(--quilt-cream);
+  color: var(--quilt-blue);
+}
+
+/* Navy stitched separator under header */
+.projector-header {
+  border-bottom: 0;
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      var(--quilt-blue) 0,
+      var(--quilt-blue) 7px,
+      transparent 7px,
+      transparent 13px
+    );
+  background-size: 100% 2px;
+  background-position: bottom left;
+  background-repeat: no-repeat;
+}
+
+/* Navy stitched separator above footer */
+.projector-footer {
+  border-top: 0;
+  background-image:
+    repeating-linear-gradient(
+      to right,
+      var(--quilt-blue) 0,
+      var(--quilt-blue) 7px,
+      transparent 7px,
+      transparent 13px
+    );
+  background-size: 100% 2px;
+  background-position: top left;
+  background-repeat: no-repeat;
+}
+
+/* Make header/footer text readable on cream */
+.projector-header .brand-mark,
+.projector-header .brand-mark__name,
+.projector-header .live-status,
+.projector-footer {
+  color: var(--quilt-blue);
+}
+
+/* Make app text navy */
+:root {
+  --text: var(--quilt-blue);
+  --muted: var(--quilt-blue);
+  --faint: var(--quilt-blue);
+}
+
+/* Ensure common text elements inherit navy */
+body,
+p,
+span,
+strong,
+small,
+label,
+a,
+button,
+input,
+select,
+textarea,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--quilt-blue);
+}
+
+/* =========================================================
+   FORCE ALL UI TEXT TO NAVY
+   ========================================================= */
+
+:root {
+  --text: #243c73;
+  --muted: #243c73;
+  --faint: #243c73;
+}
+
+/* Brand */
+.brand-mark,
+.brand-mark__name,
+.brand-mark__text {
+  color: #243c73 !important;
+}
+
+/* Projector */
+.projector-shell,
+.projector-header,
+.projector-footer,
+.live-status,
+.mosaic-stats,
+.mosaic-stats strong,
+.mosaic-stats span,
+.stage-message,
+.stage-message p,
+.recent-bump,
+.recent-bump strong,
+.person-panel,
+.person-panel h2,
+.person-meta,
+.connection-count,
+.connection-count strong,
+.connection-count span {
+  color: #243c73 !important;
+}
+
+/* Loading / error messages */
+.route-loading,
+.personal-loading,
+.loading-mandala,
+.loading-mandala__text {
+  color: #243c73 !important;
+}
+
+/* Personal badge page */
+.personal-shell,
+.personal-nav,
+.profile-copy,
+.profile-copy h1,
+.profile-copy p,
+.profile-bio,
+.personal-metrics,
+.personal-metrics strong,
+.personal-metrics span,
+.connections-section,
+.section-heading,
+.connection-row,
+.connection-row h3,
+.connection-row p,
+.connection-row time,
+.empty-connections {
+  color: #243c73 !important;
+}
+
+/* Admin */
+.admin-shell,
+.admin-header,
+.admin-header h1,
+.admin-toolbar,
+.admin-status,
+.roster-panel,
+.register-panel,
+.panel-heading,
+.panel-heading h2,
+.roster-row,
+.roster-row strong,
+.roster-row small,
+.roster-row code,
+.register-panel label {
+  color: #243c73 !important;
+}
+
+/* General text */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+strong,
+small,
+label,
+a {
+  color: #243c73 !important;
+}
+
+/* Cream People / Connections mini stats */
+.mosaic-stats {
+  background: var(--quilt-cream) !important;
+  border-color: var(--quilt-blue) !important;
+  color: var(--quilt-blue) !important;
+  box-shadow: none;
+}
+
+/* Divider between People and Connections */
+.mosaic-stats div + div {
+  border-left-color: var(--quilt-blue) !important;
+}
+
+/* Numbers + labels */
+.mosaic-stats strong,
+.mosaic-stats span {
+  color: var(--quilt-blue) !important;
+}
+
+/* Small icons */
+.mosaic-stats svg {
+  color: var(--quilt-blue) !important;
+}
+
+/* Cream People / Connections mini stats */
+.mosaic-stats {
+  background: var(--quilt-cream) !important;
+  border-color: var(--quilt-blue) !important;
+  color: var(--quilt-blue) !important;
+  box-shadow: none;
+}
+
+/* Divider between People and Connections */
+.mosaic-stats div + div {
+  border-left-color: var(--quilt-blue) !important;
+}
+
+/* Numbers + labels */
+.mosaic-stats strong,
+.mosaic-stats span {
+  color: var(--quilt-blue) !important;
+}
+
+/* Small icons */
+.mosaic-stats svg {
+  color: var(--quilt-blue) !important;
+}
