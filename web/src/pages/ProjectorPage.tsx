@@ -115,9 +115,9 @@ export function ProjectorPage() {
         <div className="zoom-controls" aria-label="Graph zoom controls">
           <button
             type="button"
-            onClick={() => setZoom((value) => Math.max(0.6, value - 0.2))}
-            disabled={zoom <= 0.6}
-            aria-label="Zoom out"
+            onClick={() => setZoom((value) => Math.max(0.4, Math.round((value - 0.2) * 10) / 10))}
+            disabled={zoom <= 0.4}
+            aria-label="Zoom out by 20%"
           >
             <Minus size={15} />
           </button>
@@ -133,9 +133,9 @@ export function ProjectorPage() {
           </button>
           <button
             type="button"
-            onClick={() => setZoom((value) => Math.min(1.8, value + 0.2))}
-            disabled={zoom >= 1.8}
-            aria-label="Zoom in"
+            onClick={() => setZoom((value) => Math.min(3, Math.round((value + 0.2) * 10) / 10))}
+            disabled={zoom >= 3}
+            aria-label="Zoom in by 20%"
           >
             <Plus size={15} />
           </button>

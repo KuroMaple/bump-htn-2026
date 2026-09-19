@@ -310,6 +310,21 @@ export function GraphCanvas({
       height: 1,
     });
 
+  const renderedZoomRef =
+    useRef(1);
+
+  const zoomAnimationRef =
+    useRef({
+      from: 1,
+      to: 1,
+      startedAt: 0,
+    });
+
+  const panRef = useRef({
+    x: 0,
+    y: 0,
+  });
+
   const propsRef = useRef({
     edges,
     zoom,
@@ -496,6 +511,50 @@ export function GraphCanvas({
       const current =
         propsRef.current;
 
+      const now =
+        performance.now();
+
+      const zoomAnimation =
+        zoomAnimationRef.current;
+
+      if (
+        current.zoom !==
+        zoomAnimation.to
+      ) {
+        zoomAnimation.from =
+          renderedZoomRef.current;
+        zoomAnimation.to =
+          current.zoom;
+        zoomAnimation.startedAt =
+          now;
+      }
+
+      const zoomProgress =
+        Math.min(
+          (now -
+            zoomAnimation.startedAt) /
+            320,
+          1,
+        );
+
+      const easedZoomProgress =
+        zoomProgress < 0.5
+          ? 4 *
+            zoomProgress ** 3
+          : 1 -
+            (-2 * zoomProgress + 2) **
+              3 /
+              2;
+
+      renderedZoomRef.current =
+        zoomAnimation.from +
+        (zoomAnimation.to -
+          zoomAnimation.from) *
+          easedZoomProgress;
+
+      const renderedZoom =
+        renderedZoomRef.current;
+
       const simulationNodes =
         simulationRef.current;
 
@@ -551,12 +610,14 @@ export function GraphCanvas({
 
       context.save();
       context.translate(
-        width / 2,
-        height / 2,
+        width / 2 +
+          panRef.current.x,
+        height / 2 +
+          panRef.current.y,
       );
       context.scale(
-        current.zoom,
-        current.zoom,
+        renderedZoom,
+        renderedZoom,
       );
       context.translate(
         -width / 2,
@@ -748,7 +809,7 @@ export function GraphCanvas({
         render,
       );
 
-    const selectNode = (
+    const selectNodeAt = (
       event: PointerEvent,
     ) => {
       const bounds =
@@ -759,14 +820,18 @@ export function GraphCanvas({
       const screenY =
         event.clientY - bounds.top;
       const currentZoom =
-        propsRef.current.zoom;
+        renderedZoomRef.current;
       const x =
         bounds.width / 2 +
-        (screenX - bounds.width / 2) /
+        (screenX -
+          bounds.width / 2 -
+          panRef.current.x) /
           currentZoom;
       const y =
         bounds.height / 2 +
-        (screenY - bounds.height / 2) /
+        (screenY -
+          bounds.height / 2 -
+          panRef.current.y) /
           currentZoom;
 
       let closest:
@@ -801,9 +866,140 @@ export function GraphCanvas({
       );
     };
 
+    let drag:
+      | {
+          pointerId: number;
+          startX: number;
+          startY: number;
+          panX: number;
+          panY: number;
+          moved: boolean;
+        }
+      | null = null;
+
+    const startDrag = (
+      event: PointerEvent,
+    ) => {
+      if (
+        event.pointerType === "mouse" &&
+        event.button !== 0
+      ) {
+        return;
+      }
+
+      drag = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        panX: panRef.current.x,
+        panY: panRef.current.y,
+        moved: false,
+      };
+
+      canvas.setPointerCapture(
+        event.pointerId,
+      );
+    };
+
+    const moveDrag = (
+      event: PointerEvent,
+    ) => {
+      if (
+        !drag ||
+        event.pointerId !==
+          drag.pointerId
+      ) {
+        return;
+      }
+
+      const deltaX =
+        event.clientX - drag.startX;
+      const deltaY =
+        event.clientY - drag.startY;
+
+      if (
+        !drag.moved &&
+        Math.hypot(deltaX, deltaY) >= 4
+      ) {
+        drag.moved = true;
+        canvas.classList.add(
+          "dragging",
+        );
+      }
+
+      if (drag.moved) {
+        panRef.current = {
+          x: drag.panX + deltaX,
+          y: drag.panY + deltaY,
+        };
+      }
+    };
+
+    const finishDrag = (
+      event: PointerEvent,
+    ) => {
+      if (
+        !drag ||
+        event.pointerId !==
+          drag.pointerId
+      ) {
+        return;
+      }
+
+      const wasMoved =
+        drag.moved;
+
+      drag = null;
+      canvas.classList.remove(
+        "dragging",
+      );
+
+      if (
+        canvas.hasPointerCapture(
+          event.pointerId,
+        )
+      ) {
+        canvas.releasePointerCapture(
+          event.pointerId,
+        );
+      }
+
+      if (!wasMoved) {
+        selectNodeAt(event);
+      }
+    };
+
+    const cancelDrag = (
+      event: PointerEvent,
+    ) => {
+      if (
+        drag?.pointerId !==
+        event.pointerId
+      ) {
+        return;
+      }
+
+      drag = null;
+      canvas.classList.remove(
+        "dragging",
+      );
+    };
+
     canvas.addEventListener(
       "pointerdown",
-      selectNode,
+      startDrag,
+    );
+    canvas.addEventListener(
+      "pointermove",
+      moveDrag,
+    );
+    canvas.addEventListener(
+      "pointerup",
+      finishDrag,
+    );
+    canvas.addEventListener(
+      "pointercancel",
+      cancelDrag,
     );
 
     return () => {
@@ -815,7 +1011,19 @@ export function GraphCanvas({
 
       canvas.removeEventListener(
         "pointerdown",
-        selectNode,
+        startDrag,
+      );
+      canvas.removeEventListener(
+        "pointermove",
+        moveDrag,
+      );
+      canvas.removeEventListener(
+        "pointerup",
+        finishDrag,
+      );
+      canvas.removeEventListener(
+        "pointercancel",
+        cancelDrag,
       );
     };
   }, []);
