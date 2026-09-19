@@ -576,19 +576,22 @@ h6 {
 
 /* =========================================================
    FOCUSED PROFILE POPUP
-   The quilt theme forces navy (#243c73) text onto the panel, which sits
-   on a near-black background — so the card rendered navy-on-navy and was
-   effectively unreadable. Lighten the panel and switch to cream text.
-   Must come last and use !important to beat the theme's own !important.
    ========================================================= */
 
 .person-panel {
-  background: rgba(52, 78, 140, 0.97) !important;
-  border: 1px solid rgba(244, 238, 223, 0.30) !important;
-  box-shadow: 0 18px 48px rgba(36, 60, 115, 0.45) !important;
+  background: #e8ddc7 !important;
+  background-image: none !important;
+  border: 1px solid #cdbd9f !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none;
 }
 
-/* Primary text: cream, matching the page background. */
+.person-panel * {
+  border-radius: 0 !important;
+}
+
+/* Keep the cream card grounded with high-contrast navy type. */
 .person-panel,
 .person-panel h2,
 .person-panel .eyebrow,
@@ -599,27 +602,28 @@ h6 {
 .connection-count,
 .connection-count strong,
 .connection-count span {
-  color: var(--quilt-cream, #f4eedf) !important;
+  color: var(--quilt-ink, #1b2a4a) !important;
 }
 
-/* Headline and the connection number lift to pure white. */
-.person-panel h2,
-.connection-count strong {
-  color: #ffffff !important;
+/* The attendee name is a bold, editorial Helvetica-style headline. */
+.person-panel h2 {
+  font-family: Helvetica, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
 }
 
-/* Secondary text sits back without dropping out of contrast. */
+/* Secondary text sits back without losing contrast. */
 .person-panel .eyebrow,
 .person-contact dt,
 .person-contact-empty,
 .connection-count span {
-  color: rgba(244, 238, 223, 0.74) !important;
+  color: rgba(27, 42, 74, 0.68) !important;
 }
 
-/* Dividers need to read against the lighter panel too. */
 .person-contact,
 .connection-count {
-  border-color: rgba(244, 238, 223, 0.26) !important;
+  border-color: rgba(27, 42, 74, 0.18) !important;
 }
 
 /* Fullscreen toggle: match the focused profile panel so the two floating
