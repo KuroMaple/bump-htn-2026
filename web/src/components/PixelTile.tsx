@@ -7,20 +7,29 @@ interface PixelTileProps {
   label?: string;
 }
 
-export function PixelTile({ seed, size = 72, label }: PixelTileProps) {
-  const pattern = useMemo(() => createTilePattern(seed), [seed]);
-  const pixels = pattern.cells.flatMap((row, y) =>
+export function PixelTile({
+  seed,
+  size = 72,
+  label,
+}: PixelTileProps) {
+  const pattern = useMemo(
+    () => createTilePattern(seed),
+    [seed],
+  );
+
+  const [background, motif] = pattern.palette;
+
+  const dots = pattern.cells.flatMap((row, y) =>
     row.flatMap((value, x) =>
       value === 0
         ? []
         : [
-            <rect
+            <circle
               key={`${x}-${y}`}
-              x={x}
-              y={y}
-              width="1"
-              height="1"
-              fill={pattern.palette[value - 1]}
+              cx={x + 0.5}
+              cy={y + 0.5}
+              r={0.46}
+              fill={motif}
             />,
           ],
     ),
@@ -31,14 +40,18 @@ export function PixelTile({ seed, size = 72, label }: PixelTileProps) {
       className="pixel-tile"
       width={size}
       height={size}
-      viewBox="0 0 10 10"
+      viewBox="0 0 8 8"
       role={label ? "img" : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : true}
-      shapeRendering="crispEdges"
     >
-      <rect width="10" height="10" fill="#151129" />
-      {pixels}
+      <rect
+        width="8"
+        height="8"
+        fill={background}
+      />
+
+      {dots}
     </svg>
   );
 }
