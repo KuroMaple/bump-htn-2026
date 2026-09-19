@@ -125,9 +125,10 @@ a { color: inherit; text-decoration: none; }
   color: var(--muted);
   border: 1px solid var(--border);
   border-radius: 5px;
-  background: var(--panel);
+  background: var(--accent);
+  box-shadow: none;
 }
-.icon-button:hover { color: var(--text); border-color: var(--accent); }
+.icon-button:hover { color: var(--quilt-cream-light, #fbf7ed); border-color: var(--accent); background: var(--accent); }
 
 .mosaic-stage { position: relative; min-height: 0; overflow: hidden; }
 .graph-canvas { width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; user-select: none; }
@@ -623,12 +624,12 @@ h6 {
    chrome elements read as the same surface. */
 .icon-button {
   color: var(--quilt-cream, #f4eedf) !important;
-  background: rgba(52, 78, 140, 0.97) !important;
-  border: 1px solid rgba(244, 238, 223, 0.30) !important;
-  box-shadow: 0 8px 20px rgba(36, 60, 115, 0.28) !important;
+  background: #243c73 !important;
+  border: 1px solid #243c73 !important;
+  box-shadow: none !important;
 }
 .icon-button:hover {
   color: #ffffff !important;
-  background: rgba(62, 90, 158, 0.99) !important;
-  border-color: rgba(244, 238, 223, 0.50) !important;
+  background: #243c73 !important;
+  border-color: #243c73 !important;
 }
