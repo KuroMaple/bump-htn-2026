@@ -8,3 +8,9 @@ badge-backup/*.bin
 .DS_Store
 __pycache__/
 *.pyc
+
+# ESP-IDF and local gateway runtime output
+badge-scanner/build/
+badge-scanner/managed_components/
+firmware/build/
+gateway/data/

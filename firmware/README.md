@@ -11,9 +11,10 @@ On an ESP32-C3, the firmware starts a BLE observer and non-connectable
 advertiser. It sends a small Bump discovery packet containing an ephemeral
 device identity and nonce, and logs nearby Bump packets over USB serial.
 
-It intentionally does not initialize the screen, NFC reader, LEDs, or buttons:
-their GPIO mappings have not been verified from a schematic or a safe hardware
-probe. This keeps the first flash focused on CPU, serial, flash, and BLE.
+It intentionally does not initialize the screen, NFC reader, LEDs, or buttons
+yet. Their canonical GPIO mappings are now documented in
+[`CANONICAL_SPEC_AUDIT.md`](CANONICAL_SPEC_AUDIT.md); drivers still need to be
+implemented before those peripherals are enabled.
 
 ## Provisioning model
 

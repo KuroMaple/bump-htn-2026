@@ -11,6 +11,7 @@
 #include "host/util/util.h"
 #include "nimble/nimble_port.h"
 #include "nimble/nimble_port_freertos.h"
+#include "os/os_mbuf.h"
 
 static const char *TAG = "bump";
 static bump_identity_t self;
@@ -18,36 +19,52 @@ static uint8_t own_addr_type;
 
 static void start_discovery(void);
 
+static void process_discovery(const uint8_t *data, uint8_t data_len, int8_t rssi) {
+    struct ble_hs_adv_fields fields;
+    if (ble_hs_adv_parse_fields(&fields, data, data_len) != 0 ||
+        fields.mfg_data == NULL) {
+        return;
+    }
+
+    bump_identity_t peer;
+    if (bump_protocol_parse_discovery(fields.mfg_data, fields.mfg_data_len, &peer) &&
+        memcmp(peer.node_id, self.node_id, sizeof(self.node_id)) != 0) {
+        ESP_LOGI(TAG,
+            "candidate %02x:%02x:%02x:%02x:%02x:%02x rssi=%d nonce=%u",
+            peer.node_id[0], peer.node_id[1], peer.node_id[2],
+            peer.node_id[3], peer.node_id[4], peer.node_id[5], rssi, peer.nonce);
+    }
+}
+
 static int gap_event(struct ble_gap_event *event, void *arg) {
     (void)arg;
+#if MYNEWT_VAL(BLE_EXT_ADV)
+    if (event->type == BLE_GAP_EVENT_EXT_DISC) {
+        process_discovery(event->ext_disc.data, event->ext_disc.length_data,
+                          event->ext_disc.rssi);
+    }
+#endif
     if (event->type == BLE_GAP_EVENT_DISC) {
-        struct ble_hs_adv_fields fields;
-        if (ble_hs_adv_parse_fields(&fields, event->disc.data, event->disc.length_data) != 0 ||
-            fields.mfg_data == NULL) {
-            return 0;
-        }
-
-        bump_identity_t peer;
-        if (bump_protocol_parse_discovery(fields.mfg_data, fields.mfg_data_len, &peer) &&
-            memcmp(peer.node_id, self.node_id, sizeof(self.node_id)) != 0) {
-            ESP_LOGI(TAG,
-                "candidate %02x:%02x:%02x:%02x:%02x:%02x rssi=%d nonce=%u",
-                peer.node_id[0], peer.node_id[1], peer.node_id[2],
-                peer.node_id[3], peer.node_id[4], peer.node_id[5],
-                event->disc.rssi, peer.nonce);
-        }
+        process_discovery(event->disc.data, event->disc.length_data, event->disc.rssi);
     }
     return 0;
 }
 
 static void start_discovery(void) {
-    struct ble_gap_disc_params params = {0};
-    params.passive = 1;
-    params.filter_duplicates = 1;
-    params.itvl = 0x0010;
-    params.window = 0x0010;
-
+#if MYNEWT_VAL(BLE_EXT_ADV)
+    const struct ble_gap_ext_disc_params params = {
+        .passive = 1,
+        .itvl = 0x0060,
+        .window = 0x0060,
+    };
+    const int rc = ble_gap_ext_disc(own_addr_type, 0, 0, 1,
+                                    BLE_HCI_SCAN_FILT_NO_WL, 0,
+                                    &params, NULL, gap_event, NULL);
+#else
+    struct ble_gap_disc_params params = { .passive = 1, .filter_duplicates = 1,
+                                          .itvl = 0x0060, .window = 0x0060 };
     const int rc = ble_gap_disc(own_addr_type, BLE_HS_FOREVER, &params, gap_event, NULL);
+#endif
     if (rc != 0) {
         ESP_LOGE(TAG, "could not start scan: %d", rc);
     }
@@ -65,16 +82,25 @@ static void start_advertising(void) {
     fields.name_len = 4;
     fields.name_is_complete = 1;
 
-    int rc = ble_gap_adv_set_fields(&fields);
+    struct os_mbuf *data = os_msys_get_pkthdr(31, 0);
+    if (data == NULL) {
+        ESP_LOGE(TAG, "could not allocate advertisement buffer");
+        return;
+    }
+    int rc = ble_hs_adv_set_fields_mbuf(&fields, data);
     if (rc != 0) {
         ESP_LOGE(TAG, "could not set advertisement: %d", rc);
         return;
     }
 
-    struct ble_gap_adv_params params = {0};
-    params.conn_mode = BLE_GAP_CONN_MODE_NON;
-    params.disc_mode = BLE_GAP_DISC_MODE_GEN;
-    rc = ble_gap_adv_start(own_addr_type, NULL, BLE_HS_FOREVER, &params, NULL, NULL);
+    struct ble_gap_ext_adv_params params = {0};
+    params.own_addr_type = own_addr_type;
+    params.primary_phy = BLE_HCI_LE_PHY_1M;
+    params.secondary_phy = BLE_HCI_LE_PHY_1M;
+    params.sid = 0;
+    rc = ble_gap_ext_adv_configure(0, &params, NULL, gap_event, NULL);
+    if (rc == 0) rc = ble_gap_ext_adv_set_data(0, data);
+    if (rc == 0) rc = ble_gap_ext_adv_start(0, 0, 0);
     if (rc != 0) {
         ESP_LOGE(TAG, "could not advertise: %d", rc);
         return;

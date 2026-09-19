@@ -24,7 +24,8 @@ Verified on hardware:
 - **Accelerometer: Silan SC7A20H** over I2C (shared bus with the NFC reader).
 - **NFC: NXP MFRC522** reader + 13.56 MHz copper loop antenna. Reader only —
   **cannot pair two badges**, only read passive tags.
-- **7 face buttons** via a 74HC165 shift register. **START is GPIO9**, the BOOT
+- **8 shift-register inputs** via a 74HC165: A, B, Home, Down, Left, Right,
+  Up, Aux1 (active-low). **START is GPIO9**, the BOOT
   strap: hold it while plugging in USB for download mode.
 - USB-C with native USB-Serial-JTAG (no UART bridge). Sleeps after 300 s idle,
   wakes on START.

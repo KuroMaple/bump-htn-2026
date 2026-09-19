@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "esp_random.h"
+#include "esp_mac.h"
 #include "esp_system.h"
 
 void bump_protocol_init(bump_identity_t *identity) {

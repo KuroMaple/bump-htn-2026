@@ -11,6 +11,19 @@ Full raw flash image, dumped before any modification. **This is the only known c
 | Verified | two independent dumps, identical hash |
 | Dumped | 2026-09-18 |
 
+## Second badge recovery image
+
+| | |
+|---|---|
+| Badge USB MAC | `68:EE:8F:01:07:DC` |
+| File | `htn-badge-flash-full-4MB-68EE8F0107DC.bin` |
+| Size | 4,194,304 bytes (4 MiB, full flash) |
+| SHA-256 | `10b64159cf2a97628bb92248e1818f9604c23d1824914ca43c5ea57fa0ac1680` |
+| Acquired | 2026-09-19, via Espressif ROM loader `read-flash` only |
+
+This is a distinct image, not a byte-for-byte replacement for the first badge.
+Restore a badge only from the image recorded for its USB MAC.
+
 ## Board
 - ESP32-C3-MINI-1 (QFN32), revision **v0.4**, RV32IMAC @160MHz
 - 4MB embedded flash (XMC, mfr 0x46 / dev 0x4016), 40MHz crystal, no PSRAM
@@ -34,11 +47,16 @@ No OTA partitions — single `factory` app slot.
 
 ## Restore
 ```bash
-esptool -p /dev/cu.usbmodem31401 write-flash 0x0 htn-badge-flash-full-4MB.bin
+../tools/badge-restore.sh            # MAC-verified; refuses the wrong image
 ```
 
+Verified 2026-09-19 on badge A: written and read back byte-for-byte matching
+the recorded SHA-256. Recovery works.
+
 ## Entering download mode (no BOOT button on this board)
-Button-based entry is unavailable. Force it over JTAG instead:
+**Verified 2026-09-19: not needed.** esptool resets both badges into download
+mode automatically over USB-Serial-JTAG. The JTAG route below is a fallback
+only, kept in case automatic entry ever fails:
 ```bash
 openocd -f board/esp32c3-builtin.cfg \
   -c "init; halt; mww 0x6000812C 0x00000001; reset run; shutdown"

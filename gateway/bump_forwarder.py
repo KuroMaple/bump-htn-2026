@@ -30,8 +30,9 @@ and is rendered on the attendee's private page. The public projector keeps the
 server's alias/opt-in policy; it never receives email, phone, claim ID, or raw
 advertisement bytes.
 """
-import argparse, hashlib, json, os, re, sys, time, urllib.error, urllib.request
+import argparse, hashlib, hmac, json, os, re, sys, threading, time, urllib.error, urllib.request
 from datetime import datetime, timezone
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -121,6 +122,7 @@ class Queue:
 
     def __init__(self, path):
         self.path = path
+        self.lock = threading.RLock()
         os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
         self.confirmed = set()
         if os.path.exists(path):
@@ -134,28 +136,32 @@ class Queue:
                         self.confirmed.add(rec["event_id"])
 
     def append(self, rec):
-        with open(self.path, "a") as f:
-            f.write(json.dumps(rec) + "\n")
-            f.flush()
-            os.fsync(f.fileno())
+        with self.lock:
+            with open(self.path, "a") as f:
+                f.write(json.dumps(rec) + "\n")
+                f.flush()
+                os.fsync(f.fileno())
+            if rec.get("kind") == "confirm":
+                self.confirmed.add(rec["event_id"])
 
     def pending(self):
         """Records written but never confirmed (offline replay on startup)."""
-        out, seen = [], set()
-        if not os.path.exists(self.path):
+        with self.lock:
+            out, seen = [], set()
+            if not os.path.exists(self.path):
+                return out
+            with open(self.path) as f:
+                for line in f:
+                    try:
+                        rec = json.loads(line)
+                    except Exception:
+                        continue
+                    if rec.get("kind") == "bump":
+                        eid = rec["bump"]["event_id"]
+                        if eid not in self.confirmed and eid not in seen:
+                            seen.add(eid)
+                            out.append(rec)
             return out
-        with open(self.path) as f:
-            for line in f:
-                try:
-                    rec = json.loads(line)
-                except Exception:
-                    continue
-                if rec.get("kind") == "bump":
-                    eid = rec["bump"]["event_id"]
-                    if eid not in self.confirmed and eid not in seen:
-                        seen.add(eid)
-                        out.append(rec)
-        return out
 
 
 class Client:
@@ -236,6 +242,7 @@ def send(client, queue, bump, profile, auto_register, acknowledge=None):
                           "outcome": outcome, "ts": now_iso()})
             if acknowledge:
                 acknowledge(bump["event_id"])
+            return True
         elif outcome == "unknown_badge":
             if not auto_register:
                 print("        (peer not registered; run with --auto-register)", file=sys.stderr)
@@ -257,12 +264,96 @@ def send(client, queue, bump, profile, auto_register, acknowledge=None):
                                       "outcome": outcome, "ts": now_iso()})
                         if acknowledge:
                             acknowledge(bump["event_id"])
-        return True
+                        return True
+        return False
     except urllib.error.HTTPError as e:
         print(f"[bump] {bump['badge_id_b']}: HTTP {e.code} {e.reason}", file=sys.stderr)
     except Exception as e:
         print(f"[bump] {bump['badge_id_b']}: {e} (queued, will retry)", file=sys.stderr)
     return False
+
+
+def ingest_saved_record(saved, observer, queue, client, auto_register, source, acknowledge=None):
+    """Durably ingest one record received over USB or the local Wi-Fi gateway.
+
+    A False return means the badge must retain the journal item. The only
+    successful path is an accepted server response (or server-side duplicate),
+    so Wi-Fi HTTP 2xx is never an acknowledgement before mosaic delivery.
+    """
+    try:
+        event_id = saved["event_id"]
+        profile_hex = saved["profile_hex"]
+        rssi = int(saved["rssi"])
+    except (KeyError, ValueError, TypeError) as e:
+        return False, f"invalid record: {e}"
+    if not isinstance(event_id, str) or not isinstance(profile_hex, str):
+        return False, "invalid record fields"
+    prof = parse_profile(profile_hex)
+    if not prof:
+        return False, "profile decoder found no badge ID"
+    peer = prof["badge_id"]
+    if peer == observer:
+        return True, "self profile ignored"
+    bump = {
+        "badge_id_a": observer,
+        "badge_id_b": peer,
+        "timestamp": now_iso(),
+        "signal_strength": rssi,
+        "event_id": event_id,
+        "source": source,
+        "observer_id": observer,
+    }
+    queue.append({"kind": "bump", "bump": bump, "profile": prof,
+                  "badge_uptime_ms": saved.get("uptime_ms"), "captured": now_iso()})
+    return send(client, queue, bump, prof, auto_register, acknowledge), None
+
+
+def make_wireless_handler(token, observer, queue, client, auto_register, ingest_lock):
+    class WirelessHandler(BaseHTTPRequestHandler):
+        def _reply(self, code, body):
+            encoded = json.dumps(body).encode()
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(encoded)))
+            self.end_headers()
+            self.wfile.write(encoded)
+
+        def do_POST(self):
+            if self.path != "/bump/1/record":
+                self._reply(404, {"error": "not found"})
+                return
+            supplied = self.headers.get("X-Bump-Token", "")
+            if not hmac.compare_digest(supplied, token):
+                self._reply(401, {"error": "unauthorized"})
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+            except ValueError:
+                length = 0
+            if length < 2 or length > 2048:
+                self._reply(400, {"error": "invalid body size"})
+                return
+            try:
+                saved = json.loads(self.rfile.read(length).decode("utf-8"))
+            except (UnicodeDecodeError, json.JSONDecodeError):
+                self._reply(400, {"error": "invalid JSON"})
+                return
+            with ingest_lock:
+                delivered, reason = ingest_saved_record(
+                    saved, observer, queue, client, auto_register,
+                    "badge-a-wifi-sync")
+            if delivered:
+                self._reply(200, {"status": "accepted"})
+            else:
+                # The badge retries all non-2xx responses from its own durable
+                # journal; a temporary mosaic failure cannot lose contact data.
+                self._reply(503, {"error": reason or "mosaic delivery deferred"})
+
+        def log_message(self, format, *args):
+            # Avoid request-body logging: Connect packets can contain PII.
+            print("[wifi] " + format % args, file=sys.stderr)
+
+    return WirelessHandler
 
 
 def main():
@@ -281,6 +372,12 @@ def main():
     ap.add_argument("--anonymous", action="store_true",
                     help="do not upsert contact fields; keeps only badge IDs (not recommended)")
     ap.add_argument("--queue", default=os.path.join(HERE, "data", "bumps.jsonl"))
+    ap.add_argument("--wireless-token", default=os.environ.get("BUMP_WIRELESS_TOKEN", ""),
+                    help="shared token required by Badge A's local Wi-Fi upload")
+    ap.add_argument("--wireless-bind", default="0.0.0.0",
+                    help="local address for the laptop Wi-Fi listener")
+    ap.add_argument("--wireless-port", type=int, default=8788,
+                    help="local laptop Wi-Fi listener port")
     a = ap.parse_args()
 
     if a.auto_register and not a.admin_key:
@@ -289,6 +386,7 @@ def main():
 
     queue = Queue(a.queue)
     client = Client(a.server, a.gateway_key, a.admin_key)
+    ingest_lock = threading.Lock()
 
     # health check + offline replay
     try:
@@ -301,8 +399,21 @@ def main():
     if pend:
         print(f"[gateway] replaying {len(pend)} queued bump(s)", file=sys.stderr)
         for record in pend:
-            send(client, queue, record["bump"], record.get("profile"),
-                 a.auto_register and not a.anonymous)
+            with ingest_lock:
+                send(client, queue, record["bump"], record.get("profile"),
+                     a.auto_register and not a.anonymous)
+
+    if a.wireless_token:
+        handler = make_wireless_handler(a.wireless_token, a.observer, queue, client,
+                                        a.auto_register and not a.anonymous, ingest_lock)
+        receiver = ThreadingHTTPServer((a.wireless_bind, a.wireless_port), handler)
+        threading.Thread(target=receiver.serve_forever, name="bump-wifi-receiver",
+                         daemon=True).start()
+        print(f"[wifi] listening on http://{a.wireless_bind}:{a.wireless_port}/bump/1/record",
+              file=sys.stderr)
+    else:
+        print("[wifi] disabled (set BUMP_WIRELESS_TOKEN or --wireless-token to enable)",
+              file=sys.stderr)
 
     print(f"[gateway] observer={a.observer} port={a.port} rssi>={a.rssi} "
           f"profile_upsert={a.auto_register and not a.anonymous}", file=sys.stderr)
@@ -330,32 +441,17 @@ def main():
                 if record_match:
                     try:
                         saved = json.loads(record_match.group("body"))
-                        event_id = saved["event_id"]
-                        profile_hex = saved["profile_hex"]
-                        rssi = int(saved["rssi"])
-                    except (KeyError, ValueError, json.JSONDecodeError) as e:
+                    except json.JSONDecodeError as e:
                         print(f"[gateway] invalid badge record: {e}", file=sys.stderr)
                         continue
-                    prof = parse_profile(profile_hex)
-                    if not prof:
-                        print(f"[gateway] {event_id}: profile decoder found no badge ID; left on badge", file=sys.stderr)
-                        continue
-                    peer = prof["badge_id"]
-                    if peer == a.observer:
-                        continue
-                    bump = {
-                        "badge_id_a": a.observer,
-                        "badge_id_b": peer,
-                        "timestamp": now_iso(),
-                        "signal_strength": rssi,
-                        "event_id": event_id,
-                        "source": "badge-a-usb-sync",
-                        "observer_id": a.observer,
-                    }
-                    queue.append({"kind": "bump", "bump": bump, "profile": prof,
-                                  "badge_uptime_ms": saved.get("uptime_ms"), "captured": now_iso()})
-                    send(client, queue, bump, prof, a.auto_register and not a.anonymous,
-                         acknowledge=lambda eid: s.write(f"BUMP_ACK {eid}\n".encode()))
+                    with ingest_lock:
+                        delivered, reason = ingest_saved_record(
+                            saved, a.observer, queue, client,
+                            a.auto_register and not a.anonymous, "badge-a-usb-sync",
+                            acknowledge=lambda eid: s.write(f"BUMP_ACK {eid}\n".encode()))
+                    if not delivered:
+                        print(f"[gateway] USB record retained on badge: {reason or 'mosaic delivery deferred'}",
+                              file=sys.stderr)
                     continue
 
                 m = ADV_RE.search(text)
@@ -382,9 +478,10 @@ def main():
                     "source": "laptop-gateway",
                     "observer_id": a.observer,
                 }
-                queue.append({"kind": "bump", "bump": bump, "profile": prof,
-                              "peer_mac": g["mac"], "captured": now_iso()})
-                send(client, queue, bump, prof, a.auto_register and not a.anonymous)
+                with ingest_lock:
+                    queue.append({"kind": "bump", "bump": bump, "profile": prof,
+                                  "peer_mac": g["mac"], "captured": now_iso()})
+                    send(client, queue, bump, prof, a.auto_register and not a.anonymous)
         except serial.SerialException as e:
             print(f"[gateway] serial error: {e}; retry in 2s", file=sys.stderr)
             time.sleep(2)

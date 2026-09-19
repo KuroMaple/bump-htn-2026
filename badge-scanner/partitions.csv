@@ -1,0 +1,8 @@
+# Exact layout decoded from Badge A's backed-up partition table at flash offset 0x8000.
+# This file is a build-time size contract only. The flasher command writes the app
+# at 0x10000 and deliberately does not write this partition table or `storage`.
+# Name,   Type, SubType, Offset,   Size,   Flags
+nvs,      data, nvs,     0x9000,   16K,
+phy_init, data, phy,     0xd000,   4K,
+factory,  app,  factory, 0x10000,  2688K,
+storage,  data, littlefs,0x2b0000, 1280K,
