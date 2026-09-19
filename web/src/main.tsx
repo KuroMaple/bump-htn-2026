@@ -9,9 +9,6 @@ import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom"
 import { ProjectorPage } from "./pages/ProjectorPage";
 import "./styles.css";
 
-const AdminPage = lazy(() =>
-  import("./pages/AdminPage").then((module) => ({ default: module.AdminPage })),
-);
 const BadgePage = lazy(() =>
   import("./pages/BadgePage").then((module) => ({ default: module.BadgePage })),
 );
@@ -24,7 +21,6 @@ const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/projector" replace /> },
   { path: "/projector", element: <ProjectorPage /> },
   { path: "/badge/:token", element: <LazyPage><BadgePage /></LazyPage> },
-  { path: "/admin", element: <LazyPage><AdminPage /></LazyPage> },
   { path: "*", element: <Navigate to="/projector" replace /> },
 ]);
 

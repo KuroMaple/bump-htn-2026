@@ -61,6 +61,40 @@ export function BadgePage() {
         <div><Network size={20} /><strong>{data.secondDegreeCount}</strong><span>one introduction away</span></div>
       </section>
 
+      <section className="badge-profile-section">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">From your badge</p>
+            <h2>Profile details</h2>
+          </div>
+          <span>private to you</span>
+        </div>
+        <dl className="badge-profile-grid">
+          {([
+            ["Badge ID", data.badge.profile.badgeId],
+            ["Attendee ID", data.badge.profile.attendeeId],
+            ["Claim ID", data.badge.profile.claimId],
+            ["Email", data.badge.profile.email],
+            ["Phone", data.badge.profile.phone],
+            ["LinkedIn", data.badge.profile.linkedin],
+            ["Discord", data.badge.profile.discord],
+            [
+              "Provisioned",
+              data.badge.profile.provisionedAt
+                ? new Date(data.badge.profile.provisionedAt).toLocaleString()
+                : null,
+            ],
+          ] as Array<[string, string | number | null]>)
+            .filter(([, value]) => value !== null && value !== undefined && value !== "")
+            .map(([label, value]) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{String(value)}</dd>
+              </div>
+            ))}
+        </dl>
+      </section>
+
       <section className="connections-section">
         <div className="section-heading">
           <div><p className="eyebrow">Your network</p><h2>Connections</h2></div>

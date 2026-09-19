@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { and, desc, eq, inArray, ne, or } from "drizzle-orm";
+import { and, desc, eq, inArray, ne, notInArray, or, sql } from "drizzle-orm";
 import { makeAlias } from "./aliases.js";
 import { config } from "./config.js";
 import { db } from "./db/client.js";
@@ -194,6 +194,51 @@ export async function registerBadge(input: BadgeInput) {
     .returning();
   publish({ type: "graph:refresh" });
   return badge;
+}
+
+/* Reset the board between runs.
+ *
+ * "edges" keeps the roster and wipes connections plus the raw bump event log.
+ * "all" additionally drops every badge except `keep` — the root/observer
+ * badge, which must survive or the next bump has no counterpart and the star
+ * graph can never rebuild.
+ *
+ * bump_events must go in both cases: it holds the event_id dedup keys, so
+ * leaving it would make a replayed encounter come back as duplicate_event and
+ * the edge would never reappear. */
+export async function clearGraph(scope: "edges" | "all", keep: string[] = []) {
+  const keepIds = keep.filter(Boolean);
+  const cleared = await db.transaction(async (tx) => {
+    /* The gateway ingests continuously. Without this lock, a bump committed
+     * between the connections delete and the badges delete inserts a row
+     * referencing a badge being removed, and the foreign key aborts the whole
+     * clear. Writers block briefly; readers such as /api/graph are unaffected. */
+    await tx.execute(
+      sql`lock table ${bumpEvents}, ${connections}, ${badges} in share row exclusive mode`,
+    );
+
+    const removedEvents = await tx.delete(bumpEvents).returning({ id: bumpEvents.id });
+    const removedEdges = await tx.delete(connections).returning({ id: connections.id });
+    let removedBadges: Array<{ id: string }> = [];
+    if (scope === "all") {
+      removedBadges = keepIds.length
+        ? await tx
+            .delete(badges)
+            .where(notInArray(badges.hardwareId, keepIds))
+            .returning({ id: badges.id })
+        : await tx.delete(badges).returning({ id: badges.id });
+    }
+    return {
+      scope,
+      kept: keepIds,
+      bumpEvents: removedEvents.length,
+      connections: removedEdges.length,
+      badges: removedBadges.length,
+    };
+  });
+
+  publish({ type: "graph:refresh" });
+  return cleared;
 }
 
 export async function listBadges() {

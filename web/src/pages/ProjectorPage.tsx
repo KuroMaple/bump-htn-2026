@@ -1,4 +1,4 @@
-import { Maximize2, Network, Radio, Users } from "lucide-react";
+import { Maximize2, Network, Radio, Trash2, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { BrandMark } from "../components/BrandMark";
 import { GraphCanvas } from "../components/GraphCanvas";
@@ -10,6 +10,51 @@ export function ProjectorPage() {
   const { graph, connectionState, recentConnection, error, refresh } = useGraph();
   const [selected, setSelected] = useState<GraphNode | null>(null);
   const [detail, setDetail] = useState<NodeDetail | null>(null);
+  const [clearing, setClearing] = useState(false);
+
+  /* The projector is the only operator screen, so it asks for the admin key
+   * itself the first time and remembers it for the session. A rejected key is
+   * discarded so the next attempt re-prompts instead of failing silently. */
+  const clearBoard = async () => {
+    let secret = sessionStorage.getItem("bump-admin-secret") ?? "";
+    if (!secret) {
+      secret = window.prompt("Admin key (stored for this session)") ?? "";
+      if (!secret) return;
+    }
+
+    if (
+      !window.confirm(
+        "Clear the mosaic?\n\nRemoves every attendee and connection, ready for a fresh round of bumps. Your root badge is kept so new connections still have something to attach to.",
+      )
+    ) {
+      return;
+    }
+
+    setClearing(true);
+    try {
+      const response = await fetch("/api/admin/clear", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${secret}`,
+        },
+        body: JSON.stringify({ scope: "all" }),
+      });
+      if (response.status === 401) {
+        sessionStorage.removeItem("bump-admin-secret");
+        window.alert("That admin key was rejected. Click clear again to re-enter it.");
+        return;
+      }
+      if (!response.ok) throw new Error(`Clear failed (${response.status})`);
+      sessionStorage.setItem("bump-admin-secret", secret);
+      setSelected(null);
+      refresh();
+    } catch (error) {
+      window.alert(error instanceof Error ? error.message : "Could not clear the board.");
+    } finally {
+      setClearing(false);
+    }
+  };
 
   /* Contact details are not in /api/graph; fetch the clicked node on demand. */
   useEffect(() => {
@@ -84,10 +129,22 @@ export function ProjectorPage() {
           <span className="live-dot" />
           {connectionState === "live" ? "Live mosaic" : connectionState}
         </div>
-        <button className="icon-button" type="button" onClick={toggleFullscreen} title="Toggle fullscreen">
-          <Maximize2 size={18} />
-          <span className="sr-only">Toggle fullscreen</span>
-        </button>
+        <div className="header-actions">
+          <button
+            className="icon-button danger"
+            type="button"
+            onClick={() => void clearBoard()}
+            disabled={clearing}
+            title="Clear the mosaic — keeps your root badge"
+          >
+            <Trash2 size={18} />
+            <span className="sr-only">Clear the mosaic</span>
+          </button>
+          <button className="icon-button" type="button" onClick={toggleFullscreen} title="Toggle fullscreen">
+            <Maximize2 size={18} />
+            <span className="sr-only">Toggle fullscreen</span>
+          </button>
+        </div>
       </header>
 
       <section className="mosaic-stage">

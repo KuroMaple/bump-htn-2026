@@ -54,6 +54,18 @@ export interface BadgePageData {
     bio: string | null;
     visualSeed: string;
     projectorIdentity: "alias" | "real_name" | "hidden";
+    // Full badge-provisioned profile. Served only behind the private token.
+    profile: {
+      badgeId: string;
+      attendeeId: number | null;
+      claimId: string | null;
+      profileVersion: number | null;
+      email: string | null;
+      phone: string | null;
+      linkedin: string | null;
+      discord: string | null;
+      provisionedAt: string | null;
+    };
   };
   connections: Array<{
     id: string;
@@ -66,14 +78,3 @@ export interface BadgePageData {
   secondDegreeCount: number;
 }
 
-export interface AdminBadge {
-  id: string;
-  hardwareId: string;
-  privateToken: string;
-  publicAlias: string;
-  name: string;
-  role: string | null;
-  company: string | null;
-  projectorIdentity: "alias" | "real_name" | "hidden";
-  active: boolean;
-}

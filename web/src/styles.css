@@ -607,3 +607,18 @@ h6 {
   background: rgba(62, 90, 158, 0.99) !important;
   border-color: rgba(244, 238, 223, 0.50) !important;
 }
+
+/* Badge-provisioned profile details on the private page. Theme tokens only, so
+   this follows the active palette rather than hardcoding colours. */
+.badge-profile-section { max-width: 1040px; margin: auto; padding: 8px 24px 0; }
+.badge-profile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px; margin: 0; background: var(--border); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.badge-profile-grid > div { background: var(--panel); padding: 14px 16px; }
+.badge-profile-grid dt { color: var(--faint); font: 400 10px "IBM Plex Mono", monospace; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
+.badge-profile-grid dd { margin: 0; color: var(--text); font: 400 13px "IBM Plex Mono", monospace; word-break: break-word; }
+
+/* Projector header actions. Clear reads as destructive so it is never a stray
+   click on the presentation screen. */
+.header-actions { justify-self: end; display: flex; align-items: center; gap: 8px; }
+.icon-button.danger { color: #ff9b9b; border-color: rgba(238,108,108,0.5); background: rgba(238,108,108,0.12); }
+.icon-button.danger:hover:not(:disabled) { color: #fff; border-color: #ee6c6c; background: rgba(238,108,108,0.3); }
+.icon-button.danger:disabled { opacity: 0.45; cursor: not-allowed; }
