@@ -32,6 +32,10 @@ export interface NodeDetail {
   bio: string | null;
   visualSeed: string;
   badgeId: string;
+  attendeeId: number | null;
+  claimId: string | null;
+  profileVersion: number | null;
+  provisionedAt: string | null;
   contact: {
     email: string | null;
     phone: string | null;

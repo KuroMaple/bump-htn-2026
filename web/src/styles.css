@@ -176,8 +176,10 @@ a { color: inherit; text-decoration: none; }
   position: absolute;
   top: 20px;
   right: 24px;
-  width: 248px;
+  width: min(340px, calc(100% - 48px));
+  max-height: calc(100% - 40px);
   padding: 20px;
+  overflow-y: auto;
   opacity: 0;
   transform: translateX(24px);
   pointer-events: none;
@@ -192,6 +194,7 @@ a { color: inherit; text-decoration: none; }
 .person-panel .pixel-tile { margin-bottom: 24px; }
 .person-panel h2 { margin: 0 0 6px; font-size: 22px; line-height: 1.15; overflow-wrap: anywhere; }
 .person-meta { min-height: 38px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.person-bio { margin: 10px 0 14px; color: var(--muted); font-size: 12px; line-height: 1.5; }
 .panel-close { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; color: var(--muted); border: 0; background: transparent; font-size: 20px; }
 .connection-count { display: flex; flex-direction: column; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
 .connection-count strong { color: var(--amber); font: 500 22px "IBM Plex Mono", monospace; }
@@ -556,6 +559,7 @@ h6 {
 .person-panel h2,
 .person-panel .eyebrow,
 .person-meta,
+.person-bio,
 .person-badge-id,
 .person-contact dt,
 .person-contact dd,
@@ -576,6 +580,7 @@ h6 {
 /* Secondary text sits back without dropping out of contrast. */
 .person-panel .eyebrow,
 .person-meta,
+.person-bio,
 .person-badge-id,
 .person-contact dt,
 .person-contact-empty,

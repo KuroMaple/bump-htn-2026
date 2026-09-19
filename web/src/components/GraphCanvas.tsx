@@ -631,12 +631,25 @@ export function GraphCanvas({
           target.y,
         );
 
+        /* Short rounded dashes read like thread stitches between badges. */
+        context.setLineDash(
+          isRecent
+            ? [5, 5]
+            : isSelected
+              ? [4, 6]
+              : [3, 7],
+        );
+        context.lineDashOffset = isRecent
+          ? -(performance.now() / 45) % 10
+          : 0;
+        context.lineCap = "round";
+
         context.strokeStyle =
           isRecent
-            ? "rgba(242, 169, 59, 0.95)"
+            ? "rgba(36, 60, 115, 0.95)"
             : isSelected
-              ? "rgba(167, 139, 250, 0.72)"
-              : "rgba(136, 120, 199, 0.2)";
+              ? "rgba(36, 60, 115, 0.72)"
+              : "rgba(36, 60, 115, 0.24)";
 
         context.lineWidth =
           isRecent
@@ -654,6 +667,10 @@ export function GraphCanvas({
 
         context.stroke();
       }
+
+      context.setLineDash([]);
+      context.lineDashOffset = 0;
+      context.lineCap = "butt";
 
       const tileSize =
         simulationNodes.length >

@@ -32,16 +32,26 @@ export function ProjectorPage() {
     };
   }, [selected?.id]);
 
-  const contactRows = useMemo(() => {
-    const contact = detail?.contact;
-    if (!contact) return [] as Array<[string, string]>;
+  const profileRows = useMemo(() => {
+    if (!detail) return [] as Array<[string, string]>;
     return ([
-      ["Email", contact.email],
-      ["Phone", contact.phone],
-      ["LinkedIn", contact.linkedin],
-      ["Discord", contact.discord],
-    ] as Array<[string, string | null]>).filter(
-      (row): row is [string, string] => Boolean(row[1]),
+      ["Alias", detail.publicAlias],
+      ["Badge ID", detail.badgeId],
+      ["Attendee ID", detail.attendeeId],
+      ["Claim ID", detail.claimId],
+      ["Profile version", detail.profileVersion],
+      ["Email", detail.contact.email],
+      ["Phone", detail.contact.phone],
+      ["LinkedIn", detail.contact.linkedin],
+      ["Discord", detail.contact.discord],
+      [
+        "Provisioned",
+        detail.provisionedAt
+          ? new Date(detail.provisionedAt).toLocaleString()
+          : null,
+      ],
+    ] as Array<[string, string | number | null | undefined]>).flatMap(([label, value]) =>
+      value == null || value === "" ? [] : [[label, String(value)] as [string, string]],
     );
   }, [detail]);
 
@@ -121,10 +131,10 @@ export function ProjectorPage() {
                   .filter(Boolean)
                   .join(" · ") || "Here to connect"}
               </p>
-              {detail?.badgeId ? <p className="person-badge-id">{detail.badgeId}</p> : null}
-              {contactRows.length > 0 ? (
+              {detail?.bio ? <p className="person-bio">{detail.bio}</p> : null}
+              {profileRows.length > 0 ? (
                 <dl className="person-contact">
-                  {contactRows.map(([label, value]) => (
+                  {profileRows.map(([label, value]) => (
                     <div key={label}>
                       <dt>{label}</dt>
                       <dd>{value}</dd>

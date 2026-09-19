@@ -20,8 +20,24 @@ await db.delete(bumpEvents);
 await db.delete(connections);
 await db.delete(badges);
 
-for (const [hardwareId, name, role, company] of people) {
-  await registerBadge({ hardwareId, name, role, company, projectorIdentity: "alias" });
+for (const [index, [hardwareId, name, role, company]] of people.entries()) {
+  const profileSlug = name.toLowerCase().replaceAll(" ", ".");
+  await registerBadge({
+    hardwareId,
+    name,
+    role,
+    company,
+    bio: `${role} building and sharing ideas with the hacker community.`,
+    attendeeId: 2601 + index,
+    profileVersion: 1,
+    claimId: `HTN26-${String(index + 1).padStart(4, "0")}`,
+    email: `${profileSlug}@demo.hackthenorth.com`,
+    phone: `+1 416 555 ${String(1100 + index)}`,
+    linkedin: `linkedin.com/in/${profileSlug.replaceAll(".", "-")}`,
+    discord: `${profileSlug.split(".")[0]}#${String(4100 + index)}`,
+    provisionedUnix: Math.floor(Date.now() / 1000) - (people.length - index) * 3600,
+    projectorIdentity: "alias",
+  });
 }
 
 const pairs = [
