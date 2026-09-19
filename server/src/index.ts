@@ -11,7 +11,7 @@ import { config } from "./config.js";
 import { closeDatabase, db } from "./db/client.js";
 import { subscribe } from "./events.js";
 import { badgeInputSchema, bumpInputSchema } from "./schemas.js";
-import { getBadgePage, getGraph, getNodeDetail, listBadges, processBump, registerBadge } from "./service.js";
+import { clearGraph, getBadgePage, getGraph, getHistoricalGraph, getNodeDetail, listBadges, processBump, registerBadge } from "./service.js";
 
 const app = Fastify({ logger: true });
 
@@ -25,6 +25,10 @@ app.get("/api/health", async () => {
 });
 
 app.get("/api/graph", async () => getGraph());
+
+/* A permanent, append-only graph. Its initial rows are seeded by migration
+ * 0002 and clearGraph intentionally never touches its tables. */
+app.get("/api/graph/history", async () => getHistoricalGraph());
 
 app.get("/api/nodes/:id", async (request, reply) => {
   const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
@@ -102,6 +106,25 @@ app.post("/api/admin/badges/import", async (request, reply) => {
   const imported = [];
   for (const badge of parsed.data) imported.push(await registerBadge(badge));
   return reply.code(201).send({ imported: imported.length, badges: imported });
+});
+
+app.post("/api/admin/clear", async (request, reply) => {
+  if (!hasBearerToken(request, config.ADMIN_API_KEY)) {
+    return reply.code(401).send({ error: "Invalid admin credentials" });
+  }
+  const parsed = z
+    .object({
+      scope: z.enum(["edges", "all"]).default("all"),
+      /* Root badge(s) to preserve. Defaults to the configured observer so a
+       * clear never removes the hub every edge connects to. Pass [] to wipe
+       * the roster completely. */
+      keep: z.array(z.string().trim().min(1).max(128)).optional(),
+    })
+    .safeParse(request.body ?? {});
+  if (!parsed.success) {
+    return reply.code(400).send({ error: "Invalid scope", issues: parsed.error.issues });
+  }
+  return clearGraph(parsed.data.scope, parsed.data.keep ?? [config.ROOT_BADGE_ID]);
 });
 
 app.post("/api/admin/simulate", async (request, reply) => {

@@ -15,6 +15,13 @@
       "when": 1789831717701,
       "tag": "0001_mixed_rictor",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789845930624,
+      "tag": "0002_outgoing_sir_ram",
+      "breakpoints": true
     }
   ]
 }
