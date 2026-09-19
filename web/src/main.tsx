@@ -20,6 +20,7 @@ function LazyPage({ children }: { children: ReactNode }) {
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/projector" replace /> },
   { path: "/projector", element: <ProjectorPage /> },
+  { path: "/projector/history", element: <ProjectorPage mode="history" /> },
   { path: "/badge/:token", element: <LazyPage><BadgePage /></LazyPage> },
   { path: "*", element: <Navigate to="/projector" replace /> },
 ]);

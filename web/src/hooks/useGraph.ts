@@ -13,19 +13,19 @@ interface BumpEvent {
   };
 }
 
-export function useGraph() {
+export function useGraph(mode: "current" | "history" = "current") {
   const [graph, setGraph] = useState<GraphSnapshot | null>(null);
   const [connectionState, setConnectionState] = useState<ConnectionState>("connecting");
   const [recentConnection, setRecentConnection] = useState<BumpEvent["connection"] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
-    const response = await fetch("/api/graph");
+    const response = await fetch(mode === "history" ? "/api/graph/history" : "/api/graph");
     if (!response.ok) throw new Error("The mosaic could not be loaded.");
     const snapshot = (await response.json()) as GraphSnapshot;
     setGraph(snapshot);
     setError(null);
-  }, []);
+  }, [mode]);
 
   useEffect(() => {
     void refresh().catch((reason: unknown) => {
@@ -37,6 +37,12 @@ export function useGraph() {
     events.addEventListener("graph:refresh", () => void refresh());
     events.addEventListener("bump:accepted", (message) => {
       const event = JSON.parse((message as MessageEvent<string>).data) as BumpEvent;
+      // Historical nodes have permanent IDs independent from the live roster.
+      // Re-fetch instead of trying to apply a live connection ID locally.
+      if (mode === "history") {
+        void refresh();
+        return;
+      }
       setRecentConnection(event.connection);
       setGraph((current) => {
         if (!current) return current;
@@ -74,7 +80,7 @@ export function useGraph() {
     events.onerror = () => setConnectionState("offline");
     events.onopen = () => setConnectionState("live");
     return () => events.close();
-  }, [refresh]);
+  }, [mode, refresh]);
 
   return { graph, connectionState, recentConnection, error, refresh };
 }

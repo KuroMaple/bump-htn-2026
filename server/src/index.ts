@@ -11,7 +11,7 @@ import { config } from "./config.js";
 import { closeDatabase, db } from "./db/client.js";
 import { subscribe } from "./events.js";
 import { badgeInputSchema, bumpInputSchema } from "./schemas.js";
-import { clearGraph, getBadgePage, getGraph, getNodeDetail, listBadges, processBump, registerBadge } from "./service.js";
+import { clearGraph, getBadgePage, getGraph, getHistoricalGraph, getNodeDetail, listBadges, processBump, registerBadge } from "./service.js";
 
 const app = Fastify({ logger: true });
 
@@ -25,6 +25,10 @@ app.get("/api/health", async () => {
 });
 
 app.get("/api/graph", async () => getGraph());
+
+/* A permanent, append-only graph. Its initial rows are seeded by migration
+ * 0002 and clearGraph intentionally never touches its tables. */
+app.get("/api/graph/history", async () => getHistoricalGraph());
 
 app.get("/api/nodes/:id", async (request, reply) => {
   const { id } = z.object({ id: z.string().uuid() }).parse(request.params);

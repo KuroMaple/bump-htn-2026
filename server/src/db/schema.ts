@@ -80,6 +80,41 @@ export const connections = pgTable(
   ],
 );
 
+/* The historical projector has its own graph. It is intentionally not linked
+ * to the live `badges` / `connections` tables: clearing a demo round can
+ * delete those rows without changing the permanent mosaic. The public display
+ * fields are snapshotted when a person first enters the history graph. */
+export const historicalBadges = pgTable(
+  "historical_badges",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    hardwareId: varchar("hardware_id", { length: 128 }).notNull(),
+    displayName: varchar("display_name", { length: 160 }).notNull(),
+    role: varchar("role", { length: 160 }),
+    company: varchar("company", { length: 160 }),
+    visualSeed: varchar("visual_seed", { length: 128 }).notNull(),
+    firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).notNull(),
+  },
+  (table) => [uniqueIndex("historical_badges_hardware_id_unique").on(table.hardwareId)],
+);
+
+export const historicalConnections = pgTable(
+  "historical_connections",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    badgeAId: uuid("badge_a_id").notNull().references(() => historicalBadges.id),
+    badgeBId: uuid("badge_b_id").notNull().references(() => historicalBadges.id),
+    firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).notNull(),
+    lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).notNull(),
+    bumpCount: integer("bump_count").notNull().default(1),
+  },
+  (table) => [
+    uniqueIndex("historical_connections_badge_pair_unique").on(table.badgeAId, table.badgeBId),
+    index("historical_connections_badge_a_idx").on(table.badgeAId),
+    index("historical_connections_badge_b_idx").on(table.badgeBId),
+  ],
+);
+
 export const bumpEvents = pgTable(
   "bump_events",
   {

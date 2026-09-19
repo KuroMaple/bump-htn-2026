@@ -1,4 +1,4 @@
-import { Maximize2, Network, Radio, Trash2, Users } from "lucide-react";
+import { Archive, Maximize2, Network, Radio, Trash2, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { BrandMark } from "../components/BrandMark";
 import { GraphCanvas } from "../components/GraphCanvas";
@@ -6,8 +6,9 @@ import { PixelTile } from "../components/PixelTile";
 import { useGraph } from "../hooks/useGraph";
 import type { GraphNode, NodeDetail } from "../types";
 
-export function ProjectorPage() {
-  const { graph, connectionState, recentConnection, error, refresh } = useGraph();
+export function ProjectorPage({ mode = "current" }: { mode?: "current" | "history" }) {
+  const historical = mode === "history";
+  const { graph, connectionState, recentConnection, error, refresh } = useGraph(mode);
   const [selected, setSelected] = useState<GraphNode | null>(null);
   const [detail, setDetail] = useState<NodeDetail | null>(null);
   const [clearing, setClearing] = useState(false);
@@ -101,11 +102,11 @@ export function ProjectorPage() {
   }, [detail]);
 
   const recentPeople = useMemo(() => {
-    if (!graph || !recentConnection) return null;
+    if (historical || !graph || !recentConnection) return null;
     const source = graph.nodes.find((node) => node.id === recentConnection.sourceId);
     const target = graph.nodes.find((node) => node.id === recentConnection.targetId);
     return source && target ? { source, target } : null;
-  }, [graph, recentConnection]);
+  }, [graph, historical, recentConnection]);
 
   useEffect(() => {
     if (!selected || !graph) return;
@@ -127,19 +128,29 @@ export function ProjectorPage() {
         <BrandMark />
         <div className={`live-status ${connectionState}`}>
           <span className="live-dot" />
-          {connectionState === "live" ? "Live mosaic" : connectionState}
+          {connectionState === "live" ? historical ? "Historical mosaic" : "Live mosaic" : connectionState}
         </div>
         <div className="header-actions">
-          <button
-            className="icon-button danger"
-            type="button"
-            onClick={() => void clearBoard()}
-            disabled={clearing}
-            title="Clear the mosaic — keeps your root badge"
+          <a
+            className="icon-button"
+            href={historical ? "/projector" : "/projector/history"}
+            title={historical ? "Open current mosaic" : "Open permanent historical mosaic"}
           >
-            <Trash2 size={18} />
-            <span className="sr-only">Clear the mosaic</span>
-          </button>
+            <Archive size={18} />
+            <span className="sr-only">{historical ? "Open current mosaic" : "Open historical mosaic"}</span>
+          </a>
+          {!historical ? (
+            <button
+              className="icon-button danger"
+              type="button"
+              onClick={() => void clearBoard()}
+              disabled={clearing}
+              title="Clear the current mosaic — keeps your root badge and all history"
+            >
+              <Trash2 size={18} />
+              <span className="sr-only">Clear the current mosaic</span>
+            </button>
+          ) : null}
           <button className="icon-button" type="button" onClick={toggleFullscreen} title="Toggle fullscreen">
             <Maximize2 size={18} />
             <span className="sr-only">Toggle fullscreen</span>
@@ -154,7 +165,7 @@ export function ProjectorPage() {
             edges={graph.edges}
             selectedId={selected?.id ?? null}
             recentConnection={recentConnection}
-            onSelect={setSelected}
+            onSelect={historical ? () => undefined : setSelected}
           />
         ) : (
           <div className="stage-message">
@@ -209,7 +220,7 @@ export function ProjectorPage() {
 
       <footer className="projector-footer">
         <span>Hack the North 2026</span>
-        <span>Every tile is a person. Every line is an introduction.</span>
+        <span>{historical ? "Permanent record — clear never changes this board." : "Every tile is a person. Every line is an introduction."}</span>
       </footer>
     </main>
   );

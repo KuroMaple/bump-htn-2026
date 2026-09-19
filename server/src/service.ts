@@ -3,7 +3,7 @@ import { and, desc, eq, inArray, ne, notInArray, or, sql } from "drizzle-orm";
 import { makeAlias } from "./aliases.js";
 import { config } from "./config.js";
 import { db } from "./db/client.js";
-import { badges, bumpEvents, connections } from "./db/schema.js";
+import { badges, bumpEvents, connections, historicalBadges, historicalConnections } from "./db/schema.js";
 import { publish } from "./events.js";
 import type { BadgeInput, BumpInput } from "./schemas.js";
 
@@ -46,6 +46,93 @@ export async function getGraph() {
       bumpCount: connection.bumpCount,
     })),
   };
+}
+
+export async function getHistoricalGraph() {
+  const visibleBadges = await db.select().from(historicalBadges).orderBy(historicalBadges.firstSeenAt);
+  const visibleIds = visibleBadges.map((badge) => badge.id);
+  const allConnections = visibleIds.length
+    ? await db
+        .select()
+        .from(historicalConnections)
+        .where(and(inArray(historicalConnections.badgeAId, visibleIds), inArray(historicalConnections.badgeBId, visibleIds)))
+        .orderBy(historicalConnections.firstSeenAt)
+    : [];
+
+  return {
+    generatedAt: new Date().toISOString(),
+    nodes: visibleBadges.map((badge) => ({
+      id: badge.id,
+      displayName: badge.displayName,
+      role: badge.role,
+      company: badge.company,
+      visualSeed: badge.visualSeed,
+      joinedAt: badge.firstSeenAt.toISOString(),
+    })),
+    edges: allConnections.map((connection) => ({
+      id: connection.id,
+      sourceId: connection.badgeAId,
+      targetId: connection.badgeBId,
+      firstSeenAt: connection.firstSeenAt.toISOString(),
+      lastSeenAt: connection.lastSeenAt.toISOString(),
+      bumpCount: connection.bumpCount,
+    })),
+  };
+}
+
+type GraphWriter = Pick<typeof db, "insert" | "select" | "update">;
+
+async function archiveBadge(writer: GraphWriter, badge: typeof badges.$inferSelect) {
+  const [existing] = await writer
+    .select()
+    .from(historicalBadges)
+    .where(eq(historicalBadges.hardwareId, badge.hardwareId))
+    .limit(1);
+  if (existing) return existing;
+  const [archived] = await writer
+    .insert(historicalBadges)
+    .values({
+      id: badge.id,
+      hardwareId: badge.hardwareId,
+      displayName: displayName(badge),
+      role: badge.role,
+      company: badge.company,
+      visualSeed: badge.visualSeed,
+      firstSeenAt: badge.createdAt,
+    })
+    .returning();
+  return archived!;
+}
+
+async function archiveAcceptedBump(
+  writer: GraphWriter,
+  badgeA: typeof badges.$inferSelect,
+  badgeB: typeof badges.$inferSelect,
+  occurredAt: Date,
+) {
+  const historicalA = await archiveBadge(writer, badgeA);
+  const historicalB = await archiveBadge(writer, badgeB);
+  const [first, second] = historicalA.id < historicalB.id
+    ? [historicalA, historicalB]
+    : [historicalB, historicalA];
+  const [existing] = await writer
+    .select()
+    .from(historicalConnections)
+    .where(and(eq(historicalConnections.badgeAId, first.id), eq(historicalConnections.badgeBId, second.id)))
+    .limit(1);
+  if (existing) {
+    await writer
+      .update(historicalConnections)
+      .set({ lastSeenAt: occurredAt, bumpCount: existing.bumpCount + 1 })
+      .where(eq(historicalConnections.id, existing.id));
+    return;
+  }
+  await writer.insert(historicalConnections).values({
+    badgeAId: first.id,
+    badgeBId: second.id,
+    firstSeenAt: occurredAt,
+    lastSeenAt: occurredAt,
+  });
 }
 
 /* Contact card for one node, fetched when a tile is clicked on the projector.
@@ -328,6 +415,8 @@ export async function processBump(input: BumpInput) {
         },
       })
       .returning();
+
+    await archiveAcceptedBump(tx, badgeA, badgeB, reportedAt);
 
     await tx
       .update(bumpEvents)
