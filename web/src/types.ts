@@ -1,5 +1,6 @@
 export interface GraphNode {
   id: string;
+  kind: "badge" | "session";
   displayName: string;
   role: string | null;
   company: string | null;
@@ -20,6 +21,13 @@ export interface GraphSnapshot {
   generatedAt: string;
   nodes: GraphNode[];
   edges: GraphEdge[];
+  sessions: Array<{
+    id: string;
+    label: string;
+    startedAt: string;
+    contactCount: number;
+  }>;
+  visibleThroughSessionId: string | null;
 }
 
 /* Per-node contact card, served by GET /api/nodes/:id when a tile is clicked. */
@@ -76,4 +84,3 @@ export interface BadgePageData {
   }>;
   secondDegreeCount: number;
 }
-

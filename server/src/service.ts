@@ -3,81 +3,135 @@ import { and, desc, eq, inArray, ne, notInArray, or, sql } from "drizzle-orm";
 import { makeAlias } from "./aliases.js";
 import { config } from "./config.js";
 import { db } from "./db/client.js";
-import { badges, bumpEvents, connections, historicalBadges, historicalConnections } from "./db/schema.js";
+import { badges, bumpEvents, connections, historicalBadges, historicalConnections, syncSessionMembers, syncSessions } from "./db/schema.js";
 import { publish } from "./events.js";
-import type { BadgeInput, BumpInput } from "./schemas.js";
+import type { BadgeInput, BumpInput, SyncSessionInput } from "./schemas.js";
 
 function displayName(badge: typeof badges.$inferSelect) {
   return badge.projectorIdentity === "real_name" ? badge.name : badge.publicAlias;
 }
 
-export async function getGraph() {
+type ProjectedBadge = {
+  id: string;
+  hardwareId: string;
+  displayName: string;
+  role: string | null;
+  company: string | null;
+  visualSeed: string;
+  joinedAt: Date;
+};
+
+function syncLabel(source: string, ordinal: number) {
+  return source === "legacy-import" ? "Earlier syncs" : `Sync ${ordinal}`;
+}
+
+/* Project accepted contacts as root -> sync -> person. The session node is a
+ * visual branch marker, not a person and therefore has no detail card. */
+async function getSessionGraph(visibleBadges: ProjectedBadge[], throughSessionId?: string) {
+  const badgeByHardware = new Map(visibleBadges.map((badge) => [badge.hardwareId, badge]));
+  const allSessions = await db.select().from(syncSessions).orderBy(syncSessions.startedAt);
+  const allMembers = allSessions.length
+    ? await db.select().from(syncSessionMembers)
+      .where(inArray(syncSessionMembers.sessionId, allSessions.map((session) => session.id)))
+      .orderBy(syncSessionMembers.firstSeenAt)
+    : [];
+
+  const sessions = allSessions.filter((session) => allMembers.some((member) =>
+    member.sessionId === session.id &&
+    badgeByHardware.has(member.observerHardwareId) &&
+    badgeByHardware.has(member.peerHardwareId),
+  ));
+  const throughIndex = throughSessionId
+    ? sessions.findIndex((session) => session.id === throughSessionId)
+    : sessions.length - 1;
+  const activeSessions = throughIndex >= 0 ? sessions.slice(0, throughIndex + 1) : sessions;
+  const activeIds = new Set(activeSessions.map((session) => session.id));
+  const members = allMembers.filter((member) => activeIds.has(member.sessionId));
+  const usedHardware = new Set<string>();
+  for (const member of members) {
+    usedHardware.add(member.observerHardwareId);
+    usedHardware.add(member.peerHardwareId);
+  }
+  const projectedBadges = visibleBadges.filter((badge) => usedHardware.has(badge.hardwareId));
+
+  return {
+    generatedAt: new Date().toISOString(),
+    nodes: [
+      ...projectedBadges.map((badge) => ({
+        id: badge.id,
+        kind: "badge" as const,
+        displayName: badge.displayName,
+        role: badge.role,
+        company: badge.company,
+        visualSeed: badge.visualSeed,
+        joinedAt: badge.joinedAt.toISOString(),
+      })),
+      ...activeSessions.map((session, index) => ({
+        id: `sync:${session.id}`,
+        kind: "session" as const,
+        displayName: syncLabel(session.source, sessions.findIndex((item) => item.id === session.id) + 1),
+        role: `${allMembers.filter((member) => member.sessionId === session.id).length} contacts`,
+        company: new Date(session.startedAt).toLocaleString(),
+        visualSeed: `sync-${session.id}`,
+        joinedAt: session.startedAt.toISOString(),
+      })),
+    ],
+    edges: [
+      ...activeSessions.flatMap((session) => {
+        const root = badgeByHardware.get(session.observerHardwareId);
+        if (!root) return [];
+        const memberCount = allMembers.filter((member) => member.sessionId === session.id).length;
+        return [{
+          id: `sync-root:${session.id}`,
+          sourceId: root.id,
+          targetId: `sync:${session.id}`,
+          firstSeenAt: session.startedAt.toISOString(),
+          lastSeenAt: session.startedAt.toISOString(),
+          bumpCount: memberCount,
+        }];
+      }),
+      ...members.flatMap((member) => {
+        const peer = badgeByHardware.get(member.peerHardwareId);
+        if (!peer) return [];
+        return [{
+          id: `sync-member:${member.sessionId}:${member.peerHardwareId}`,
+          sourceId: `sync:${member.sessionId}`,
+          targetId: peer.id,
+          firstSeenAt: member.firstSeenAt.toISOString(),
+          lastSeenAt: member.lastSeenAt.toISOString(),
+          bumpCount: member.bumpCount,
+        }];
+      }),
+    ],
+    sessions: sessions.map((session, index) => ({
+      id: session.id,
+      label: syncLabel(session.source, index + 1),
+      startedAt: session.startedAt.toISOString(),
+      contactCount: allMembers.filter((member) => member.sessionId === session.id).length,
+    })),
+    visibleThroughSessionId: activeSessions.at(-1)?.id ?? null,
+  };
+}
+
+export async function getGraph(throughSessionId?: string) {
   const visibleBadges = await db
     .select()
     .from(badges)
     .where(and(eq(badges.active, true), ne(badges.projectorIdentity, "hidden")))
     .orderBy(badges.createdAt);
 
-  const visibleIds = visibleBadges.map((badge) => badge.id);
-  const allConnections = visibleIds.length
-    ? await db
-        .select()
-        .from(connections)
-        .where(and(inArray(connections.badgeAId, visibleIds), inArray(connections.badgeBId, visibleIds)))
-        .orderBy(connections.firstSeenAt)
-    : [];
-
-  return {
-    generatedAt: new Date().toISOString(),
-    nodes: visibleBadges.map((badge) => ({
-      id: badge.id,
-      displayName: displayName(badge),
-      role: badge.role,
-      company: badge.company,
-      visualSeed: badge.visualSeed,
-      joinedAt: badge.createdAt.toISOString(),
-    })),
-    edges: allConnections.map((connection) => ({
-      id: connection.id,
-      sourceId: connection.badgeAId,
-      targetId: connection.badgeBId,
-      firstSeenAt: connection.firstSeenAt.toISOString(),
-      lastSeenAt: connection.lastSeenAt.toISOString(),
-      bumpCount: connection.bumpCount,
-    })),
-  };
+  return getSessionGraph(visibleBadges.map((badge) => ({
+    id: badge.id, hardwareId: badge.hardwareId, displayName: displayName(badge),
+    role: badge.role, company: badge.company, visualSeed: badge.visualSeed, joinedAt: badge.createdAt,
+  })), throughSessionId);
 }
 
-export async function getHistoricalGraph() {
+export async function getHistoricalGraph(throughSessionId?: string) {
   const visibleBadges = await db.select().from(historicalBadges).orderBy(historicalBadges.firstSeenAt);
-  const visibleIds = visibleBadges.map((badge) => badge.id);
-  const allConnections = visibleIds.length
-    ? await db
-        .select()
-        .from(historicalConnections)
-        .where(and(inArray(historicalConnections.badgeAId, visibleIds), inArray(historicalConnections.badgeBId, visibleIds)))
-        .orderBy(historicalConnections.firstSeenAt)
-    : [];
-
-  return {
-    generatedAt: new Date().toISOString(),
-    nodes: visibleBadges.map((badge) => ({
-      id: badge.id,
-      displayName: badge.displayName,
-      role: badge.role,
-      company: badge.company,
-      visualSeed: badge.visualSeed,
-      joinedAt: badge.firstSeenAt.toISOString(),
-    })),
-    edges: allConnections.map((connection) => ({
-      id: connection.id,
-      sourceId: connection.badgeAId,
-      targetId: connection.badgeBId,
-      firstSeenAt: connection.firstSeenAt.toISOString(),
-      lastSeenAt: connection.lastSeenAt.toISOString(),
-      bumpCount: connection.bumpCount,
-    })),
-  };
+  return getSessionGraph(visibleBadges.map((badge) => ({
+    id: badge.id, hardwareId: badge.hardwareId, displayName: badge.displayName,
+    role: badge.role, company: badge.company, visualSeed: badge.visualSeed, joinedAt: badge.firstSeenAt,
+  })), throughSessionId);
 }
 
 type GraphWriter = Pick<typeof db, "insert" | "select" | "update">;
@@ -95,8 +149,19 @@ async function archiveBadge(writer: GraphWriter, badge: typeof badges.$inferSele
       id: badge.id,
       hardwareId: badge.hardwareId,
       displayName: displayName(badge),
+      publicAlias: badge.publicAlias,
+      name: badge.name,
       role: badge.role,
       company: badge.company,
+      bio: badge.bio,
+      attendeeId: badge.attendeeId,
+      profileVersion: badge.profileVersion,
+      claimId: badge.claimId,
+      email: badge.email,
+      phone: badge.phone,
+      linkedin: badge.linkedin,
+      discord: badge.discord,
+      provisionedAt: badge.provisionedAt,
       visualSeed: badge.visualSeed,
       firstSeenAt: badge.createdAt,
     })
@@ -153,6 +218,37 @@ export async function getNodeDetail(id: string) {
     company: badge.company,
     bio: badge.bio,
     visualSeed: badge.visualSeed,
+    attendeeId: badge.attendeeId,
+    claimId: badge.claimId,
+    profileVersion: badge.profileVersion,
+    provisionedAt: badge.provisionedAt?.toISOString() ?? null,
+    contact: {
+      email: badge.email,
+      phone: badge.phone,
+      linkedin: badge.linkedin,
+      discord: badge.discord,
+    },
+  };
+}
+
+/* Historical cards are served from the snapshot table, never the live badge
+ * table. A clear can therefore remove the live demo round without making old
+ * tiles uninspectable. */
+export async function getHistoricalNodeDetail(id: string) {
+  const badge = await db.query.historicalBadges.findFirst({
+    where: eq(historicalBadges.id, id),
+  });
+  if (!badge) return null;
+
+  return {
+    id: badge.id,
+    displayName: badge.name ?? badge.displayName,
+    publicAlias: badge.publicAlias ?? badge.displayName,
+    role: badge.role,
+    company: badge.company,
+    bio: badge.bio,
+    visualSeed: badge.visualSeed,
+    badgeId: badge.hardwareId,
     attendeeId: badge.attendeeId,
     claimId: badge.claimId,
     profileVersion: badge.profileVersion,
@@ -331,6 +427,14 @@ export async function listBadges() {
   return db.select().from(badges).orderBy(badges.name);
 }
 
+export async function createSyncSession(input: SyncSessionInput) {
+  const [session] = await db
+    .insert(syncSessions)
+    .values({ observerHardwareId: input.observer_id, source: input.source })
+    .returning();
+  return session!;
+}
+
 export async function processBump(input: BumpInput) {
   const reportedAt = new Date(input.timestamp);
   const result = await db.transaction(async (tx) => {
@@ -341,6 +445,7 @@ export async function processBump(input: BumpInput) {
         hardwareIdA: input.badge_id_a,
         hardwareIdB: input.badge_id_b,
         observerId: input.observer_id ?? null,
+        syncSessionId: input.sync_session_id ?? null,
         source: input.source,
         reportedAt,
         signalStrength: input.signal_strength ?? null,
@@ -416,6 +521,25 @@ export async function processBump(input: BumpInput) {
       .returning();
 
     await archiveAcceptedBump(tx, badgeA, badgeB, reportedAt);
+
+    if (input.sync_session_id) {
+      await tx
+        .insert(syncSessionMembers)
+        .values({
+          sessionId: input.sync_session_id,
+          observerHardwareId: input.badge_id_a,
+          peerHardwareId: input.badge_id_b,
+          firstSeenAt: reportedAt,
+          lastSeenAt: reportedAt,
+        })
+        .onConflictDoUpdate({
+          target: [syncSessionMembers.sessionId, syncSessionMembers.peerHardwareId],
+          set: {
+            lastSeenAt: reportedAt,
+            bumpCount: sql`${syncSessionMembers.bumpCount} + 1`,
+          },
+        });
+    }
 
     await tx
       .update(bumpEvents)

@@ -9,6 +9,7 @@ export const bumpInputSchema = z
     event_id: z.string().trim().min(8).max(160),
     source: z.string().trim().min(1).max(80).default("laptop-gateway"),
     observer_id: z.string().trim().min(1).max(128).optional(),
+    sync_session_id: z.string().uuid().optional(),
   })
   .refine((value) => value.badge_id_a !== value.badge_id_b, {
     message: "A badge cannot bump itself",
@@ -16,6 +17,13 @@ export const bumpInputSchema = z
   });
 
 export type BumpInput = z.infer<typeof bumpInputSchema>;
+
+export const syncSessionInputSchema = z.object({
+  observer_id: z.string().trim().min(1).max(128),
+  source: z.string().trim().min(1).max(80).default("badge-a-usb-sync"),
+});
+
+export type SyncSessionInput = z.infer<typeof syncSessionInputSchema>;
 
 export const badgeInputSchema = z.object({
   hardwareId: z.string().trim().min(1).max(128),

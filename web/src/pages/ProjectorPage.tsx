@@ -1,4 +1,4 @@
-import { Archive, Maximize2, Minus, Network, Plus, Radio, RotateCcw, Trash2, Users } from "lucide-react";
+import { Archive, ChevronLeft, ChevronRight, Maximize2, Minus, Network, Plus, Radio, RotateCcw, Trash2, Users } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { BrandMark } from "../components/BrandMark";
 import { GraphCanvas } from "../components/GraphCanvas";
@@ -8,7 +8,8 @@ import type { GraphNode, NodeDetail } from "../types";
 
 export function ProjectorPage({ mode = "current" }: { mode?: "current" | "history" }) {
   const historical = mode === "history";
-  const { graph, connectionState, recentConnection, error, refresh } = useGraph(mode);
+  const [throughSessionId, setThroughSessionId] = useState<string | undefined>();
+  const { graph, connectionState, recentConnection, error, refresh } = useGraph(mode, throughSessionId);
   const [selected, setSelected] = useState<GraphNode | null>(null);
   const [detail, setDetail] = useState<NodeDetail | null>(null);
   const [zoom, setZoom] = useState(1);
@@ -66,7 +67,7 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
     }
     let cancelled = false;
     setDetail(null);
-    fetch(`/api/nodes/${selected.id}`)
+    fetch(historical ? `/api/nodes/history/${selected.id}` : `/api/nodes/${selected.id}`)
       .then((response) => (response.ok ? response.json() : null))
       .then((node: NodeDetail | null) => {
         if (!cancelled) setDetail(node);
@@ -77,7 +78,7 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
     return () => {
       cancelled = true;
     };
-  }, [selected?.id]);
+  }, [historical, selected?.id]);
 
   const profileRows = useMemo(() => {
     if (!detail) return [] as Array<[string, string]>;
@@ -116,6 +117,15 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
     ? graph.edges.filter((edge) => edge.sourceId === selected.id || edge.targetId === selected.id).length
     : 0;
 
+  const visibleSessionIndex = graph?.visibleThroughSessionId
+    ? graph.sessions.findIndex((session) => session.id === graph.visibleThroughSessionId)
+    : -1;
+  const stepSession = (direction: -1 | 1) => {
+    if (!graph || visibleSessionIndex < 0) return;
+    const next = graph.sessions[visibleSessionIndex + direction];
+    if (next) setThroughSessionId(next.id);
+  };
+
   const toggleFullscreen = () => {
     if (document.fullscreenElement) void document.exitFullscreen();
     else void document.documentElement.requestFullscreen();
@@ -125,9 +135,33 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
     <main className="projector-shell">
       <header className="projector-header">
         <BrandMark />
-        <div className={`live-status ${connectionState}`}>
-          <span className="live-dot" />
-          {connectionState === "live" ? historical ? "Historical mosaic" : "Live mosaic" : connectionState}
+        <div className="projector-status">
+          <div className={`live-status ${connectionState}`}>
+            <span className="live-dot" />
+            {connectionState === "live" ? historical ? "Historical mosaic" : "Live mosaic" : connectionState}
+          </div>
+          {graph?.sessions.length ? (
+            <div className="sync-timeline" aria-label="Sync session timeline">
+            <button
+              type="button"
+              className="icon-button"
+              onClick={() => stepSession(-1)}
+              disabled={visibleSessionIndex <= 0}
+              title="Show the previous sync"
+            ><ChevronLeft size={17} /></button>
+            <span>
+              {graph.sessions[visibleSessionIndex]?.label ?? "No syncs"}
+              <small>{visibleSessionIndex + 1} of {graph.sessions.length} · cumulative</small>
+            </span>
+            <button
+              type="button"
+              className="icon-button"
+              onClick={() => stepSession(1)}
+              disabled={visibleSessionIndex >= graph.sessions.length - 1}
+              title="Show the next sync"
+            ><ChevronRight size={17} /></button>
+            </div>
+          ) : null}
         </div>
         <div className="header-actions">
           <a
@@ -165,7 +199,7 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
             zoom={zoom}
             selectedId={selected?.id ?? null}
             recentConnection={recentConnection}
-            onSelect={historical ? () => undefined : setSelected}
+            onSelect={(node) => setSelected(node?.kind === "badge" ? node : null)}
           />
         ) : (
           <div className="stage-message">
