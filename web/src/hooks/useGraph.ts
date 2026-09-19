@@ -13,19 +13,21 @@ interface BumpEvent {
   };
 }
 
-export function useGraph(mode: "current" | "history" = "current") {
+export function useGraph(mode: "current" | "history" = "current", throughSessionId?: string) {
   const [graph, setGraph] = useState<GraphSnapshot | null>(null);
   const [connectionState, setConnectionState] = useState<ConnectionState>("connecting");
   const [recentConnection, setRecentConnection] = useState<BumpEvent["connection"] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
-    const response = await fetch(mode === "history" ? "/api/graph/history" : "/api/graph");
+    const endpoint = mode === "history" ? "/api/graph/history" : "/api/graph";
+    const query = throughSessionId ? `?through=${encodeURIComponent(throughSessionId)}` : "";
+    const response = await fetch(endpoint + query);
     if (!response.ok) throw new Error("The mosaic could not be loaded.");
     const snapshot = (await response.json()) as GraphSnapshot;
     setGraph(snapshot);
     setError(null);
-  }, [mode]);
+  }, [mode, throughSessionId]);
 
   useEffect(() => {
     void refresh().catch((reason: unknown) => {

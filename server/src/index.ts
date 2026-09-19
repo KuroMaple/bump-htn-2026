@@ -10,8 +10,8 @@ import { hasBearerToken } from "./auth.js";
 import { config } from "./config.js";
 import { closeDatabase, db } from "./db/client.js";
 import { subscribe } from "./events.js";
-import { badgeInputSchema, bumpInputSchema } from "./schemas.js";
-import { clearGraph, getBadgePage, getGraph, getHistoricalGraph, getNodeDetail, listBadges, processBump, registerBadge } from "./service.js";
+import { badgeInputSchema, bumpInputSchema, syncSessionInputSchema } from "./schemas.js";
+import { clearGraph, createSyncSession, getBadgePage, getGraph, getHistoricalGraph, getHistoricalNodeDetail, getNodeDetail, listBadges, processBump, registerBadge } from "./service.js";
 
 const app = Fastify({ logger: true });
 
@@ -24,16 +24,25 @@ app.get("/api/health", async () => {
   return { status: "ok", time: new Date().toISOString() };
 });
 
-app.get("/api/graph", async () => getGraph());
+const graphQuery = z.object({ through: z.string().uuid().optional() });
+
+app.get("/api/graph", async (request) => getGraph(graphQuery.parse(request.query).through));
 
 /* A permanent, append-only graph. Its initial rows are seeded by migration
  * 0002 and clearGraph intentionally never touches its tables. */
-app.get("/api/graph/history", async () => getHistoricalGraph());
+app.get("/api/graph/history", async (request) => getHistoricalGraph(graphQuery.parse(request.query).through));
 
 app.get("/api/nodes/:id", async (request, reply) => {
   const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
   const node = await getNodeDetail(id);
   if (!node) return reply.code(404).send({ error: "Node not found" });
+  return node;
+});
+
+app.get("/api/nodes/history/:id", async (request, reply) => {
+  const { id } = request.params as { id: string };
+  const node = await getHistoricalNodeDetail(id);
+  if (!node) return reply.code(404).send({ error: "Historical node not found" });
   return node;
 });
 
@@ -75,6 +84,20 @@ app.post("/api/bumps", async (request, reply) => {
   }
   const result = await processBump(parsed.data);
   return reply.code(result.status === "accepted" ? 201 : 202).send(result);
+});
+
+/* The USB gateway opens one of these per physical badge connection. Every
+ * accepted contact sent with the returned ID becomes a visible branch. */
+app.post("/api/sync-sessions", async (request, reply) => {
+  if (!hasBearerToken(request, config.GATEWAY_API_KEY)) {
+    return reply.code(401).send({ error: "Invalid gateway credentials" });
+  }
+  const parsed = syncSessionInputSchema.safeParse(request.body);
+  if (!parsed.success) {
+    return reply.code(400).send({ error: "Invalid sync session", issues: parsed.error.issues });
+  }
+  const session = await createSyncSession(parsed.data);
+  return reply.code(201).send({ id: session.id, startedAt: session.startedAt.toISOString() });
 });
 
 app.get("/api/admin/badges", async (request, reply) => {

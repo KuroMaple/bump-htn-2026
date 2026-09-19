@@ -216,6 +216,26 @@ function drawTile(
   const top =
     node.y - size / 2;
 
+  /* A sync is an intermediate branch marker, not an attendee tile. The
+   * diamond makes the root -> sync -> person structure legible at a glance. */
+  if (node.kind === "session") {
+    context.save();
+    context.translate(node.x, node.y);
+    context.rotate(Math.PI / 4);
+    context.fillStyle = background;
+    context.fillRect(-size * 0.42, -size * 0.42, size * 0.84, size * 0.84);
+    context.strokeStyle = motif;
+    context.lineWidth = 2;
+    context.strokeRect(-size * 0.32, -size * 0.32, size * 0.64, size * 0.64);
+    context.restore();
+    context.fillStyle = motif;
+    context.font = `700 ${Math.max(8, size * 0.27)}px 'IBM Plex Mono', monospace`;
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText("S", node.x, node.y + 1);
+    return;
+  }
+
   /*
    * Square quilt background.
    */
