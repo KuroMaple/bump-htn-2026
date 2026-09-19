@@ -11,7 +11,7 @@ import { config } from "./config.js";
 import { closeDatabase, db } from "./db/client.js";
 import { subscribe } from "./events.js";
 import { badgeInputSchema, bumpInputSchema } from "./schemas.js";
-import { getBadgePage, getGraph, listBadges, processBump, registerBadge } from "./service.js";
+import { getBadgePage, getGraph, getNodeDetail, listBadges, processBump, registerBadge } from "./service.js";
 
 const app = Fastify({ logger: true });
 
@@ -25,6 +25,13 @@ app.get("/api/health", async () => {
 });
 
 app.get("/api/graph", async () => getGraph());
+
+app.get("/api/nodes/:id", async (request, reply) => {
+  const { id } = z.object({ id: z.string().uuid() }).parse(request.params);
+  const node = await getNodeDetail(id);
+  if (!node) return reply.code(404).send({ error: "Node not found" });
+  return node;
+});
 
 app.get("/api/badges/:token", async (request, reply) => {
   const { token } = z.object({ token: z.string().min(1).max(128) }).parse(request.params);

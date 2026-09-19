@@ -527,3 +527,77 @@ h6 {
   font-weight: 700;
   line-height: 1;
 }
+
+/* Contact card shown when a projector tile is clicked. */
+.person-badge-id { margin: 2px 0 10px; color: var(--faint); font: 400 11px "IBM Plex Mono", monospace; }
+.person-contact { display: grid; gap: 8px; margin: 4px 0 14px; padding: 12px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.person-contact > div { display: grid; grid-template-columns: 76px 1fr; align-items: baseline; gap: 10px; }
+.person-contact dt { color: var(--faint); font: 400 10px "IBM Plex Mono", monospace; letter-spacing: 0.06em; text-transform: uppercase; }
+.person-contact dd { margin: 0; color: var(--text); font: 400 12px "IBM Plex Mono", monospace; word-break: break-word; }
+.person-contact-empty { margin: 4px 0 14px; color: var(--faint); font-size: 12px; }
+
+/* =========================================================
+   FOCUSED PROFILE POPUP
+   The quilt theme forces navy (#243c73) text onto the panel, which sits
+   on a near-black background — so the card rendered navy-on-navy and was
+   effectively unreadable. Lighten the panel and switch to cream text.
+   Must come last and use !important to beat the theme's own !important.
+   ========================================================= */
+
+.person-panel {
+  background: rgba(52, 78, 140, 0.97) !important;
+  border: 1px solid rgba(244, 238, 223, 0.30) !important;
+  box-shadow: 0 18px 48px rgba(36, 60, 115, 0.45) !important;
+}
+
+/* Primary text: cream, matching the page background. */
+.person-panel,
+.person-panel h2,
+.person-panel .eyebrow,
+.person-meta,
+.person-badge-id,
+.person-contact dt,
+.person-contact dd,
+.person-contact-empty,
+.panel-close,
+.connection-count,
+.connection-count strong,
+.connection-count span {
+  color: var(--quilt-cream, #f4eedf) !important;
+}
+
+/* Headline and the connection number lift to pure white. */
+.person-panel h2,
+.connection-count strong {
+  color: #ffffff !important;
+}
+
+/* Secondary text sits back without dropping out of contrast. */
+.person-panel .eyebrow,
+.person-meta,
+.person-badge-id,
+.person-contact dt,
+.person-contact-empty,
+.connection-count span {
+  color: rgba(244, 238, 223, 0.74) !important;
+}
+
+/* Dividers need to read against the lighter panel too. */
+.person-contact,
+.connection-count {
+  border-color: rgba(244, 238, 223, 0.26) !important;
+}
+
+/* Fullscreen toggle: match the focused profile panel so the two floating
+   chrome elements read as the same surface. */
+.icon-button {
+  color: var(--quilt-cream, #f4eedf) !important;
+  background: rgba(52, 78, 140, 0.97) !important;
+  border: 1px solid rgba(244, 238, 223, 0.30) !important;
+  box-shadow: 0 8px 20px rgba(36, 60, 115, 0.28) !important;
+}
+.icon-button:hover {
+  color: #ffffff !important;
+  background: rgba(62, 90, 158, 0.99) !important;
+  border-color: rgba(244, 238, 223, 0.50) !important;
+}

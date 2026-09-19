@@ -48,6 +48,34 @@ export async function getGraph() {
   };
 }
 
+/* Contact card for one node, fetched when a tile is clicked on the projector.
+ * Deliberately a per-node lookup rather than folding contact details into
+ * /api/graph, so the whole room's contact list is not served in one request.
+ * Badges set to "hidden" are excluded entirely. */
+export async function getNodeDetail(id: string) {
+  const badge = await db.query.badges.findFirst({
+    where: and(eq(badges.id, id), eq(badges.active, true)),
+  });
+  if (!badge || badge.projectorIdentity === "hidden") return null;
+
+  return {
+    id: badge.id,
+    displayName: badge.name,
+    publicAlias: badge.publicAlias,
+    role: badge.role,
+    company: badge.company,
+    bio: badge.bio,
+    visualSeed: badge.visualSeed,
+    badgeId: badge.hardwareId,
+    contact: {
+      email: badge.email,
+      phone: badge.phone,
+      linkedin: badge.linkedin,
+      discord: badge.discord,
+    },
+  };
+}
+
 export async function getBadgePage(token: string) {
   const badge = await db.query.badges.findFirst({
     where: and(eq(badges.privateToken, token), eq(badges.active, true)),

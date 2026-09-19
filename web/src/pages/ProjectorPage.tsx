@@ -4,11 +4,46 @@ import { BrandMark } from "../components/BrandMark";
 import { GraphCanvas } from "../components/GraphCanvas";
 import { PixelTile } from "../components/PixelTile";
 import { useGraph } from "../hooks/useGraph";
-import type { GraphNode } from "../types";
+import type { GraphNode, NodeDetail } from "../types";
 
 export function ProjectorPage() {
   const { graph, connectionState, recentConnection, error, refresh } = useGraph();
   const [selected, setSelected] = useState<GraphNode | null>(null);
+  const [detail, setDetail] = useState<NodeDetail | null>(null);
+
+  /* Contact details are not in /api/graph; fetch the clicked node on demand. */
+  useEffect(() => {
+    if (!selected) {
+      setDetail(null);
+      return;
+    }
+    let cancelled = false;
+    setDetail(null);
+    fetch(`/api/nodes/${selected.id}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((node: NodeDetail | null) => {
+        if (!cancelled) setDetail(node);
+      })
+      .catch(() => {
+        if (!cancelled) setDetail(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selected?.id]);
+
+  const contactRows = useMemo(() => {
+    const contact = detail?.contact;
+    if (!contact) return [] as Array<[string, string]>;
+    return ([
+      ["Email", contact.email],
+      ["Phone", contact.phone],
+      ["LinkedIn", contact.linkedin],
+      ["Discord", contact.discord],
+    ] as Array<[string, string | null]>).filter(
+      (row): row is [string, string] => Boolean(row[1]),
+    );
+  }, [detail]);
 
   const recentPeople = useMemo(() => {
     if (!graph || !recentConnection) return null;
@@ -80,8 +115,25 @@ export function ProjectorPage() {
               <button className="panel-close" type="button" onClick={() => setSelected(null)} aria-label="Close details">×</button>
               <PixelTile seed={selected.visualSeed} size={96} label={`${selected.displayName}'s mosaic tile`} />
               <p className="eyebrow">Attendee</p>
-              <h2>{selected.displayName}</h2>
-              <p className="person-meta">{[selected.role, selected.company].filter(Boolean).join(" · ") || "Here to connect"}</p>
+              <h2>{detail?.displayName ?? selected.displayName}</h2>
+              <p className="person-meta">
+                {[detail?.role ?? selected.role, detail?.company ?? selected.company]
+                  .filter(Boolean)
+                  .join(" · ") || "Here to connect"}
+              </p>
+              {detail?.badgeId ? <p className="person-badge-id">{detail.badgeId}</p> : null}
+              {contactRows.length > 0 ? (
+                <dl className="person-contact">
+                  {contactRows.map(([label, value]) => (
+                    <div key={label}>
+                      <dt>{label}</dt>
+                      <dd>{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : (
+                <p className="person-contact-empty">No contact details captured</p>
+              )}
               <div className="connection-count"><strong>{selectedConnections}</strong><span>direct connections</span></div>
             </>
           ) : null}

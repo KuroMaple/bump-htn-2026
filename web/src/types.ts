@@ -22,6 +22,24 @@ export interface GraphSnapshot {
   edges: GraphEdge[];
 }
 
+/* Per-node contact card, served by GET /api/nodes/:id when a tile is clicked. */
+export interface NodeDetail {
+  id: string;
+  displayName: string;
+  publicAlias: string;
+  role: string | null;
+  company: string | null;
+  bio: string | null;
+  visualSeed: string;
+  badgeId: string;
+  contact: {
+    email: string | null;
+    phone: string | null;
+    linkedin: string | null;
+    discord: string | null;
+  };
+}
+
 export interface BadgePageData {
   badge: {
     displayName: string;
