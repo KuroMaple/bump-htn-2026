@@ -36,6 +36,27 @@
       "when": 1789851727023,
       "tag": "0004_vengeful_stellaris",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1789860079347,
+      "tag": "0005_blue_nova",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1789861547934,
+      "tag": "0006_tearful_steel_serpent",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1789866708187,
+      "tag": "0007_fixed_magneto",
+      "breakpoints": true
     }
   ]
 }

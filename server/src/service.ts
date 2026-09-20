@@ -6,6 +6,7 @@ import { db } from "./db/client.js";
 import { badges, bumpEvents, connections, historicalBadges, historicalConnections, syncSessionMembers, syncSessions } from "./db/schema.js";
 import { publish } from "./events.js";
 import type { BadgeInput, BumpInput, SyncSessionInput } from "./schemas.js";
+import { getHistoricalTeamLinks, getTeamLinks, syncHistoricalTeamMemberships } from "./team-match.js";
 
 function displayName(badge: typeof badges.$inferSelect) {
   return badge.projectorIdentity === "real_name" ? badge.name : badge.publicAlias;
@@ -14,6 +15,7 @@ function displayName(badge: typeof badges.$inferSelect) {
 type ProjectedBadge = {
   id: string;
   hardwareId: string;
+  isRoot: boolean;
   displayName: string;
   role: string | null;
   company: string | null;
@@ -113,11 +115,65 @@ async function loadTimelineSteps(): Promise<TimelineStep[]> {
     .map(([key, step]) => ({ key, startedAt: step.startedAt, contacts: [...step.contacts.values()] }));
 }
 
+/* The permanent board cannot depend on bump_events: a live-board reset clears
+ * that retry/dedup log. Historical connections carry their own first/last-seen
+ * timestamps and point at historical_badges, so this reader stays valid after
+ * every live reset. A pair is placed in the hour of its first archived bump;
+ * older archives intentionally retain pair-level, not per-observation, data. */
+async function loadHistoricalTimelineSteps(visibleBadges: ProjectedBadge[]): Promise<TimelineStep[]> {
+  const badgeById = new Map(visibleBadges.map((badge) => [badge.id, badge]));
+  const edges = await db
+    .select()
+    .from(historicalConnections)
+    .orderBy(historicalConnections.firstSeenAt);
+  const steps = new Map<string, { startedAt: Date; contacts: Map<string, TimelineContact> }>();
+
+  for (const edge of edges) {
+    const first = badgeById.get(edge.badgeAId);
+    const second = badgeById.get(edge.badgeBId);
+    if (!first || !second) continue;
+
+    /* Historical rows are stored as a canonical pair, not an observer/peer
+     * direction. Prefer Hassan's root as the branch origin when present; for
+     * older non-root pairs, retain a stable canonical orientation. */
+    const [observer, peer] = first.isRoot
+      ? [first, second]
+      : second.isRoot
+        ? [second, first]
+        : [first, second];
+    const key = hourKey(edge.firstSeenAt);
+    let step = steps.get(key);
+    if (!step) {
+      step = { startedAt: edge.firstSeenAt, contacts: new Map() };
+      steps.set(key, step);
+    }
+    const pairKey = `${observer.hardwareId}|${peer.hardwareId}`;
+    step.contacts.set(pairKey, {
+      observerHardwareId: observer.hardwareId,
+      peerHardwareId: peer.hardwareId,
+      firstSeenAt: edge.firstSeenAt,
+      lastSeenAt: edge.lastSeenAt,
+      bumpCount: edge.bumpCount,
+    });
+  }
+
+  return [...steps.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([key, step]) => ({ key, startedAt: step.startedAt, contacts: [...step.contacts.values()] }));
+}
+
 /* Project accepted contacts as root -> hour -> person. The hour node is a
  * visual branch marker, not a person, and therefore has no detail card. */
-async function getTimelineGraph(visibleBadges: ProjectedBadge[], throughStepKey?: string) {
+async function getTimelineGraph(
+  visibleBadges: ProjectedBadge[],
+  throughStepKey?: string,
+  /* Team links key on live badge ids, which the historical graph does not
+   * share, so only the live board asks for them. */
+  options: { includeTeamLinks?: boolean; loadSteps?: () => Promise<TimelineStep[]> } = {},
+) {
   const badgeByHardware = new Map(visibleBadges.map((badge) => [badge.hardwareId, badge]));
-  const allSteps = await loadTimelineSteps();
+  const badgeById = new Map(visibleBadges.map((badge) => [badge.id, badge]));
+  const allSteps = await (options.loadSteps ?? loadTimelineSteps)();
 
   /* An hour only becomes a step once both ends of one of its bumps are on the
    * board; clearing the live graph can leave events whose badges are gone. */
@@ -139,7 +195,11 @@ async function getTimelineGraph(visibleBadges: ProjectedBadge[], throughStepKey?
     usedHardware.add(contact.observerHardwareId);
     usedHardware.add(contact.peerHardwareId);
   }
-  const projectedBadges = visibleBadges.filter((badge) => usedHardware.has(badge.hardwareId));
+  /* Keep the local badge visible even before its first live edge (or after a
+   * reset). It is the stable origin of the mosaic, not merely a participant
+   * inferred from currently rendered contacts. */
+  const projectedBadges = visibleBadges.filter((badge) =>
+    badge.isRoot || usedHardware.has(badge.hardwareId));
 
   return {
     generatedAt: new Date().toISOString(),
@@ -147,6 +207,7 @@ async function getTimelineGraph(visibleBadges: ProjectedBadge[], throughStepKey?
       ...projectedBadges.map((badge) => ({
         id: badge.id,
         kind: "badge" as const,
+        isRoot: badge.isRoot,
         displayName: badge.displayName,
         role: badge.role,
         company: badge.company,
@@ -156,6 +217,7 @@ async function getTimelineGraph(visibleBadges: ProjectedBadge[], throughStepKey?
       ...activeSteps.map((step) => ({
         id: `hour:${step.key}`,
         kind: "session" as const,
+        isRoot: false,
         displayName: hourLabel(step.key),
         role: `${step.contacts.length} contacts`,
         company: hourDateLabel(step.key),
@@ -195,6 +257,19 @@ async function getTimelineGraph(visibleBadges: ProjectedBadge[], throughStepKey?
         }];
       }),
     ],
+    /* Team links are inferred from public sources, not observed by a badge.
+     * They ride in a separate array so the projector can draw them differently
+     * and never let an inference read as a real bump. */
+    teamLinks: (options.includeTeamLinks ? await getTeamLinks() : [])
+      .filter((link) => badgeById.has(link.badgeAId) && badgeById.has(link.badgeBId))
+      .map((link) => ({
+        id: `team:${link.projectSlug}:${link.badgeAId}:${link.badgeBId}`,
+        sourceId: link.badgeAId,
+        targetId: link.badgeBId,
+        projectTitle: link.projectTitle,
+        projectUrl: link.projectUrl,
+        confidence: link.confidence,
+      })),
     sessions: steps.map((step) => ({
       id: step.key,
       label: hourLabel(step.key),
@@ -214,16 +289,35 @@ export async function getGraph(throughSessionId?: string) {
 
   return getTimelineGraph(visibleBadges.map((badge) => ({
     id: badge.id, hardwareId: badge.hardwareId, displayName: displayName(badge),
+    isRoot: badge.hardwareId === config.ROOT_BADGE_ID,
     role: badge.role, company: badge.company, visualSeed: badge.visualSeed, joinedAt: badge.createdAt,
-  })), throughSessionId);
+  })), throughSessionId, { includeTeamLinks: true });
 }
 
 export async function getHistoricalGraph(throughSessionId?: string) {
   const visibleBadges = await db.select().from(historicalBadges).orderBy(historicalBadges.firstSeenAt);
-  return getTimelineGraph(visibleBadges.map((badge) => ({
+  const projectedBadges = visibleBadges.map((badge) => ({
     id: badge.id, hardwareId: badge.hardwareId, displayName: badge.displayName,
+    isRoot: badge.hardwareId === config.ROOT_BADGE_ID,
     role: badge.role, company: badge.company, visualSeed: badge.visualSeed, joinedAt: badge.firstSeenAt,
-  })), throughSessionId);
+  }));
+  const graph = await getTimelineGraph(projectedBadges, throughSessionId, {
+    loadSteps: () => loadHistoricalTimelineSteps(projectedBadges),
+  });
+  const visibleIds = new Set(projectedBadges.map((badge) => badge.id));
+  return {
+    ...graph,
+    teamLinks: (await getHistoricalTeamLinks())
+      .filter((link) => visibleIds.has(link.badgeAId) && visibleIds.has(link.badgeBId))
+      .map((link) => ({
+        id: `team:${link.projectSlug}:${link.badgeAId}:${link.badgeBId}`,
+        sourceId: link.badgeAId,
+        targetId: link.badgeBId,
+        projectTitle: link.projectTitle,
+        projectUrl: link.projectUrl,
+        confidence: link.confidence,
+      })),
+  };
 }
 
 export async function searchNodes(query: string) {
@@ -392,6 +486,12 @@ export async function getHistoricalNodeDetail(id: string) {
       discord: badge.discord,
     },
   };
+}
+
+export async function getBadgeByHardwareId(hardwareId: string) {
+  return db.query.badges.findFirst({
+    where: and(eq(badges.hardwareId, hardwareId), eq(badges.active, true)),
+  });
 }
 
 export async function getBadgePage(token: string) {
@@ -690,6 +790,7 @@ export async function processBump(input: BumpInput) {
   });
 
   if (result.status === "accepted") {
+    await syncHistoricalTeamMemberships();
     publish({ type: "bump:accepted", connection: result.connection });
   }
   return result;
