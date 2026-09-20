@@ -11,7 +11,7 @@ import { config } from "./config.js";
 import { closeDatabase, db } from "./db/client.js";
 import { subscribe } from "./events.js";
 import { badgeInputSchema, bumpInputSchema, syncSessionInputSchema } from "./schemas.js";
-import { clearGraph, createSyncSession, getBadgePage, getGraph, getHistoricalGraph, getHistoricalNodeDetail, getNodeDetail, listBadges, processBump, registerBadge } from "./service.js";
+import { clearGraph, createSyncSession, getBadgePage, getGraph, getHistoricalGraph, getHistoricalNodeDetail, getNodeDetail, listBadges, processBump, registerBadge, searchHistoricalNodes, searchNodes } from "./service.js";
 
 const app = Fastify({ logger: true });
 
@@ -33,6 +33,12 @@ app.get("/api/graph", async (request) => getGraph(graphQuery.parse(request.query
 /* A permanent, append-only graph. Its initial rows are seeded by migration
  * 0002 and clearGraph intentionally never touches its tables. */
 app.get("/api/graph/history", async (request) => getHistoricalGraph(graphQuery.parse(request.query).through));
+
+const nodeSearchQuery = z.object({ q: z.string().trim().min(1).max(160) });
+
+app.get("/api/nodes/search", async (request) => searchNodes(nodeSearchQuery.parse(request.query).q));
+
+app.get("/api/nodes/history/search", async (request) => searchHistoricalNodes(nodeSearchQuery.parse(request.query).q));
 
 app.get("/api/nodes/:id", async (request, reply) => {
   const { id } = z.object({ id: z.string().uuid() }).parse(request.params);

@@ -1,5 +1,5 @@
 import { randomBytes } from "node:crypto";
-import { and, desc, eq, inArray, ne, notInArray, or, sql } from "drizzle-orm";
+import { and, desc, eq, ilike, inArray, ne, notInArray, or, sql } from "drizzle-orm";
 import { makeAlias } from "./aliases.js";
 import { config } from "./config.js";
 import { db } from "./db/client.js";
@@ -224,6 +224,46 @@ export async function getHistoricalGraph(throughSessionId?: string) {
     id: badge.id, hardwareId: badge.hardwareId, displayName: badge.displayName,
     role: badge.role, company: badge.company, visualSeed: badge.visualSeed, joinedAt: badge.firstSeenAt,
   })), throughSessionId);
+}
+
+export async function searchNodes(query: string) {
+  const pattern = `%${query}%`;
+  const matches = await db
+    .select()
+    .from(badges)
+    .where(and(
+      eq(badges.active, true),
+      ne(badges.projectorIdentity, "hidden"),
+      or(ilike(badges.name, pattern), ilike(badges.publicAlias, pattern)),
+    ))
+    .orderBy(badges.name)
+    .limit(8);
+
+  return matches.map((badge) => ({
+    id: badge.id,
+    officialName: badge.name,
+    displayName: displayName(badge),
+    role: badge.role,
+    company: badge.company,
+  }));
+}
+
+export async function searchHistoricalNodes(query: string) {
+  const pattern = `%${query}%`;
+  const matches = await db
+    .select()
+    .from(historicalBadges)
+    .where(or(ilike(historicalBadges.name, pattern), ilike(historicalBadges.displayName, pattern)))
+    .orderBy(historicalBadges.name)
+    .limit(8);
+
+  return matches.map((badge) => ({
+    id: badge.id,
+    officialName: badge.name ?? badge.displayName,
+    displayName: badge.displayName,
+    role: badge.role,
+    company: badge.company,
+  }));
 }
 
 type GraphWriter = Pick<typeof db, "insert" | "select" | "update">;

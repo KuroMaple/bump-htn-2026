@@ -1,10 +1,10 @@
 import { Archive, ChevronLeft, ChevronRight, Maximize2, Minus, Plus, Radio, RotateCcw, Trash2 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { BrandMark } from "../components/BrandMark";
 import { GraphCanvas } from "../components/GraphCanvas";
 import { PixelTile } from "../components/PixelTile";
 import { useGraph } from "../hooks/useGraph";
-import type { GraphNode, NodeDetail } from "../types";
+import type { AttendeeSearchResult, GraphNode, NodeDetail } from "../types";
 
 export function ProjectorPage({ mode = "current" }: { mode?: "current" | "history" }) {
   const historical = mode === "history";
@@ -14,6 +14,9 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
   const [detail, setDetail] = useState<NodeDetail | null>(null);
   const [zoom, setZoom] = useState(1);
   const [clearing, setClearing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState<AttendeeSearchResult[]>([]);
 
   /* The projector is the only operator screen, so it asks for the admin key
    * itself the first time and remembers it for the session. A rejected key is
@@ -126,6 +129,41 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
     if (next) setThroughSessionId(next.id);
   };
 
+  useEffect(() => {
+    const query = searchQuery.trim();
+    if (!query) {
+      setSearchResults([]);
+      return;
+    }
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => {
+      const endpoint = historical ? "/api/nodes/history/search" : "/api/nodes/search";
+      fetch(`${endpoint}?q=${encodeURIComponent(query)}`, { signal: controller.signal })
+        .then((response) => response.ok ? response.json() : [])
+        .then((results: AttendeeSearchResult[]) => setSearchResults(results))
+        .catch((error: unknown) => {
+          if (!(error instanceof DOMException && error.name === "AbortError")) setSearchResults([]);
+        });
+    }, 140);
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
+    };
+  }, [historical, searchQuery]);
+
+  const selectAttendee = (node: GraphNode, officialName = node.displayName) => {
+    setSelected(node);
+    setSearchQuery(officialName);
+    setSearchOpen(false);
+  };
+
+  const searchAttendees = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const match = searchResults[0];
+    const node = match && graph?.nodes.find((candidate) => candidate.id === match.id);
+    if (node) selectAttendee(node, match.officialName);
+  };
+
   const toggleFullscreen = () => {
     if (document.fullscreenElement) void document.exitFullscreen();
     else void document.documentElement.requestFullscreen();
@@ -136,28 +174,41 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
       <header className="projector-header">
         <BrandMark />
         <div className="projector-status">
-          {graph?.sessions.length ? (
-            <div className="sync-timeline" aria-label="Hourly timeline">
-            <button
-              type="button"
-              className="icon-button"
-              onClick={() => stepSession(-1)}
-              disabled={visibleSessionIndex <= 0}
-              title="Show the previous hour"
-            ><ChevronLeft size={17} /></button>
-            <span>
-              {graph.sessions[visibleSessionIndex]?.label ?? "No bumps yet"}
-              <small>{visibleSessionIndex + 1} of {graph.sessions.length}</small>
-            </span>
-            <button
-              type="button"
-              className="icon-button"
-              onClick={() => stepSession(1)}
-              disabled={visibleSessionIndex >= graph.sessions.length - 1}
-              title="Show the next hour"
-            ><ChevronRight size={17} /></button>
-            </div>
-          ) : null}
+          <form className="projector-search" role="search" onSubmit={searchAttendees}>
+            <label className="sr-only" htmlFor="attendee-search">Search attendee names</label>
+            <input
+              id="attendee-search"
+              type="search"
+              value={searchQuery}
+              onFocus={() => setSearchOpen(true)}
+              onChange={(event) => {
+                const value = event.target.value;
+                setSearchQuery(value);
+                setSearchOpen(true);
+              }}
+              placeholder="Search names"
+              autoComplete="off"
+            />
+            {searchOpen && searchQuery.trim() ? (
+              <div className="search-results" role="listbox" aria-label="Matching attendee names">
+                {searchResults.length ? searchResults.map((result) => {
+                  const node = graph?.nodes.find((candidate) => candidate.id === result.id);
+                  return (
+                  <button
+                    key={result.id}
+                    type="button"
+                    role="option"
+                    disabled={!node}
+                    onMouseDown={(event) => event.preventDefault()}
+                    onClick={() => node && selectAttendee(node, result.officialName)}
+                  >
+                    <strong>{result.officialName}</strong>
+                    <span>{[result.displayName !== result.officialName ? result.displayName : null, result.role, result.company].filter(Boolean).join(" · ")}</span>
+                  </button>
+                );}) : <p>No matching names</p>}
+              </div>
+            ) : null}
+          </form>
         </div>
         <div className="header-actions">
           <a
@@ -276,6 +327,28 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
           <span className="live-dot" />
           {connectionState === "live" ? historical ? "Historical mosaic" : "Live mosaic" : connectionState}
         </div>
+        {graph?.sessions.length ? (
+          <div className="sync-timeline" aria-label="Hourly timeline">
+            <button
+              type="button"
+              className="icon-button"
+              onClick={() => stepSession(-1)}
+              disabled={visibleSessionIndex <= 0}
+              title="Show the previous hour"
+            ><ChevronLeft size={17} /></button>
+            <span>
+              {graph.sessions[visibleSessionIndex]?.label ?? "No bumps yet"}
+              <small>{visibleSessionIndex + 1} of {graph.sessions.length}</small>
+            </span>
+            <button
+              type="button"
+              className="icon-button"
+              onClick={() => stepSession(1)}
+              disabled={visibleSessionIndex >= graph.sessions.length - 1}
+              title="Show the next hour"
+            ><ChevronRight size={17} /></button>
+          </div>
+        ) : <span />}
         <span>Hack the North, visualized</span>
       </footer>
     </main>

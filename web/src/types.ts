@@ -51,6 +51,14 @@ export interface NodeDetail {
   };
 }
 
+export interface AttendeeSearchResult {
+  id: string;
+  officialName: string;
+  displayName: string;
+  role: string | null;
+  company: string | null;
+}
+
 export interface BadgePageData {
   badge: {
     displayName: string;
