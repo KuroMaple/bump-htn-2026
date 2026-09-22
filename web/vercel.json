@@ -6,6 +6,7 @@
       "has": [{ "type": "query", "key": "through", "value": "(?<through>.*)" }],
       "destination": "/api/graph/history-steps/:through.json"
     },
+    { "source": "/api/graph/history", "destination": "/api/graph/history-full.json" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
