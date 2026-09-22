@@ -1,4 +1,4 @@
-import searchIndex from "../../../public/api/nodes/history/search-index.json";
+import searchIndex from "../../../public/api/nodes/history/search-index.json" with { type: "json" };
 
 /* Mirrors vite.config.ts's historySearchRouter (dev-only middleware) for
  * static production hosting: case-insensitive substring match on
