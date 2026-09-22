@@ -1,1 +1,19 @@
-{"id": "7afe8d2b-6013-41c7-a08e-0db6b7b80edb", "displayName": "Percy", "publicAlias": "Indigo Signal", "role": null, "company": null, "bio": null, "visualSeed": "7872c5838c5e19ba946947116e9d8fdf", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "7afe8d2b-6013-41c7-a08e-0db6b7b80edb",
+  "displayName": "Percy",
+  "publicAlias": "Indigo Signal",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "7872c5838c5e19ba946947116e9d8fdf",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "percy33@example.com",
+    "phone": "+1 555-0133",
+    "linkedin": "indigosignal-833",
+    "discord": "percy33"
+  }
+}

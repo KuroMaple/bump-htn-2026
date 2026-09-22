@@ -1,1 +1,19 @@
-{"id": "caa47730-0ed2-404d-8884-0922c768e5e8", "displayName": "Sophie", "publicAlias": "Kinetic Pulse", "role": null, "company": null, "bio": null, "visualSeed": "7bdac4106ed7968197c040189dbb3de2", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "caa47730-0ed2-404d-8884-0922c768e5e8",
+  "displayName": "Sophie",
+  "publicAlias": "Kinetic Pulse",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "7bdac4106ed7968197c040189dbb3de2",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "sophie64@example.com",
+    "phone": "+1 555-0164",
+    "linkedin": "kineticpulse-864",
+    "discord": "sophie64"
+  }
+}

@@ -1,1 +1,19 @@
-{"id": "00b74ff9-b51d-46c1-9700-773020ab3464", "displayName": "Anonymous", "publicAlias": "Velvet Beacon", "role": null, "company": null, "bio": null, "visualSeed": "c3ac150e152ecbd2e3bede1b2d62551c", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "00b74ff9-b51d-46c1-9700-773020ab3464",
+  "displayName": "Anonymous",
+  "publicAlias": "Velvet Beacon",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "c3ac150e152ecbd2e3bede1b2d62551c",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "anonymous23@example.com",
+    "phone": "+1 555-0123",
+    "linkedin": "velvetbeacon-323",
+    "discord": "anonymous23"
+  }
+}

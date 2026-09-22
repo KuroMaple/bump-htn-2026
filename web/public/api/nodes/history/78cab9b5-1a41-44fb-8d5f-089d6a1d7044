@@ -1,1 +1,19 @@
-{"id": "78cab9b5-1a41-44fb-8d5f-089d6a1d7044", "displayName": "Elrich", "publicAlias": "Indigo Relay", "role": null, "company": null, "bio": null, "visualSeed": "73f398fafb1e96e343bcf307cf23f05c", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "78cab9b5-1a41-44fb-8d5f-089d6a1d7044",
+  "displayName": "Elrich",
+  "publicAlias": "Indigo Relay",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "73f398fafb1e96e343bcf307cf23f05c",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "elrich41@example.com",
+    "phone": "+1 555-0141",
+    "linkedin": "indigorelay-941",
+    "discord": "elrich41"
+  }
+}

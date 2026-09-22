@@ -1,1 +1,19 @@
-{"id": "08c776c1-e6f8-4894-bd49-49d25f876e0e", "displayName": "Karan", "publicAlias": "Neon Signal", "role": null, "company": null, "bio": null, "visualSeed": "ffe60dbb4c5563cd891a7cee35d8a73a", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "08c776c1-e6f8-4894-bd49-49d25f876e0e",
+  "displayName": "Karan",
+  "publicAlias": "Neon Signal",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "ffe60dbb4c5563cd891a7cee35d8a73a",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "karan45@example.com",
+    "phone": "+1 555-0145",
+    "linkedin": "neonsignal-245",
+    "discord": "karan45"
+  }
+}

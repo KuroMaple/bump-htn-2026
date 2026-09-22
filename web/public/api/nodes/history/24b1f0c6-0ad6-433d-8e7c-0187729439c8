@@ -1,1 +1,19 @@
-{"id": "24b1f0c6-0ad6-433d-8e7c-0187729439c8", "displayName": "Laith", "publicAlias": "Gentle Circuit", "role": null, "company": null, "bio": null, "visualSeed": "a7ff5a8d61824c1a5365d648a152936e", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "24b1f0c6-0ad6-433d-8e7c-0187729439c8",
+  "displayName": "Laith",
+  "publicAlias": "Gentle Circuit",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "a7ff5a8d61824c1a5365d648a152936e",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "laith18@example.com",
+    "phone": "+1 555-0118",
+    "linkedin": "gentlecircuit-118",
+    "discord": "laith18"
+  }
+}

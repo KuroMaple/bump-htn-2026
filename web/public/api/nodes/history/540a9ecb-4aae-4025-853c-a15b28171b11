@@ -1,1 +1,19 @@
-{"id": "540a9ecb-4aae-4025-853c-a15b28171b11", "displayName": "Farida", "publicAlias": "Lunar Loop", "role": null, "company": null, "bio": null, "visualSeed": "3af8ff33b16affce13a4014050ab874e", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "540a9ecb-4aae-4025-853c-a15b28171b11",
+  "displayName": "Farida",
+  "publicAlias": "Lunar Loop",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "3af8ff33b16affce13a4014050ab874e",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "farida19@example.com",
+    "phone": "+1 555-0119",
+    "linkedin": "lunarloop-519",
+    "discord": "farida19"
+  }
+}

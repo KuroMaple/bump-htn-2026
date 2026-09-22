@@ -1,7 +1,5 @@
 {
-  "generatedAt": "2026-09-20T06:14:28.947782+00:00",
-  "visibleThroughSessionId": null,
-  "sessions": [],
+  "generatedAt": "2026-09-22T17:00:12.486469+00:00",
   "nodes": [
     {
       "id": "97678fc9-acf6-4fff-bf94-196e597893d8",
@@ -37,7 +35,7 @@
       "role": null,
       "company": null,
       "visualSeed": "0e3ca1daddbf1cbd2ad554729329016a",
-      "joinedAt": "2026-09-19T19:27:24.025+00:00"
+      "joinedAt": "2026-09-19T19:27:24.025000+00:00"
     },
     {
       "id": "799f0e0e-2573-4280-902b-bd29a63e1b23",
@@ -46,7 +44,7 @@
       "role": null,
       "company": null,
       "visualSeed": "0693bb60b97bb5837e5ec1fbce366ffd",
-      "joinedAt": "2026-09-19T20:35:20.862+00:00"
+      "joinedAt": "2026-09-19T20:35:20.862000+00:00"
     },
     {
       "id": "08c776c1-e6f8-4894-bd49-49d25f876e0e",
@@ -55,7 +53,7 @@
       "role": null,
       "company": null,
       "visualSeed": "ffe60dbb4c5563cd891a7cee35d8a73a",
-      "joinedAt": "2026-09-19T20:44:57.946+00:00"
+      "joinedAt": "2026-09-19T20:44:57.946000+00:00"
     },
     {
       "id": "1b547570-f9d0-462b-b76f-4cbb489a6d01",
@@ -64,7 +62,7 @@
       "role": null,
       "company": null,
       "visualSeed": "4d016eab138715ec5612d32fd88ffbff",
-      "joinedAt": "2026-09-19T20:47:25.165+00:00"
+      "joinedAt": "2026-09-19T20:47:25.165000+00:00"
     },
     {
       "id": "a7d485fc-56bc-4d97-96c9-37ebb7182799",
@@ -73,7 +71,7 @@
       "role": null,
       "company": null,
       "visualSeed": "eb228d72ee9b67b60ed5f33275943f0a",
-      "joinedAt": "2026-09-19T20:47:25.222+00:00"
+      "joinedAt": "2026-09-19T20:47:25.222000+00:00"
     },
     {
       "id": "94ff5f24-6aa7-4da1-ab29-828ba917766e",
@@ -82,7 +80,7 @@
       "role": null,
       "company": null,
       "visualSeed": "090348ac125be10fd9cd44947feb7725",
-      "joinedAt": "2026-09-19T20:47:25.245+00:00"
+      "joinedAt": "2026-09-19T20:47:25.245000+00:00"
     },
     {
       "id": "3d489596-a807-4ea8-8c0d-82becb1f002f",
@@ -91,7 +89,7 @@
       "role": null,
       "company": null,
       "visualSeed": "4e542f4adbb5ea6a4f5dfaf6e6380ddf",
-      "joinedAt": "2026-09-19T20:55:31.739+00:00"
+      "joinedAt": "2026-09-19T20:55:31.739000+00:00"
     },
     {
       "id": "e3e648f9-ee2d-4caf-a54b-015e705f3e20",
@@ -100,7 +98,7 @@
       "role": null,
       "company": null,
       "visualSeed": "94149df36468aa62f3dd59ea219c90df",
-      "joinedAt": "2026-09-19T21:21:19.415+00:00"
+      "joinedAt": "2026-09-19T21:21:19.415000+00:00"
     },
     {
       "id": "83e15332-3ee7-4d37-84c8-461d0a1f96e4",
@@ -109,7 +107,7 @@
       "role": null,
       "company": null,
       "visualSeed": "8901b21c8545d675298c8be80f44c542",
-      "joinedAt": "2026-09-19T21:32:11.764+00:00"
+      "joinedAt": "2026-09-19T21:32:11.764000+00:00"
     },
     {
       "id": "a993ce4c-cd7f-4be0-a7a4-cd11c34e2eac",
@@ -118,7 +116,7 @@
       "role": null,
       "company": null,
       "visualSeed": "6dc15bc04a6557e76b3a4cd06ed4a88a",
-      "joinedAt": "2026-09-19T21:33:57.054+00:00"
+      "joinedAt": "2026-09-19T21:33:57.054000+00:00"
     },
     {
       "id": "caa47730-0ed2-404d-8884-0922c768e5e8",
@@ -127,7 +125,7 @@
       "role": null,
       "company": null,
       "visualSeed": "7bdac4106ed7968197c040189dbb3de2",
-      "joinedAt": "2026-09-19T22:05:30.118+00:00"
+      "joinedAt": "2026-09-19T22:05:30.118000+00:00"
     },
     {
       "id": "c6d1cf95-f9ec-4dc4-b711-c8c236233e05",
@@ -136,7 +134,7 @@
       "role": null,
       "company": null,
       "visualSeed": "79f56d67e9367bd9f25fc83d3ca091ab",
-      "joinedAt": "2026-09-20T00:22:48.007+00:00"
+      "joinedAt": "2026-09-20T00:22:48.007000+00:00"
     },
     {
       "id": "8c18a44b-b964-43cf-b2bb-34f7b9f22358",
@@ -145,7 +143,7 @@
       "role": null,
       "company": null,
       "visualSeed": "bbe929e074280b78308d1ae6be7f10d5",
-      "joinedAt": "2026-09-20T00:22:48.05+00:00"
+      "joinedAt": "2026-09-20T00:22:48.050000+00:00"
     },
     {
       "id": "69fa8eb1-2904-48cd-a01a-593bea93ce87",
@@ -154,7 +152,7 @@
       "role": null,
       "company": null,
       "visualSeed": "ee953545b34ab5a33767f219f0b39729",
-      "joinedAt": "2026-09-20T00:22:48.104+00:00"
+      "joinedAt": "2026-09-20T00:22:48.104000+00:00"
     },
     {
       "id": "2ea085ad-59f3-459c-880f-e35f9f42e6c3",
@@ -163,7 +161,7 @@
       "role": null,
       "company": null,
       "visualSeed": "7396f68f7fb232f4d730a486635024ab",
-      "joinedAt": "2026-09-20T00:22:48.116+00:00"
+      "joinedAt": "2026-09-20T00:22:48.116000+00:00"
     },
     {
       "id": "b1e5ef78-9a71-46f4-bd48-d19f22c9cdfe",
@@ -172,7 +170,7 @@
       "role": null,
       "company": null,
       "visualSeed": "9a900dd42e6b13431b6b77fd9d064c5a",
-      "joinedAt": "2026-09-20T00:22:48.125+00:00"
+      "joinedAt": "2026-09-20T00:22:48.125000+00:00"
     },
     {
       "id": "540a9ecb-4aae-4025-853c-a15b28171b11",
@@ -181,7 +179,7 @@
       "role": null,
       "company": null,
       "visualSeed": "3af8ff33b16affce13a4014050ab874e",
-      "joinedAt": "2026-09-20T00:22:48.135+00:00"
+      "joinedAt": "2026-09-20T00:22:48.135000+00:00"
     },
     {
       "id": "59b089d0-f3f4-4e6b-87a5-cc655d8c7338",
@@ -190,7 +188,7 @@
       "role": null,
       "company": null,
       "visualSeed": "74e31973801755417870580c3ebf756f",
-      "joinedAt": "2026-09-20T00:22:48.164+00:00"
+      "joinedAt": "2026-09-20T00:22:48.164000+00:00"
     },
     {
       "id": "9394d304-1aa5-4120-aabd-c0ddc2c4d5e3",
@@ -199,7 +197,7 @@
       "role": null,
       "company": null,
       "visualSeed": "1c8541d33e34b19b5f3c170e9b78c545",
-      "joinedAt": "2026-09-20T00:25:06.195+00:00"
+      "joinedAt": "2026-09-20T00:25:06.195000+00:00"
     },
     {
       "id": "0d089d65-612e-4221-8a49-20443766c03e",
@@ -208,7 +206,7 @@
       "role": null,
       "company": null,
       "visualSeed": "3f47b66a500f1aa7c1b1196bc4466430",
-      "joinedAt": "2026-09-20T00:41:53.097+00:00"
+      "joinedAt": "2026-09-20T00:41:53.097000+00:00"
     },
     {
       "id": "00b74ff9-b51d-46c1-9700-773020ab3464",
@@ -217,7 +215,7 @@
       "role": null,
       "company": null,
       "visualSeed": "c3ac150e152ecbd2e3bede1b2d62551c",
-      "joinedAt": "2026-09-20T00:41:53.153+00:00"
+      "joinedAt": "2026-09-20T00:41:53.153000+00:00"
     },
     {
       "id": "a811f7bd-d453-4069-a30f-c7a0dd6c9ec1",
@@ -226,7 +224,7 @@
       "role": null,
       "company": null,
       "visualSeed": "e65f72a8c6419fed2f77a66e9fac83a9",
-      "joinedAt": "2026-09-20T00:41:53.249+00:00"
+      "joinedAt": "2026-09-20T00:41:53.249000+00:00"
     },
     {
       "id": "fbcf7f69-a2d4-4d85-b351-59ea5927b0d1",
@@ -235,7 +233,7 @@
       "role": null,
       "company": null,
       "visualSeed": "554d943734c0455ce4f8cff6aaf8141b",
-      "joinedAt": "2026-09-20T00:41:53.283+00:00"
+      "joinedAt": "2026-09-20T00:41:53.283000+00:00"
     },
     {
       "id": "afa95228-1549-4a31-9e7d-95fea1ac9bb3",
@@ -244,7 +242,7 @@
       "role": null,
       "company": null,
       "visualSeed": "408d8fd1c4f7d5a023ab4201b68f56d5",
-      "joinedAt": "2026-09-20T00:41:53.293+00:00"
+      "joinedAt": "2026-09-20T00:41:53.293000+00:00"
     },
     {
       "id": "062ac530-4e6b-4c45-9c91-56ec47e70933",
@@ -253,7 +251,7 @@
       "role": null,
       "company": null,
       "visualSeed": "5191bd35197eec00fb0bf9de77d1f79b",
-      "joinedAt": "2026-09-20T00:41:53.304+00:00"
+      "joinedAt": "2026-09-20T00:41:53.304000+00:00"
     },
     {
       "id": "78cab9b5-1a41-44fb-8d5f-089d6a1d7044",
@@ -262,7 +260,7 @@
       "role": null,
       "company": null,
       "visualSeed": "73f398fafb1e96e343bcf307cf23f05c",
-      "joinedAt": "2026-09-20T00:41:53.323+00:00"
+      "joinedAt": "2026-09-20T00:41:53.323000+00:00"
     },
     {
       "id": "72e42897-cdf1-4138-8ea2-0a6887fec755",
@@ -271,7 +269,7 @@
       "role": null,
       "company": null,
       "visualSeed": "5719c843105369540a12aa9fef6c7017",
-      "joinedAt": "2026-09-20T00:41:53.332+00:00"
+      "joinedAt": "2026-09-20T00:41:53.332000+00:00"
     },
     {
       "id": "007477ff-f81e-4677-a868-e254f1f0ef56",
@@ -280,7 +278,7 @@
       "role": null,
       "company": null,
       "visualSeed": "3c8e98cb3a0189f1efe04562e88541e6",
-      "joinedAt": "2026-09-20T00:41:53.348+00:00"
+      "joinedAt": "2026-09-20T00:41:53.348000+00:00"
     },
     {
       "id": "9d7c5bb4-e0e1-479f-b028-8ef4fe1f4a7d",
@@ -289,7 +287,7 @@
       "role": null,
       "company": null,
       "visualSeed": "009768cabe92a1cb0a254a6fc6ffa8bf",
-      "joinedAt": "2026-09-20T00:41:53.356+00:00"
+      "joinedAt": "2026-09-20T00:41:53.356000+00:00"
     },
     {
       "id": "61a68a42-f2c5-4026-94bc-ffcd3aae8b40",
@@ -298,7 +296,7 @@
       "role": null,
       "company": null,
       "visualSeed": "ceef434a9eabf3daa27cf01db56458c6",
-      "joinedAt": "2026-09-20T00:41:53.365+00:00"
+      "joinedAt": "2026-09-20T00:41:53.365000+00:00"
     },
     {
       "id": "24b1f0c6-0ad6-433d-8e7c-0187729439c8",
@@ -307,7 +305,7 @@
       "role": null,
       "company": null,
       "visualSeed": "a7ff5a8d61824c1a5365d648a152936e",
-      "joinedAt": "2026-09-20T00:41:53.378+00:00"
+      "joinedAt": "2026-09-20T00:41:53.378000+00:00"
     },
     {
       "id": "991ba252-9697-4012-b1ff-ed47c87b8148",
@@ -316,7 +314,7 @@
       "role": null,
       "company": null,
       "visualSeed": "7d4828a3ba0e3dbf0a8bab721c0c533b",
-      "joinedAt": "2026-09-20T00:41:53.395+00:00"
+      "joinedAt": "2026-09-20T00:41:53.395000+00:00"
     },
     {
       "id": "d43ca888-b1ff-46f5-8518-b493a3875d12",
@@ -325,7 +323,7 @@
       "role": null,
       "company": null,
       "visualSeed": "ae39f49fbc2259b89ee24e49816a77f6",
-      "joinedAt": "2026-09-20T00:41:53.406+00:00"
+      "joinedAt": "2026-09-20T00:41:53.406000+00:00"
     },
     {
       "id": "43e2e728-ed1a-4d36-b168-d158034dd544",
@@ -334,7 +332,7 @@
       "role": null,
       "company": null,
       "visualSeed": "b8cbe47a1360527d2a780be91df99dc4",
-      "joinedAt": "2026-09-20T00:41:53.415+00:00"
+      "joinedAt": "2026-09-20T00:41:53.415000+00:00"
     },
     {
       "id": "7afe8d2b-6013-41c7-a08e-0db6b7b80edb",
@@ -343,7 +341,7 @@
       "role": null,
       "company": null,
       "visualSeed": "7872c5838c5e19ba946947116e9d8fdf",
-      "joinedAt": "2026-09-20T00:41:53.424+00:00"
+      "joinedAt": "2026-09-20T00:41:53.424000+00:00"
     },
     {
       "id": "67453904-296c-414b-a0d7-b509a414be9c",
@@ -352,7 +350,7 @@
       "role": null,
       "company": null,
       "visualSeed": "b4fdf1d00ba8ffee8687d898fcadb9b8",
-      "joinedAt": "2026-09-20T00:41:53.433+00:00"
+      "joinedAt": "2026-09-20T00:41:53.433000+00:00"
     },
     {
       "id": "3913fc97-47b1-4aa1-a0d8-8dc2ca07ad10",
@@ -361,7 +359,7 @@
       "role": null,
       "company": null,
       "visualSeed": "9bc349e023d134f6889badad74a456a0",
-      "joinedAt": "2026-09-20T00:41:53.442+00:00"
+      "joinedAt": "2026-09-20T00:41:53.442000+00:00"
     },
     {
       "id": "8ffdc1dc-090a-4da0-b0ce-5ad1eb6ec476",
@@ -370,7 +368,7 @@
       "role": null,
       "company": null,
       "visualSeed": "88d8543aa1228e1b4839c1f86765a3e4",
-      "joinedAt": "2026-09-20T00:41:53.453+00:00"
+      "joinedAt": "2026-09-20T00:41:53.453000+00:00"
     },
     {
       "id": "116e47af-334b-4568-a4dd-c1b5ee4fb895",
@@ -379,7 +377,7 @@
       "role": null,
       "company": null,
       "visualSeed": "cf37ff395d5602a25b229b6cd75b414f",
-      "joinedAt": "2026-09-20T00:41:53.471+00:00"
+      "joinedAt": "2026-09-20T00:41:53.471000+00:00"
     },
     {
       "id": "d9d46569-6167-4b1e-9fb6-818a389381a0",
@@ -388,7 +386,7 @@
       "role": null,
       "company": null,
       "visualSeed": "b39a751ea950d7b761563f7e041343d1",
-      "joinedAt": "2026-09-20T01:08:27.932+00:00"
+      "joinedAt": "2026-09-20T01:08:27.932000+00:00"
     },
     {
       "id": "7acd1fce-2517-4594-b244-7cdd2677b7f5",
@@ -397,7 +395,7 @@
       "role": null,
       "company": null,
       "visualSeed": "2978fe56fbcfb10af22ba3d3552cf2be",
-      "joinedAt": "2026-09-20T01:08:27.987+00:00"
+      "joinedAt": "2026-09-20T01:08:27.987000+00:00"
     },
     {
       "id": "2918bab1-465a-43cf-9c4d-4a60c2399fa1",
@@ -406,7 +404,7 @@
       "role": null,
       "company": null,
       "visualSeed": "fbec958673e827a99215e251c2acfc52",
-      "joinedAt": "2026-09-20T01:08:28.024+00:00"
+      "joinedAt": "2026-09-20T01:08:28.024000+00:00"
     },
     {
       "id": "6e3770df-1420-44fd-90a3-30245ca7ab34",
@@ -415,7 +413,7 @@
       "role": null,
       "company": null,
       "visualSeed": "b074e3e4691f8cc60883be604981579a",
-      "joinedAt": "2026-09-20T04:32:58.501+00:00"
+      "joinedAt": "2026-09-20T04:32:58.501000+00:00"
     },
     {
       "id": "cbff58f0-a211-4cc6-8c1b-39757a3b593e",
@@ -424,7 +422,7 @@
       "role": null,
       "company": null,
       "visualSeed": "c9410ba88266be8749bc9e7c18a9a4cd",
-      "joinedAt": "2026-09-20T04:32:58.513+00:00"
+      "joinedAt": "2026-09-20T04:32:58.513000+00:00"
     },
     {
       "id": "23e8b9a9-4f9f-4812-87ed-8d150c9e7643",
@@ -433,7 +431,7 @@
       "role": null,
       "company": null,
       "visualSeed": "988d54f908bae3d5c3d13f3c68657626",
-      "joinedAt": "2026-09-20T04:44:58.604+00:00"
+      "joinedAt": "2026-09-20T04:44:58.604000+00:00"
     },
     {
       "id": "2019930a-4c1b-4e1b-95b2-cdc7974abb8a",
@@ -442,385 +440,677 @@
       "role": null,
       "company": null,
       "visualSeed": "f5814b617b8a6b886218fc899ab1baf7",
-      "joinedAt": "2026-09-20T04:44:58.676+00:00"
+      "joinedAt": "2026-09-20T04:44:58.676000+00:00"
+    },
+    {
+      "id": "04c4b2de-0958-49d3-b26e-8a75154497af",
+      "kind": "badge",
+      "displayName": "Mehar",
+      "role": null,
+      "company": null,
+      "visualSeed": "3f68f9c9219ce9db68fe2bf4c1d3f1f8",
+      "joinedAt": "2026-09-20T12:31:53.745000+00:00"
+    },
+    {
+      "id": "1b6944bb-c7f3-41d5-a42e-aa5e4774e469",
+      "kind": "badge",
+      "displayName": "isaacchacko",
+      "role": null,
+      "company": null,
+      "visualSeed": "39824c966536b5aec5a3b9c9a49c42d2",
+      "joinedAt": "2026-09-20T13:25:16.151000+00:00"
+    },
+    {
+      "id": "f45ca268-ae00-4302-b42c-cfc7b3af7e9f",
+      "kind": "badge",
+      "displayName": "Alex",
+      "role": null,
+      "company": null,
+      "visualSeed": "9144b0bfeb1698a328b0d973b72868f2",
+      "joinedAt": "2026-09-20T13:41:33.212000+00:00"
+    },
+    {
+      "id": "hour:2026-09-19T14",
+      "kind": "session",
+      "displayName": "2 PM",
+      "role": "1 contacts",
+      "company": "Sat, Sep 19",
+      "visualSeed": "hour-2026-09-19T14",
+      "joinedAt": "2026-09-19T18:50:10.015000+00:00"
+    },
+    {
+      "id": "hour:2026-09-19T15",
+      "kind": "session",
+      "displayName": "3 PM",
+      "role": "2 contacts",
+      "company": "Sat, Sep 19",
+      "visualSeed": "hour-2026-09-19T15",
+      "joinedAt": "2026-09-19T19:13:43.316000+00:00"
+    },
+    {
+      "id": "hour:2026-09-19T16",
+      "kind": "session",
+      "displayName": "4 PM",
+      "role": "6 contacts",
+      "company": "Sat, Sep 19",
+      "visualSeed": "hour-2026-09-19T16",
+      "joinedAt": "2026-09-19T20:34:05.218000+00:00"
+    },
+    {
+      "id": "hour:2026-09-19T17",
+      "kind": "session",
+      "displayName": "5 PM",
+      "role": "3 contacts",
+      "company": "Sat, Sep 19",
+      "visualSeed": "hour-2026-09-19T17",
+      "joinedAt": "2026-09-19T21:21:19.407000+00:00"
+    },
+    {
+      "id": "hour:2026-09-19T18",
+      "kind": "session",
+      "displayName": "6 PM",
+      "role": "1 contacts",
+      "company": "Sat, Sep 19",
+      "visualSeed": "hour-2026-09-19T18",
+      "joinedAt": "2026-09-19T22:05:30.106000+00:00"
+    },
+    {
+      "id": "hour:2026-09-19T20",
+      "kind": "session",
+      "displayName": "8 PM",
+      "role": "28 contacts",
+      "company": "Sat, Sep 19",
+      "visualSeed": "hour-2026-09-19T20",
+      "joinedAt": "2026-09-20T00:19:34.916000+00:00"
+    },
+    {
+      "id": "hour:2026-09-19T21",
+      "kind": "session",
+      "displayName": "9 PM",
+      "role": "3 contacts",
+      "company": "Sat, Sep 19",
+      "visualSeed": "hour-2026-09-19T21",
+      "joinedAt": "2026-09-20T01:08:27.921000+00:00"
+    },
+    {
+      "id": "hour:2026-09-20T00",
+      "kind": "session",
+      "displayName": "12 AM",
+      "role": "3 contacts",
+      "company": "Sun, Sep 20",
+      "visualSeed": "hour-2026-09-20T00",
+      "joinedAt": "2026-09-20T04:33:15.906000+00:00"
+    },
+    {
+      "id": "hour:2026-09-20T08",
+      "kind": "session",
+      "displayName": "8 AM",
+      "role": "1 contacts",
+      "company": "Sun, Sep 20",
+      "visualSeed": "hour-2026-09-20T08",
+      "joinedAt": "2026-09-20T12:31:53.738000+00:00"
+    },
+    {
+      "id": "hour:2026-09-20T09",
+      "kind": "session",
+      "displayName": "9 AM",
+      "role": "2 contacts",
+      "company": "Sun, Sep 20",
+      "visualSeed": "hour-2026-09-20T09",
+      "joinedAt": "2026-09-20T13:25:16.144000+00:00"
     }
   ],
   "edges": [
     {
-      "id": "35a0b28c-ff5c-43e8-b3d0-551e0c35f35f",
-      "sourceId": "78ab7a89-cb03-4bea-924e-3e364af0892b",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-19T18:50:10.015+00:00",
-      "lastSeenAt": "2026-09-19T18:50:10.015+00:00",
+      "id": "hour-root:2026-09-19T14:brave-moth-badger-vivid",
+      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "targetId": "hour:2026-09-19T14",
+      "firstSeenAt": "2026-09-19T18:50:10.015000+00:00",
+      "lastSeenAt": "2026-09-19T18:50:10.015000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "3d70d108-b0c5-4489-b987-d67fc82e95f3",
+      "id": "hour-root:2026-09-19T15:brave-moth-badger-vivid",
       "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "targetId": "hour:2026-09-19T15",
+      "firstSeenAt": "2026-09-19T19:13:43.316000+00:00",
+      "lastSeenAt": "2026-09-19T19:13:43.316000+00:00",
+      "bumpCount": 2
+    },
+    {
+      "id": "hour-root:2026-09-19T16:brave-moth-badger-vivid",
+      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "targetId": "hour:2026-09-19T16",
+      "firstSeenAt": "2026-09-19T20:34:05.218000+00:00",
+      "lastSeenAt": "2026-09-19T20:34:05.218000+00:00",
+      "bumpCount": 6
+    },
+    {
+      "id": "hour-root:2026-09-19T17:brave-moth-badger-vivid",
+      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "targetId": "hour:2026-09-19T17",
+      "firstSeenAt": "2026-09-19T21:21:19.407000+00:00",
+      "lastSeenAt": "2026-09-19T21:21:19.407000+00:00",
+      "bumpCount": 3
+    },
+    {
+      "id": "hour-root:2026-09-19T18:brave-moth-badger-vivid",
+      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "targetId": "hour:2026-09-19T18",
+      "firstSeenAt": "2026-09-19T22:05:30.106000+00:00",
+      "lastSeenAt": "2026-09-19T22:05:30.106000+00:00",
+      "bumpCount": 1
+    },
+    {
+      "id": "hour-root:2026-09-19T20:brave-moth-badger-vivid",
+      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "targetId": "hour:2026-09-19T20",
+      "firstSeenAt": "2026-09-20T00:19:34.916000+00:00",
+      "lastSeenAt": "2026-09-20T00:19:34.916000+00:00",
+      "bumpCount": 28
+    },
+    {
+      "id": "hour-root:2026-09-19T21:brave-moth-badger-vivid",
+      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "targetId": "hour:2026-09-19T21",
+      "firstSeenAt": "2026-09-20T01:08:27.921000+00:00",
+      "lastSeenAt": "2026-09-20T01:08:27.921000+00:00",
+      "bumpCount": 3
+    },
+    {
+      "id": "hour-root:2026-09-20T00:e8:3d:c1:29:87:00",
+      "sourceId": "6e3770df-1420-44fd-90a3-30245ca7ab34",
+      "targetId": "hour:2026-09-20T00",
+      "firstSeenAt": "2026-09-20T04:33:15.906000+00:00",
+      "lastSeenAt": "2026-09-20T04:33:15.906000+00:00",
+      "bumpCount": 1
+    },
+    {
+      "id": "hour-root:2026-09-20T00:brave-moth-badger-vivid",
+      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "targetId": "hour:2026-09-20T00",
+      "firstSeenAt": "2026-09-20T04:33:15.906000+00:00",
+      "lastSeenAt": "2026-09-20T04:33:15.906000+00:00",
+      "bumpCount": 2
+    },
+    {
+      "id": "hour-root:2026-09-20T08:brave-moth-badger-vivid",
+      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "targetId": "hour:2026-09-20T08",
+      "firstSeenAt": "2026-09-20T12:31:53.738000+00:00",
+      "lastSeenAt": "2026-09-20T12:31:53.738000+00:00",
+      "bumpCount": 1
+    },
+    {
+      "id": "hour-root:2026-09-20T09:brave-moth-badger-vivid",
+      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "targetId": "hour:2026-09-20T09",
+      "firstSeenAt": "2026-09-20T13:25:16.144000+00:00",
+      "lastSeenAt": "2026-09-20T13:25:16.144000+00:00",
+      "bumpCount": 2
+    },
+    {
+      "id": "hour-member:2026-09-19T14:brave-moth-badger-vivid:velvet-wind-calm-field",
+      "sourceId": "hour:2026-09-19T14",
+      "targetId": "78ab7a89-cb03-4bea-924e-3e364af0892b",
+      "firstSeenAt": "2026-09-19T18:50:10.015000+00:00",
+      "lastSeenAt": "2026-09-19T18:50:10.015000+00:00",
+      "bumpCount": 1
+    },
+    {
+      "id": "hour-member:2026-09-19T15:brave-moth-badger-vivid:reed-eagle-velvet-tiger",
+      "sourceId": "hour:2026-09-19T15",
       "targetId": "d374909c-abd1-4a3a-b5dd-2cb29d234dc9",
-      "firstSeenAt": "2026-09-19T19:13:43.316+00:00",
-      "lastSeenAt": "2026-09-19T19:13:43.316+00:00",
+      "firstSeenAt": "2026-09-19T19:13:43.316000+00:00",
+      "lastSeenAt": "2026-09-19T19:13:43.316000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "36ae78d6-779d-4846-a9d7-b673b126de8f",
-      "sourceId": "0c8ae560-6766-46dc-97e0-442a24d14a3e",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-19T19:27:24.017+00:00",
-      "lastSeenAt": "2026-09-19T19:27:24.017+00:00",
+      "id": "hour-member:2026-09-19T15:brave-moth-badger-vivid:nebula-gem-eager-amber",
+      "sourceId": "hour:2026-09-19T15",
+      "targetId": "0c8ae560-6766-46dc-97e0-442a24d14a3e",
+      "firstSeenAt": "2026-09-19T19:27:24.017000+00:00",
+      "lastSeenAt": "2026-09-19T19:27:24.017000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "90da0a2e-eb27-4290-8c84-11a0eb59b326",
-      "sourceId": "799f0e0e-2573-4280-902b-bd29a63e1b23",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-19T20:34:05.218+00:00",
-      "lastSeenAt": "2026-09-19T20:34:05.218+00:00",
+      "id": "hour-member:2026-09-19T16:brave-moth-badger-vivid:west-plum-crane-ocean",
+      "sourceId": "hour:2026-09-19T16",
+      "targetId": "799f0e0e-2573-4280-902b-bd29a63e1b23",
+      "firstSeenAt": "2026-09-19T20:34:05.218000+00:00",
+      "lastSeenAt": "2026-09-20T12:56:53.108000+00:00",
+      "bumpCount": 3
+    },
+    {
+      "id": "hour-member:2026-09-19T16:brave-moth-badger-vivid:salmon-field-flower-crown",
+      "sourceId": "hour:2026-09-19T16",
+      "targetId": "08c776c1-e6f8-4894-bd49-49d25f876e0e",
+      "firstSeenAt": "2026-09-19T20:44:57.938000+00:00",
+      "lastSeenAt": "2026-09-19T20:44:57.938000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "8777eeb4-5149-4b8d-992e-51876083d25f",
-      "sourceId": "08c776c1-e6f8-4894-bd49-49d25f876e0e",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-19T20:44:57.938+00:00",
-      "lastSeenAt": "2026-09-19T20:44:57.938+00:00",
+      "id": "hour-member:2026-09-19T16:brave-moth-badger-vivid:salmon-mist-fable-cloud",
+      "sourceId": "hour:2026-09-19T16",
+      "targetId": "1b547570-f9d0-462b-b76f-4cbb489a6d01",
+      "firstSeenAt": "2026-09-19T20:47:25.161000+00:00",
+      "lastSeenAt": "2026-09-19T20:47:25.161000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "e82a7a9f-37a7-4ea8-93ea-9b45de8bb714",
-      "sourceId": "1b547570-f9d0-462b-b76f-4cbb489a6d01",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-19T20:47:25.161+00:00",
-      "lastSeenAt": "2026-09-19T20:47:25.161+00:00",
-      "bumpCount": 1
-    },
-    {
-      "id": "8ecd7a2a-55fc-4dd2-b9af-2f4562fb3bb0",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T16:brave-moth-badger-vivid:horizon-jolly-wheat-panda",
+      "sourceId": "hour:2026-09-19T16",
       "targetId": "a7d485fc-56bc-4d97-96c9-37ebb7182799",
-      "firstSeenAt": "2026-09-19T20:47:25.221+00:00",
-      "lastSeenAt": "2026-09-19T20:47:25.221+00:00",
+      "firstSeenAt": "2026-09-19T20:47:25.221000+00:00",
+      "lastSeenAt": "2026-09-19T20:47:25.221000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "faeffb4b-7908-4efc-a747-681737fe78b6",
-      "sourceId": "94ff5f24-6aa7-4da1-ab29-828ba917766e",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-19T20:47:25.244+00:00",
-      "lastSeenAt": "2026-09-19T20:47:25.244+00:00",
+      "id": "hour-member:2026-09-19T16:brave-moth-badger-vivid:happy-rain-ember-honey",
+      "sourceId": "hour:2026-09-19T16",
+      "targetId": "94ff5f24-6aa7-4da1-ab29-828ba917766e",
+      "firstSeenAt": "2026-09-19T20:47:25.244000+00:00",
+      "lastSeenAt": "2026-09-19T20:47:25.244000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "e3dc6aab-a9ac-447f-96a9-3038ac86b7a0",
-      "sourceId": "3d489596-a807-4ea8-8c0d-82becb1f002f",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-19T20:55:31.725+00:00",
-      "lastSeenAt": "2026-09-19T20:55:31.725+00:00",
+      "id": "hour-member:2026-09-19T16:brave-moth-badger-vivid:cocoa-zebra-gecko-garden",
+      "sourceId": "hour:2026-09-19T16",
+      "targetId": "3d489596-a807-4ea8-8c0d-82becb1f002f",
+      "firstSeenAt": "2026-09-19T20:55:31.725000+00:00",
+      "lastSeenAt": "2026-09-19T20:55:31.725000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "9e6fb334-155d-4401-90e3-0fd4d8d3a3a0",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T17:brave-moth-badger-vivid:poppy-honey-ivy-dragon",
+      "sourceId": "hour:2026-09-19T17",
+      "targetId": "e3e648f9-ee2d-4caf-a54b-015e705f3e20",
+      "firstSeenAt": "2026-09-19T21:21:19.407000+00:00",
+      "lastSeenAt": "2026-09-20T00:48:24.245000+00:00",
+      "bumpCount": 2
+    },
+    {
+      "id": "hour-member:2026-09-19T17:brave-moth-badger-vivid:zephyr-poppy-thorn-leaf",
+      "sourceId": "hour:2026-09-19T17",
+      "targetId": "83e15332-3ee7-4d37-84c8-461d0a1f96e4",
+      "firstSeenAt": "2026-09-19T21:32:11.757000+00:00",
+      "lastSeenAt": "2026-09-19T23:29:09.398000+00:00",
+      "bumpCount": 2
+    },
+    {
+      "id": "hour-member:2026-09-19T17:brave-moth-badger-vivid:horse-creek-garden-cricket",
+      "sourceId": "hour:2026-09-19T17",
       "targetId": "a993ce4c-cd7f-4be0-a7a4-cd11c34e2eac",
-      "firstSeenAt": "2026-09-19T21:33:57.051+00:00",
-      "lastSeenAt": "2026-09-19T21:35:09.143+00:00",
+      "firstSeenAt": "2026-09-19T21:33:57.051000+00:00",
+      "lastSeenAt": "2026-09-19T21:35:09.143000+00:00",
       "bumpCount": 2
     },
     {
-      "id": "2c8d8dbf-05a3-494d-8c02-5b547dee8f23",
-      "sourceId": "83e15332-3ee7-4d37-84c8-461d0a1f96e4",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-19T21:32:11.757+00:00",
-      "lastSeenAt": "2026-09-19T23:29:09.398+00:00",
-      "bumpCount": 2
-    },
-    {
-      "id": "816d63cb-f269-4ffe-be86-a86537d338a3",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T18:brave-moth-badger-vivid:elm-happy-wing-swift",
+      "sourceId": "hour:2026-09-19T18",
       "targetId": "caa47730-0ed2-404d-8884-0922c768e5e8",
-      "firstSeenAt": "2026-09-19T22:05:30.106+00:00",
-      "lastSeenAt": "2026-09-19T23:44:53.981+00:00",
+      "firstSeenAt": "2026-09-19T22:05:30.106000+00:00",
+      "lastSeenAt": "2026-09-19T23:44:53.981000+00:00",
       "bumpCount": 5
     },
     {
-      "id": "b357b846-aefa-4f78-b3a2-3fd69a6e9173",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:star-snow-aspen-wren",
+      "sourceId": "hour:2026-09-19T20",
       "targetId": "c6d1cf95-f9ec-4dc4-b711-c8c236233e05",
-      "firstSeenAt": "2026-09-20T00:19:34.916+00:00",
-      "lastSeenAt": "2026-09-20T00:19:34.916+00:00",
+      "firstSeenAt": "2026-09-20T00:19:34.916000+00:00",
+      "lastSeenAt": "2026-09-20T00:19:34.916000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "db8b1330-6f81-4724-9689-abac7957dfe8",
-      "sourceId": "8c18a44b-b964-43cf-b2bb-34f7b9f22358",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:19:34.926+00:00",
-      "lastSeenAt": "2026-09-20T00:19:34.926+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:mango-zebra-dawn-ivy",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "8c18a44b-b964-43cf-b2bb-34f7b9f22358",
+      "firstSeenAt": "2026-09-20T00:19:34.926000+00:00",
+      "lastSeenAt": "2026-09-20T00:19:34.926000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "0cfa90a9-a73d-4f4f-a6c3-705960ea16b1",
-      "sourceId": "69fa8eb1-2904-48cd-a01a-593bea93ce87",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:19:34.983+00:00",
-      "lastSeenAt": "2026-09-20T00:19:34.983+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:sunset-quartz-poppy-mink",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "69fa8eb1-2904-48cd-a01a-593bea93ce87",
+      "firstSeenAt": "2026-09-20T00:19:34.983000+00:00",
+      "lastSeenAt": "2026-09-20T00:19:34.983000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "050a8895-6ecb-4d56-8986-1f669aedfa17",
-      "sourceId": "2ea085ad-59f3-459c-880f-e35f9f42e6c3",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:19:34.993+00:00",
-      "lastSeenAt": "2026-09-20T00:19:34.993+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:shadow-autumn-orchid-cloud",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "2ea085ad-59f3-459c-880f-e35f9f42e6c3",
+      "firstSeenAt": "2026-09-20T00:19:34.993000+00:00",
+      "lastSeenAt": "2026-09-20T00:19:34.993000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "a5b0898f-dd53-4895-9f78-fd5a15b180ab",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:jade-wood-happy-noble",
+      "sourceId": "hour:2026-09-19T20",
       "targetId": "b1e5ef78-9a71-46f4-bd48-d19f22c9cdfe",
-      "firstSeenAt": "2026-09-20T00:19:34.998+00:00",
-      "lastSeenAt": "2026-09-20T00:19:34.998+00:00",
+      "firstSeenAt": "2026-09-20T00:19:34.998000+00:00",
+      "lastSeenAt": "2026-09-20T00:19:34.998000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "ae866490-fb2c-41c2-a350-0a5eccf145a6",
-      "sourceId": "540a9ecb-4aae-4025-853c-a15b28171b11",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:19:35.003+00:00",
-      "lastSeenAt": "2026-09-20T00:19:35.003+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:lucky-snow-hazy-toucan",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "540a9ecb-4aae-4025-853c-a15b28171b11",
+      "firstSeenAt": "2026-09-20T00:19:35.003000+00:00",
+      "lastSeenAt": "2026-09-20T00:19:35.003000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "3c8998b7-5249-4924-955a-17d14007fd13",
-      "sourceId": "59b089d0-f3f4-4e6b-87a5-cc655d8c7338",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:19:35.043+00:00",
-      "lastSeenAt": "2026-09-20T00:19:35.043+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:coffee-marlin-magpie-oak",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "59b089d0-f3f4-4e6b-87a5-cc655d8c7338",
+      "firstSeenAt": "2026-09-20T00:19:35.043000+00:00",
+      "lastSeenAt": "2026-09-20T00:19:35.043000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "32a0376b-4803-4ed1-9587-8cec4a6717c4",
-      "sourceId": "9394d304-1aa5-4120-aabd-c0ddc2c4d5e3",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:25:06.191+00:00",
-      "lastSeenAt": "2026-09-20T00:25:06.191+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:flower-peach-jay-panda",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "9394d304-1aa5-4120-aabd-c0ddc2c4d5e3",
+      "firstSeenAt": "2026-09-20T00:25:06.191000+00:00",
+      "lastSeenAt": "2026-09-20T00:25:06.191000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "d77d6c47-97dd-4f36-bbdf-51d6eec614c8",
-      "sourceId": "0d089d65-612e-4221-8a49-20443766c03e",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.083+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.083+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:delta-glacier-sparrow-pine",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "0d089d65-612e-4221-8a49-20443766c03e",
+      "firstSeenAt": "2026-09-20T00:41:53.083000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.083000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "5d0fcc06-ffd0-40d2-b53b-7e62e1076390",
-      "sourceId": "00b74ff9-b51d-46c1-9700-773020ab3464",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.152+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.152+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:pine-wren-wood-coral",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "00b74ff9-b51d-46c1-9700-773020ab3464",
+      "firstSeenAt": "2026-09-20T00:41:53.152000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.152000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "02267cf6-20c1-499b-a1b7-aface63f0ea9",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:swift-dream-bison-meadow",
+      "sourceId": "hour:2026-09-19T20",
       "targetId": "a811f7bd-d453-4069-a30f-c7a0dd6c9ec1",
-      "firstSeenAt": "2026-09-20T00:41:53.246+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.246+00:00",
+      "firstSeenAt": "2026-09-20T00:41:53.246000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.246000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "20cfbc5d-783e-465c-99f3-b774940b8e81",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:mist-petal-zephyr-moose",
+      "sourceId": "hour:2026-09-19T20",
       "targetId": "fbcf7f69-a2d4-4d85-b351-59ea5927b0d1",
-      "firstSeenAt": "2026-09-20T00:41:53.283+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.283+00:00",
+      "firstSeenAt": "2026-09-20T00:41:53.283000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.283000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "d6c640e1-a5a5-4f9f-9b9a-deb2a4726ef9",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:dove-moss-lime-grove",
+      "sourceId": "hour:2026-09-19T20",
       "targetId": "afa95228-1549-4a31-9e7d-95fea1ac9bb3",
-      "firstSeenAt": "2026-09-20T00:41:53.293+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.293+00:00",
+      "firstSeenAt": "2026-09-20T00:41:53.293000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.293000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "d8bd1582-4f0d-4374-b225-b5eedd53477a",
-      "sourceId": "062ac530-4e6b-4c45-9c91-56ec47e70933",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.304+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.304+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:scarlet-candy-happy-bold",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "062ac530-4e6b-4c45-9c91-56ec47e70933",
+      "firstSeenAt": "2026-09-20T00:41:53.304000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.304000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "96c323df-8b3a-4821-8fd2-c33eb8fd2a02",
-      "sourceId": "78cab9b5-1a41-44fb-8d5f-089d6a1d7044",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.323+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.323+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:kiwi-sunset-salmon-lark",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "78cab9b5-1a41-44fb-8d5f-089d6a1d7044",
+      "firstSeenAt": "2026-09-20T00:41:53.323000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.323000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "1282a290-72dc-437a-b730-cd7acdbd2d6f",
-      "sourceId": "72e42897-cdf1-4138-8ea2-0a6887fec755",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.332+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.332+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:beach-sand-trout-grass",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "72e42897-cdf1-4138-8ea2-0a6887fec755",
+      "firstSeenAt": "2026-09-20T00:41:53.332000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.332000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "b6c2244f-b7d8-4e24-a7c1-ce7a68b22e78",
-      "sourceId": "007477ff-f81e-4677-a868-e254f1f0ef56",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.348+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.348+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:puffin-mango-elm-sand",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "007477ff-f81e-4677-a868-e254f1f0ef56",
+      "firstSeenAt": "2026-09-20T00:41:53.348000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.348000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "e3e4a0aa-db5a-4aa7-93b7-0c916e8348c3",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:mellow-opal-candy-cricket",
+      "sourceId": "hour:2026-09-19T20",
       "targetId": "9d7c5bb4-e0e1-479f-b028-8ef4fe1f4a7d",
-      "firstSeenAt": "2026-09-20T00:41:53.356+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.356+00:00",
+      "firstSeenAt": "2026-09-20T00:41:53.356000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.356000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "541c31d7-41cf-49c7-a6e4-646866b6463a",
-      "sourceId": "61a68a42-f2c5-4026-94bc-ffcd3aae8b40",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.365+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.365+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:honey-thorn-zebra-river",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "61a68a42-f2c5-4026-94bc-ffcd3aae8b40",
+      "firstSeenAt": "2026-09-20T00:41:53.365000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.365000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "6d470099-5d1e-4222-a942-b1c931c35fca",
-      "sourceId": "24b1f0c6-0ad6-433d-8e7c-0187729439c8",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.378+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.378+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:swan-berry-river-dream",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "24b1f0c6-0ad6-433d-8e7c-0187729439c8",
+      "firstSeenAt": "2026-09-20T00:41:53.378000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.378000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "ae6ffe21-a5c0-4fa5-96f5-3df1aa2d29da",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:star-candy-firefly-dusk",
+      "sourceId": "hour:2026-09-19T20",
       "targetId": "991ba252-9697-4012-b1ff-ed47c87b8148",
-      "firstSeenAt": "2026-09-20T00:41:53.394+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.394+00:00",
+      "firstSeenAt": "2026-09-20T00:41:53.394000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.394000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "6427dbfe-5b11-4394-9470-72c1f323a08e",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:calm-turtle-antler-grape",
+      "sourceId": "hour:2026-09-19T20",
       "targetId": "d43ca888-b1ff-46f5-8518-b493a3875d12",
-      "firstSeenAt": "2026-09-20T00:41:53.405+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.405+00:00",
+      "firstSeenAt": "2026-09-20T00:41:53.405000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.405000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "ea45b596-8ff3-42ef-807b-fbcf4340f885",
-      "sourceId": "43e2e728-ed1a-4d36-b168-d158034dd544",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.415+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.415+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:crane-crown-winter-dolphin",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "43e2e728-ed1a-4d36-b168-d158034dd544",
+      "firstSeenAt": "2026-09-20T00:41:53.415000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.415000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "bf9851f1-7764-4ded-bbbd-29fef2deebdd",
-      "sourceId": "7afe8d2b-6013-41c7-a08e-0db6b7b80edb",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.424+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.424+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:bright-cabin-apple-wind",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "7afe8d2b-6013-41c7-a08e-0db6b7b80edb",
+      "firstSeenAt": "2026-09-20T00:41:53.424000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.424000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "59095d66-b8f9-438a-b3d3-72faba5dddac",
-      "sourceId": "67453904-296c-414b-a0d7-b509a414be9c",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.433+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.433+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:grass-stone-lark-winter",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "67453904-296c-414b-a0d7-b509a414be9c",
+      "firstSeenAt": "2026-09-20T00:41:53.433000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.433000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "115f650f-fa26-4bd1-8b7a-6faf525fb482",
-      "sourceId": "3913fc97-47b1-4aa1-a0d8-8dc2ca07ad10",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.442+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.442+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:storm-velvet-glade-zephyr",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "3913fc97-47b1-4aa1-a0d8-8dc2ca07ad10",
+      "firstSeenAt": "2026-09-20T00:41:53.442000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.442000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "976a4064-b703-4436-801d-5e46cdc05f29",
-      "sourceId": "8ffdc1dc-090a-4da0-b0ce-5ad1eb6ec476",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.453+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.453+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:beach-cherry-cosmic-mango",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "8ffdc1dc-090a-4da0-b0ce-5ad1eb6ec476",
+      "firstSeenAt": "2026-09-20T00:41:53.453000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.453000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "2a2464e0-2b36-495b-a9e9-b61acc2b20da",
-      "sourceId": "116e47af-334b-4568-a4dd-c1b5ee4fb895",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T00:41:53.471+00:00",
-      "lastSeenAt": "2026-09-20T00:41:53.471+00:00",
+      "id": "hour-member:2026-09-19T20:brave-moth-badger-vivid:tide-wave-reed-cactus",
+      "sourceId": "hour:2026-09-19T20",
+      "targetId": "116e47af-334b-4568-a4dd-c1b5ee4fb895",
+      "firstSeenAt": "2026-09-20T00:41:53.471000+00:00",
+      "lastSeenAt": "2026-09-20T00:41:53.471000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "b5774827-e43e-4049-a26f-080a2d02efb9",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "targetId": "e3e648f9-ee2d-4caf-a54b-015e705f3e20",
-      "firstSeenAt": "2026-09-19T21:21:19.407+00:00",
-      "lastSeenAt": "2026-09-20T00:48:24.245+00:00",
-      "bumpCount": 2
-    },
-    {
-      "id": "241ca5df-f31c-4f21-b5b9-0e857cef1824",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "id": "hour-member:2026-09-19T21:brave-moth-badger-vivid:willow-turtle-ocean-summit",
+      "sourceId": "hour:2026-09-19T21",
       "targetId": "d9d46569-6167-4b1e-9fb6-818a389381a0",
-      "firstSeenAt": "2026-09-20T01:08:27.921+00:00",
-      "lastSeenAt": "2026-09-20T01:08:27.921+00:00",
+      "firstSeenAt": "2026-09-20T01:08:27.921000+00:00",
+      "lastSeenAt": "2026-09-20T01:08:27.921000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "5da27244-2bcf-4241-b3ea-e0921e752d10",
-      "sourceId": "7acd1fce-2517-4594-b244-7cdd2677b7f5",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T01:08:27.987+00:00",
-      "lastSeenAt": "2026-09-20T01:08:27.987+00:00",
+      "id": "hour-member:2026-09-19T21:brave-moth-badger-vivid:lemon-cedar-koala-cricket",
+      "sourceId": "hour:2026-09-19T21",
+      "targetId": "7acd1fce-2517-4594-b244-7cdd2677b7f5",
+      "firstSeenAt": "2026-09-20T01:08:27.987000+00:00",
+      "lastSeenAt": "2026-09-20T01:08:27.987000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "af7364c4-14ae-4f2f-81cc-264ce34ae447",
-      "sourceId": "2918bab1-465a-43cf-9c4d-4a60c2399fa1",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T01:08:28.023+00:00",
-      "lastSeenAt": "2026-09-20T01:08:28.023+00:00",
+      "id": "hour-member:2026-09-19T21:brave-moth-badger-vivid:mint-crisp-salmon-ginger",
+      "sourceId": "hour:2026-09-19T21",
+      "targetId": "2918bab1-465a-43cf-9c4d-4a60c2399fa1",
+      "firstSeenAt": "2026-09-20T01:08:28.023000+00:00",
+      "lastSeenAt": "2026-09-20T01:08:28.023000+00:00",
       "bumpCount": 1
     },
     {
-      "id": "2bbcd545-3024-46ac-be2c-1e27a2912873",
-      "sourceId": "23e8b9a9-4f9f-4812-87ed-8d150c9e7643",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T04:44:58.593+00:00",
-      "lastSeenAt": "2026-09-20T04:44:58.593+00:00",
-      "bumpCount": 1
-    },
-    {
-      "id": "65ebf74c-652d-4786-bfe6-9cc2cdd27c54",
-      "sourceId": "2019930a-4c1b-4e1b-95b2-cdc7974abb8a",
-      "targetId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "firstSeenAt": "2026-09-20T04:44:58.673+00:00",
-      "lastSeenAt": "2026-09-20T04:44:58.673+00:00",
-      "bumpCount": 1
-    },
-    {
-      "id": "e4523ba0-e8e8-4a01-8494-004a336ce91a",
-      "sourceId": "6e3770df-1420-44fd-90a3-30245ca7ab34",
+      "id": "hour-member:2026-09-20T00:e8:3d:c1:29:87:00:68:ee:8f:01:07:dc",
+      "sourceId": "hour:2026-09-20T00",
       "targetId": "cbff58f0-a211-4cc6-8c1b-39757a3b593e",
-      "firstSeenAt": "2026-09-20T04:33:15.906+00:00",
-      "lastSeenAt": "2026-09-20T05:43:00.671+00:00",
-      "bumpCount": 20
+      "firstSeenAt": "2026-09-20T04:33:15.906000+00:00",
+      "lastSeenAt": "2026-09-20T13:06:42.484000+00:00",
+      "bumpCount": 24
+    },
+    {
+      "id": "hour-member:2026-09-20T00:brave-moth-badger-vivid:copper-mango-panda-fable",
+      "sourceId": "hour:2026-09-20T00",
+      "targetId": "23e8b9a9-4f9f-4812-87ed-8d150c9e7643",
+      "firstSeenAt": "2026-09-20T04:44:58.593000+00:00",
+      "lastSeenAt": "2026-09-20T04:44:58.593000+00:00",
+      "bumpCount": 1
+    },
+    {
+      "id": "hour-member:2026-09-20T00:brave-moth-badger-vivid:west-bamboo-robin-lion",
+      "sourceId": "hour:2026-09-20T00",
+      "targetId": "2019930a-4c1b-4e1b-95b2-cdc7974abb8a",
+      "firstSeenAt": "2026-09-20T04:44:58.673000+00:00",
+      "lastSeenAt": "2026-09-20T04:44:58.673000+00:00",
+      "bumpCount": 1
+    },
+    {
+      "id": "hour-member:2026-09-20T08:brave-moth-badger-vivid:bay-camel-zenith-cedar",
+      "sourceId": "hour:2026-09-20T08",
+      "targetId": "04c4b2de-0958-49d3-b26e-8a75154497af",
+      "firstSeenAt": "2026-09-20T12:31:53.738000+00:00",
+      "lastSeenAt": "2026-09-20T12:31:53.738000+00:00",
+      "bumpCount": 1
+    },
+    {
+      "id": "hour-member:2026-09-20T09:brave-moth-badger-vivid:beacon-dove-wind-grape",
+      "sourceId": "hour:2026-09-20T09",
+      "targetId": "1b6944bb-c7f3-41d5-a42e-aa5e4774e469",
+      "firstSeenAt": "2026-09-20T13:25:16.144000+00:00",
+      "lastSeenAt": "2026-09-20T13:25:16.144000+00:00",
+      "bumpCount": 1
+    },
+    {
+      "id": "hour-member:2026-09-20T09:brave-moth-badger-vivid:gem-bluejay-dream-lemon",
+      "sourceId": "hour:2026-09-20T09",
+      "targetId": "f45ca268-ae00-4302-b42c-cfc7b3af7e9f",
+      "firstSeenAt": "2026-09-20T13:41:33.202000+00:00",
+      "lastSeenAt": "2026-09-20T13:41:33.202000+00:00",
+      "bumpCount": 1
     }
-  ]
+  ],
+  "sessions": [
+    {
+      "id": "2026-09-19T14",
+      "label": "2 PM",
+      "startedAt": "2026-09-19T18:50:10.015000+00:00",
+      "contactCount": 1
+    },
+    {
+      "id": "2026-09-19T15",
+      "label": "3 PM",
+      "startedAt": "2026-09-19T19:13:43.316000+00:00",
+      "contactCount": 2
+    },
+    {
+      "id": "2026-09-19T16",
+      "label": "4 PM",
+      "startedAt": "2026-09-19T20:34:05.218000+00:00",
+      "contactCount": 6
+    },
+    {
+      "id": "2026-09-19T17",
+      "label": "5 PM",
+      "startedAt": "2026-09-19T21:21:19.407000+00:00",
+      "contactCount": 3
+    },
+    {
+      "id": "2026-09-19T18",
+      "label": "6 PM",
+      "startedAt": "2026-09-19T22:05:30.106000+00:00",
+      "contactCount": 1
+    },
+    {
+      "id": "2026-09-19T20",
+      "label": "8 PM",
+      "startedAt": "2026-09-20T00:19:34.916000+00:00",
+      "contactCount": 28
+    },
+    {
+      "id": "2026-09-19T21",
+      "label": "9 PM",
+      "startedAt": "2026-09-20T01:08:27.921000+00:00",
+      "contactCount": 3
+    },
+    {
+      "id": "2026-09-20T00",
+      "label": "12 AM",
+      "startedAt": "2026-09-20T04:33:15.906000+00:00",
+      "contactCount": 3
+    },
+    {
+      "id": "2026-09-20T08",
+      "label": "8 AM",
+      "startedAt": "2026-09-20T12:31:53.738000+00:00",
+      "contactCount": 1
+    },
+    {
+      "id": "2026-09-20T09",
+      "label": "9 AM",
+      "startedAt": "2026-09-20T13:25:16.144000+00:00",
+      "contactCount": 2
+    }
+  ],
+  "visibleThroughSessionId": "2026-09-20T09"
 }

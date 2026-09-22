@@ -1,1 +1,19 @@
-{"id": "116e47af-334b-4568-a4dd-c1b5ee4fb895", "displayName": "Jack", "publicAlias": "Bright Circuit", "role": null, "company": null, "bio": null, "visualSeed": "cf37ff395d5602a25b229b6cd75b414f", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "116e47af-334b-4568-a4dd-c1b5ee4fb895",
+  "displayName": "Jack",
+  "publicAlias": "Bright Circuit",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "cf37ff395d5602a25b229b6cd75b414f",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "jack45@example.com",
+    "phone": "+1 555-0145",
+    "linkedin": "brightcircuit-945",
+    "discord": "jack45"
+  }
+}

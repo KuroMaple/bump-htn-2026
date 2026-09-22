@@ -1,0 +1,113 @@
+{
+  "generatedAt": "2026-09-22T17:00:12.489548+00:00",
+  "nodes": [
+    {
+      "id": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "kind": "badge",
+      "displayName": "Hassan",
+      "role": "hacker",
+      "company": "Hack the North",
+      "visualSeed": "a4e40fab26059aaa2fac6b94131769ec",
+      "joinedAt": "2026-09-19T18:10:14.796277+00:00"
+    },
+    {
+      "id": "78ab7a89-cb03-4bea-924e-3e364af0892b",
+      "kind": "badge",
+      "displayName": "Alex",
+      "role": null,
+      "company": null,
+      "visualSeed": "59048fbaf3a983ca090a66632626f00d",
+      "joinedAt": "2026-09-19T18:50:10.021103+00:00"
+    },
+    {
+      "id": "hour:2026-09-19T14",
+      "kind": "session",
+      "displayName": "2 PM",
+      "role": "1 contacts",
+      "company": "Sat, Sep 19",
+      "visualSeed": "hour-2026-09-19T14",
+      "joinedAt": "2026-09-19T18:50:10.015000+00:00"
+    }
+  ],
+  "edges": [
+    {
+      "id": "hour-root:2026-09-19T14:brave-moth-badger-vivid",
+      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
+      "targetId": "hour:2026-09-19T14",
+      "firstSeenAt": "2026-09-19T18:50:10.015000+00:00",
+      "lastSeenAt": "2026-09-19T18:50:10.015000+00:00",
+      "bumpCount": 1
+    },
+    {
+      "id": "hour-member:2026-09-19T14:brave-moth-badger-vivid:velvet-wind-calm-field",
+      "sourceId": "hour:2026-09-19T14",
+      "targetId": "78ab7a89-cb03-4bea-924e-3e364af0892b",
+      "firstSeenAt": "2026-09-19T18:50:10.015000+00:00",
+      "lastSeenAt": "2026-09-19T18:50:10.015000+00:00",
+      "bumpCount": 1
+    }
+  ],
+  "sessions": [
+    {
+      "id": "2026-09-19T14",
+      "label": "2 PM",
+      "startedAt": "2026-09-19T18:50:10.015000+00:00",
+      "contactCount": 1
+    },
+    {
+      "id": "2026-09-19T15",
+      "label": "3 PM",
+      "startedAt": "2026-09-19T19:13:43.316000+00:00",
+      "contactCount": 2
+    },
+    {
+      "id": "2026-09-19T16",
+      "label": "4 PM",
+      "startedAt": "2026-09-19T20:34:05.218000+00:00",
+      "contactCount": 6
+    },
+    {
+      "id": "2026-09-19T17",
+      "label": "5 PM",
+      "startedAt": "2026-09-19T21:21:19.407000+00:00",
+      "contactCount": 3
+    },
+    {
+      "id": "2026-09-19T18",
+      "label": "6 PM",
+      "startedAt": "2026-09-19T22:05:30.106000+00:00",
+      "contactCount": 1
+    },
+    {
+      "id": "2026-09-19T20",
+      "label": "8 PM",
+      "startedAt": "2026-09-20T00:19:34.916000+00:00",
+      "contactCount": 28
+    },
+    {
+      "id": "2026-09-19T21",
+      "label": "9 PM",
+      "startedAt": "2026-09-20T01:08:27.921000+00:00",
+      "contactCount": 3
+    },
+    {
+      "id": "2026-09-20T00",
+      "label": "12 AM",
+      "startedAt": "2026-09-20T04:33:15.906000+00:00",
+      "contactCount": 3
+    },
+    {
+      "id": "2026-09-20T08",
+      "label": "8 AM",
+      "startedAt": "2026-09-20T12:31:53.738000+00:00",
+      "contactCount": 1
+    },
+    {
+      "id": "2026-09-20T09",
+      "label": "9 AM",
+      "startedAt": "2026-09-20T13:25:16.144000+00:00",
+      "contactCount": 2
+    }
+  ],
+  "visibleThroughSessionId": "2026-09-19T14"
+}

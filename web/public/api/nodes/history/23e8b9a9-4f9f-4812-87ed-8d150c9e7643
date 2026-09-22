@@ -1,1 +1,19 @@
-{"id": "23e8b9a9-4f9f-4812-87ed-8d150c9e7643", "displayName": "Akshat", "publicAlias": "Copper Comet", "role": null, "company": null, "bio": null, "visualSeed": "988d54f908bae3d5c3d13f3c68657626", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "23e8b9a9-4f9f-4812-87ed-8d150c9e7643",
+  "displayName": "Akshat",
+  "publicAlias": "Copper Comet",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "988d54f908bae3d5c3d13f3c68657626",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "akshat53@example.com",
+    "phone": "+1 555-0153",
+    "linkedin": "coppercomet-953",
+    "discord": "akshat53"
+  }
+}

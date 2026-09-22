@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-22T17:00:12.486469+00:00",
+  "generatedAt": "2026-09-22T17:00:12.492708+00:00",
   "nodes": [
     {
       "id": "97678fc9-acf6-4fff-bf94-196e597893d8",
@@ -443,33 +443,6 @@
       "joinedAt": "2026-09-20T04:44:58.676000+00:00"
     },
     {
-      "id": "04c4b2de-0958-49d3-b26e-8a75154497af",
-      "kind": "badge",
-      "displayName": "Mehar",
-      "role": null,
-      "company": null,
-      "visualSeed": "3f68f9c9219ce9db68fe2bf4c1d3f1f8",
-      "joinedAt": "2026-09-20T12:31:53.745000+00:00"
-    },
-    {
-      "id": "1b6944bb-c7f3-41d5-a42e-aa5e4774e469",
-      "kind": "badge",
-      "displayName": "isaacchacko",
-      "role": null,
-      "company": null,
-      "visualSeed": "39824c966536b5aec5a3b9c9a49c42d2",
-      "joinedAt": "2026-09-20T13:25:16.151000+00:00"
-    },
-    {
-      "id": "f45ca268-ae00-4302-b42c-cfc7b3af7e9f",
-      "kind": "badge",
-      "displayName": "Alex",
-      "role": null,
-      "company": null,
-      "visualSeed": "9144b0bfeb1698a328b0d973b72868f2",
-      "joinedAt": "2026-09-20T13:41:33.212000+00:00"
-    },
-    {
       "id": "hour:2026-09-19T14",
       "kind": "session",
       "displayName": "2 PM",
@@ -540,24 +513,6 @@
       "company": "Sun, Sep 20",
       "visualSeed": "hour-2026-09-20T00",
       "joinedAt": "2026-09-20T04:33:15.906000+00:00"
-    },
-    {
-      "id": "hour:2026-09-20T08",
-      "kind": "session",
-      "displayName": "8 AM",
-      "role": "1 contacts",
-      "company": "Sun, Sep 20",
-      "visualSeed": "hour-2026-09-20T08",
-      "joinedAt": "2026-09-20T12:31:53.738000+00:00"
-    },
-    {
-      "id": "hour:2026-09-20T09",
-      "kind": "session",
-      "displayName": "9 AM",
-      "role": "2 contacts",
-      "company": "Sun, Sep 20",
-      "visualSeed": "hour-2026-09-20T09",
-      "joinedAt": "2026-09-20T13:25:16.144000+00:00"
     }
   ],
   "edges": [
@@ -631,22 +586,6 @@
       "targetId": "hour:2026-09-20T00",
       "firstSeenAt": "2026-09-20T04:33:15.906000+00:00",
       "lastSeenAt": "2026-09-20T04:33:15.906000+00:00",
-      "bumpCount": 2
-    },
-    {
-      "id": "hour-root:2026-09-20T08:brave-moth-badger-vivid",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "targetId": "hour:2026-09-20T08",
-      "firstSeenAt": "2026-09-20T12:31:53.738000+00:00",
-      "lastSeenAt": "2026-09-20T12:31:53.738000+00:00",
-      "bumpCount": 1
-    },
-    {
-      "id": "hour-root:2026-09-20T09:brave-moth-badger-vivid",
-      "sourceId": "97678fc9-acf6-4fff-bf94-196e597893d8",
-      "targetId": "hour:2026-09-20T09",
-      "firstSeenAt": "2026-09-20T13:25:16.144000+00:00",
-      "lastSeenAt": "2026-09-20T13:25:16.144000+00:00",
       "bumpCount": 2
     },
     {
@@ -1024,30 +963,6 @@
       "firstSeenAt": "2026-09-20T04:44:58.673000+00:00",
       "lastSeenAt": "2026-09-20T04:44:58.673000+00:00",
       "bumpCount": 1
-    },
-    {
-      "id": "hour-member:2026-09-20T08:brave-moth-badger-vivid:bay-camel-zenith-cedar",
-      "sourceId": "hour:2026-09-20T08",
-      "targetId": "04c4b2de-0958-49d3-b26e-8a75154497af",
-      "firstSeenAt": "2026-09-20T12:31:53.738000+00:00",
-      "lastSeenAt": "2026-09-20T12:31:53.738000+00:00",
-      "bumpCount": 1
-    },
-    {
-      "id": "hour-member:2026-09-20T09:brave-moth-badger-vivid:beacon-dove-wind-grape",
-      "sourceId": "hour:2026-09-20T09",
-      "targetId": "1b6944bb-c7f3-41d5-a42e-aa5e4774e469",
-      "firstSeenAt": "2026-09-20T13:25:16.144000+00:00",
-      "lastSeenAt": "2026-09-20T13:25:16.144000+00:00",
-      "bumpCount": 1
-    },
-    {
-      "id": "hour-member:2026-09-20T09:brave-moth-badger-vivid:gem-bluejay-dream-lemon",
-      "sourceId": "hour:2026-09-20T09",
-      "targetId": "f45ca268-ae00-4302-b42c-cfc7b3af7e9f",
-      "firstSeenAt": "2026-09-20T13:41:33.202000+00:00",
-      "lastSeenAt": "2026-09-20T13:41:33.202000+00:00",
-      "bumpCount": 1
     }
   ],
   "sessions": [
@@ -1112,5 +1027,5 @@
       "contactCount": 2
     }
   ],
-  "visibleThroughSessionId": "2026-09-20T09"
+  "visibleThroughSessionId": "2026-09-20T00"
 }

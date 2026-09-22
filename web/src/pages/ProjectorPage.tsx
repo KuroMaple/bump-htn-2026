@@ -211,14 +211,16 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
           </form>
         </div>
         <div className="header-actions">
-          <a
-            className="icon-button"
-            href={historical ? "/projector" : "/projector/history"}
-            title={historical ? "Open current mosaic" : "Open permanent historical mosaic"}
-          >
-            <Archive size={18} />
-            <span className="sr-only">{historical ? "Open current mosaic" : "Open historical mosaic"}</span>
-          </a>
+          {!historical ? (
+            <a
+              className="icon-button"
+              href="/projector/history"
+              title="Open permanent historical mosaic"
+            >
+              <Archive size={18} />
+              <span className="sr-only">Open historical mosaic</span>
+            </a>
+          ) : null}
           {!historical ? (
             <button
               className="icon-button danger"
@@ -257,7 +259,7 @@ export function ProjectorPage({ mode = "current" }: { mode?: "current" | "histor
         )}
 
         <div className="mosaic-stats" aria-label="Mosaic statistics">
-          <div><strong>{graph?.nodes.length ?? 0}</strong><span>people</span></div>
+          <div><strong>{graph?.nodes.filter((node) => node.kind === "badge").length ?? 0}</strong><span>people</span></div>
           <div><strong>{graph?.edges.length ?? 0}</strong><span>connections</span></div>
         </div>
 

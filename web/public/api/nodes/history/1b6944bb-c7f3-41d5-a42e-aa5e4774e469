@@ -1,0 +1,19 @@
+{
+  "id": "1b6944bb-c7f3-41d5-a42e-aa5e4774e469",
+  "displayName": "isaacchacko",
+  "publicAlias": "Solar Circuit",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "39824c966536b5aec5a3b9c9a49c42d2",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "isaacchacko81@example.com",
+    "phone": "+1 555-0181",
+    "linkedin": "solarcircuit-281",
+    "discord": "isaacchacko81"
+  }
+}

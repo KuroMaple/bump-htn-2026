@@ -1,1 +1,19 @@
-{"id": "2ea085ad-59f3-459c-880f-e35f9f42e6c3", "displayName": "Arav", "publicAlias": "Kinetic Comet", "role": null, "company": null, "bio": null, "visualSeed": "7396f68f7fb232f4d730a486635024ab", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "2ea085ad-59f3-459c-880f-e35f9f42e6c3",
+  "displayName": "Arav",
+  "publicAlias": "Kinetic Comet",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "7396f68f7fb232f4d730a486635024ab",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "arav17@example.com",
+    "phone": "+1 555-0117",
+    "linkedin": "kineticcomet-617",
+    "discord": "arav17"
+  }
+}

@@ -1,1 +1,19 @@
-{"id": "61a68a42-f2c5-4026-94bc-ffcd3aae8b40", "displayName": "Marwan", "publicAlias": "Amber Circuit", "role": null, "company": null, "bio": null, "visualSeed": "ceef434a9eabf3daa27cf01db56458c6", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "61a68a42-f2c5-4026-94bc-ffcd3aae8b40",
+  "displayName": "Marwan",
+  "publicAlias": "Amber Circuit",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "ceef434a9eabf3daa27cf01db56458c6",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "marwan56@example.com",
+    "phone": "+1 555-0156",
+    "linkedin": "ambercircuit-756",
+    "discord": "marwan56"
+  }
+}

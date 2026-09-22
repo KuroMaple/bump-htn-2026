@@ -1,1 +1,19 @@
-{"id": "59b089d0-f3f4-4e6b-87a5-cc655d8c7338", "displayName": "Rejoice", "publicAlias": "Velvet Circuit", "role": null, "company": null, "bio": null, "visualSeed": "74e31973801755417870580c3ebf756f", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "59b089d0-f3f4-4e6b-87a5-cc655d8c7338",
+  "displayName": "Rejoice",
+  "publicAlias": "Velvet Circuit",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "74e31973801755417870580c3ebf756f",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "rejoice18@example.com",
+    "phone": "+1 555-0118",
+    "linkedin": "velvetcircuit-518",
+    "discord": "rejoice18"
+  }
+}

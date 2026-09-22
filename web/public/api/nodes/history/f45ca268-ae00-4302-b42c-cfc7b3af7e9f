@@ -1,0 +1,19 @@
+{
+  "id": "f45ca268-ae00-4302-b42c-cfc7b3af7e9f",
+  "displayName": "Alex",
+  "publicAlias": "Solar Current",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "9144b0bfeb1698a328b0d973b72868f2",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "alex40@example.com",
+    "phone": "+1 555-0140",
+    "linkedin": "solarcurrent-540",
+    "discord": "alex40"
+  }
+}

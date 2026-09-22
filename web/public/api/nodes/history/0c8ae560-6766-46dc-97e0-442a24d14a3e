@@ -1,1 +1,19 @@
-{"id": "0c8ae560-6766-46dc-97e0-442a24d14a3e", "displayName": "Li", "publicAlias": "Copper Relay", "role": null, "company": null, "bio": null, "visualSeed": "0e3ca1daddbf1cbd2ad554729329016a", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "0c8ae560-6766-46dc-97e0-442a24d14a3e",
+  "displayName": "Li",
+  "publicAlias": "Copper Relay",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "0e3ca1daddbf1cbd2ad554729329016a",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "li72@example.com",
+    "phone": "+1 555-0172",
+    "linkedin": "copperrelay-872",
+    "discord": "li72"
+  }
+}

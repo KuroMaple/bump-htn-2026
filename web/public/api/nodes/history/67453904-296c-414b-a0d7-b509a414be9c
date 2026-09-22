@@ -1,1 +1,19 @@
-{"id": "67453904-296c-414b-a0d7-b509a414be9c", "displayName": "Devyansh", "publicAlias": "Copper Signal", "role": null, "company": null, "bio": null, "visualSeed": "b4fdf1d00ba8ffee8687d898fcadb9b8", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "67453904-296c-414b-a0d7-b509a414be9c",
+  "displayName": "Devyansh",
+  "publicAlias": "Copper Signal",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "b4fdf1d00ba8ffee8687d898fcadb9b8",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "devyansh13@example.com",
+    "phone": "+1 555-0113",
+    "linkedin": "coppersignal-913",
+    "discord": "devyansh13"
+  }
+}

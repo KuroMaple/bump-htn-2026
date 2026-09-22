@@ -1,1 +1,19 @@
-{"id": "a811f7bd-d453-4069-a30f-c7a0dd6c9ec1", "displayName": "Adeline", "publicAlias": "Bright Glyph", "role": null, "company": null, "bio": null, "visualSeed": "e65f72a8c6419fed2f77a66e9fac83a9", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "a811f7bd-d453-4069-a30f-c7a0dd6c9ec1",
+  "displayName": "Adeline",
+  "publicAlias": "Bright Glyph",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "e65f72a8c6419fed2f77a66e9fac83a9",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "adeline53@example.com",
+    "phone": "+1 555-0153",
+    "linkedin": "brightglyph-953",
+    "discord": "adeline53"
+  }
+}

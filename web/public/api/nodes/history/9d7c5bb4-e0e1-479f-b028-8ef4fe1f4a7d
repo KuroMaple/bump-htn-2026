@@ -1,1 +1,19 @@
-{"id": "9d7c5bb4-e0e1-479f-b028-8ef4fe1f4a7d", "displayName": "Evan", "publicAlias": "Lunar Pulse", "role": null, "company": null, "bio": null, "visualSeed": "009768cabe92a1cb0a254a6fc6ffa8bf", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "9d7c5bb4-e0e1-479f-b028-8ef4fe1f4a7d",
+  "displayName": "Evan",
+  "publicAlias": "Lunar Pulse",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "009768cabe92a1cb0a254a6fc6ffa8bf",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "evan62@example.com",
+    "phone": "+1 555-0162",
+    "linkedin": "lunarpulse-262",
+    "discord": "evan62"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "04c4b2de-0958-49d3-b26e-8a75154497af",
+  "displayName": "Mehar",
+  "publicAlias": "Bright Arc",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "3f68f9c9219ce9db68fe2bf4c1d3f1f8",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "mehar92@example.com",
+    "phone": "+1 555-0192",
+    "linkedin": "brightarc-992",
+    "discord": "mehar92"
+  }
+}

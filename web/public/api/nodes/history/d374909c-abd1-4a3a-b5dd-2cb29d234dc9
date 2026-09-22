@@ -1,1 +1,19 @@
-{"id": "d374909c-abd1-4a3a-b5dd-2cb29d234dc9", "displayName": "Ritvik", "publicAlias": "Neon Pixel", "role": null, "company": null, "bio": null, "visualSeed": "f99ffa3dbc95198ba1b6d5cb6326a2f2", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "d374909c-abd1-4a3a-b5dd-2cb29d234dc9",
+  "displayName": "Ritvik",
+  "publicAlias": "Neon Pixel",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "f99ffa3dbc95198ba1b6d5cb6326a2f2",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "ritvik93@example.com",
+    "phone": "+1 555-0193",
+    "linkedin": "neonpixel-793",
+    "discord": "ritvik93"
+  }
+}

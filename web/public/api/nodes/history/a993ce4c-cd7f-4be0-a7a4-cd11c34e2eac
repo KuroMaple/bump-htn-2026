@@ -1,1 +1,19 @@
-{"id": "a993ce4c-cd7f-4be0-a7a4-cd11c34e2eac", "displayName": "Aydan", "publicAlias": "Electric Current", "role": null, "company": null, "bio": null, "visualSeed": "6dc15bc04a6557e76b3a4cd06ed4a88a", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "a993ce4c-cd7f-4be0-a7a4-cd11c34e2eac",
+  "displayName": "Aydan",
+  "publicAlias": "Electric Current",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "6dc15bc04a6557e76b3a4cd06ed4a88a",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "aydan26@example.com",
+    "phone": "+1 555-0126",
+    "linkedin": "electriccurrent-326",
+    "discord": "aydan26"
+  }
+}

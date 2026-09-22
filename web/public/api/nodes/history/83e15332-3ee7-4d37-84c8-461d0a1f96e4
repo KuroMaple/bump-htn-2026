@@ -1,1 +1,19 @@
-{"id": "83e15332-3ee7-4d37-84c8-461d0a1f96e4", "displayName": "Atharv", "publicAlias": "Neon Glyph", "role": null, "company": null, "bio": null, "visualSeed": "8901b21c8545d675298c8be80f44c542", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "83e15332-3ee7-4d37-84c8-461d0a1f96e4",
+  "displayName": "Atharv",
+  "publicAlias": "Neon Glyph",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "8901b21c8545d675298c8be80f44c542",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "atharv21@example.com",
+    "phone": "+1 555-0121",
+    "linkedin": "neonglyph-221",
+    "discord": "atharv21"
+  }
+}

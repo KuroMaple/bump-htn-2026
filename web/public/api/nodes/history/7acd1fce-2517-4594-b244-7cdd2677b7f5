@@ -1,1 +1,19 @@
-{"id": "7acd1fce-2517-4594-b244-7cdd2677b7f5", "displayName": "Anonymous", "publicAlias": "Lunar Arc", "role": null, "company": null, "bio": null, "visualSeed": "2978fe56fbcfb10af22ba3d3552cf2be", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "7acd1fce-2517-4594-b244-7cdd2677b7f5",
+  "displayName": "Anonymous",
+  "publicAlias": "Lunar Arc",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "2978fe56fbcfb10af22ba3d3552cf2be",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "anonymous24@example.com",
+    "phone": "+1 555-0124",
+    "linkedin": "lunararc-324",
+    "discord": "anonymous24"
+  }
+}

@@ -1,1 +1,19 @@
-{"id": "c6d1cf95-f9ec-4dc4-b711-c8c236233e05", "displayName": "Aaryan", "publicAlias": "Bright Loop", "role": null, "company": null, "bio": null, "visualSeed": "79f56d67e9367bd9f25fc83d3ca091ab", "attendeeId": null, "claimId": null, "profileVersion": null, "provisionedAt": null, "contact": {"email": null, "phone": null, "linkedin": null, "discord": null}}
+{
+  "id": "c6d1cf95-f9ec-4dc4-b711-c8c236233e05",
+  "displayName": "Aaryan",
+  "publicAlias": "Bright Loop",
+  "role": null,
+  "company": null,
+  "bio": null,
+  "visualSeed": "79f56d67e9367bd9f25fc83d3ca091ab",
+  "attendeeId": null,
+  "claimId": null,
+  "profileVersion": null,
+  "provisionedAt": null,
+  "contact": {
+    "email": "aaryan81@example.com",
+    "phone": "+1 555-0181",
+    "linkedin": "brightloop-281",
+    "discord": "aaryan81"
+  }
+}
