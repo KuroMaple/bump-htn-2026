@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/api/graph/history",
+      "has": [{ "type": "query", "key": "through", "value": "(?<through>.*)" }],
+      "destination": "/api/graph/history-steps/:through.json"
+    },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
